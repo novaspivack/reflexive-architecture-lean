@@ -76,9 +76,9 @@ NEMS, APS, and IC references below are suite-internal preprints (2026); they are
 yet external journal publications.}
 
 \begin{abstract}
-Three research lines developed in parallel now display a common structural spine and have
-been unified in a machine-checked Lean~4 development at the abstract architecture level,
-with zero proof placeholders.  The NEMS program proves that load-bearing determinacy cannot
+Three research lines developed in parallel now admit a common structural formalization:
+they have been unified in a machine-checked Lean~4 development at the abstract
+architecture level, with zero proof placeholders.  The NEMS program proves that load-bearing determinacy cannot
 be outsourced: if a framework is non-categorical under closure, some internal selector is
 forced, and in diagonal-capable settings that selector cannot collapse to a total-effective
 decider on the relevant self-referential fragment.  The APS program proves that indexed
@@ -98,8 +98,8 @@ The formalization proceeds in three milestones, all clean.  \textbf{Milestone~1}
 (abstract architecture and anti-collapse): defines an abstract class $\RAL$, proves a
 layered architecture theorem showing that all three structural conclusions hold jointly, and
 proves a stratified non-collapse theorem showing the three layers resist simultaneous
-flattening.  \textbf{Milestone~2} (first bridge theorems — one separation, one interaction,
-one independence/joint-packaging): proves that bare canonicity does not pin reflective
+flattening.  \textbf{Milestone~2} (first bridge theorems --- one separation theorem, one interaction
+theorem, one independence-plus-joint-packaging theorem): proves that bare canonicity does not pin reflective
 finality; that a gluing--route coherence predicate connects middle tracking/gluing to the
 inner residue chain under canonical certification; and that inner enriched gap is
 independent of outer theory extent while holding jointly with outer semantic
@@ -185,11 +185,15 @@ $\Inner$ & Infinity Compression & Reflective residue above canonical certificati
 The thesis that these layers form a unified architecture has been machine-checked as an
 abstract synthesis theorem in the class $\RAL$, in three milestones.  Milestone~1
 establishes the abstract class and an anti-collapse theorem.  Milestone~2 proves the first
-bridge results across layers.  Milestone~3 proves the non-erasure summit: a biconditional
-law connecting outer semantic remainder with inner enriched irreducibility, which is the
-abstract unifying principle behind both the NEMS and IC results.  All results carry zero
-proof placeholders.  Concrete instantiation from the source corpora into $\RAL$ is the
-next step, described at the end of Section~\ref{sec:conjecture}.
+bridge results across layers.  Milestone~3 proves the non-erasure summit: a biconditional law connecting outer
+semantic remainder with inner enriched irreducibility, which is the abstract unifying
+principle behind both the NEMS and IC results.  All results carry zero proof placeholders.
+Concrete instantiation from the source corpora into $\RAL$ is the next step, described
+at the end of Section~\ref{sec:conjecture}.
+
+The reason Milestone~3 is the summit is that it is the first point at which the outer
+and inner strata are no longer merely co-present or bridged locally, but are connected
+by a full biconditional law inside $\RAL$.
 
 \paragraph{Scope.}
 All results in this paper are proved inside $\RAL$ at the abstract architecture level.
@@ -202,12 +206,14 @@ consistency of the design.  The strongest new result is the Unified Non-Erasure 
 totality, outer semantic remainder and inner enriched irreducibility are equivalent
 inside $\RAL$.
 
-\section{The machine-checked synthesis}
+\section{The machine-checked synthesis inside \texorpdfstring{$\RAL$}{RAL}}
 \label{sec:formalization}
 
 The Lean repository \url{reflexive-architecture-lean} carries the complete formal
 development in three milestones.  Full Lean identifiers and informal glosses appear
 in \texttt{STRATA\_FORMALIZATION\_MAP.md}; build policy in \texttt{MANIFEST.md}.
+
+The formal program consists of thirteen theorem statements across three milestones.
 
 \begin{center}
 \small
@@ -225,6 +231,12 @@ Milestone & Layer / bridge & Main content & Representative \\
 \bottomrule
 \end{tabular}
 \end{center}
+
+Milestone~1 establishes that the three strata coexist and resist joint collapse.
+Milestone~2 establishes that they are not merely co-present but already interact through
+specific bridge laws.  Milestone~3 establishes the first full outer/inner necessity
+theorem: under added coherence and totality hypotheses, semantic remainder and enriched
+irreducibility are equivalent inside $\RAL$.
 
 \subsection{Milestone 1: layered architecture and stratified non-collapse}
 
@@ -281,8 +293,8 @@ non-exhaustion under the full hypotheses).
 \label{thm:bcrf}
 Define $\RefFin(I) \coloneqq \neg\, I.\EnrIrr$.  Two \texttt{CertificationLayer}
 structures on the same carrier share canonical bare certification but have opposite
-$\EnrIrr$.  The predicate $\RefFin$ is therefore not determined by bare canonicity:
-witnesses with and without reflective finality coexist at the abstract certification level.
+$\EnrIrr$.  The predicate $\RefFin$ is therefore not fixed by bare canonicity:
+structures with and without reflective finality coexist at the abstract certification level.
 \par\noindent{\footnotesize Lean: \texttt{Bridge.canonical\_bare\_does\_not\_pin\_enriched\_irreducibility}.}
 \end{theorem}
 
