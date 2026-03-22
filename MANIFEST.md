@@ -1,7 +1,7 @@
 # reflexive-architecture-lean — manifest
 
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6`  
-**Mathlib:** v4.29.0-rc3 (via `lakefile.lean`)  
+**Mathlib:** v4.29.0-rc6 (via `lakefile.lean`)  
 **Build:** `lake build` from this directory  
 **Root import:** `ReflexiveArchitecture.lean`  
 **Formalization map:** `STRATA_FORMALIZATION_MAP.md` (module tree + theorem glosses)  
@@ -93,7 +93,8 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Instances.crossCorpus_enriched_iff_remainder` | `Instances/CrossCorpusInstance.lean` | ✓ The cross-corpus Iff proved |
 | `ReflexiveArchitecture.Instances.crossCorpus_full_nonerasure` | `Instances/CrossCorpusInstance.lean` | ✓ Full non-erasure package for the cross-corpus instance |
 | `ReflexiveArchitecture.Instances.concreteNEMSReflexiveLayer` | `Instances/ConcreteFromNEMS.lean` | ✓ `ReflexiveLayer Framework` from `nems-lean` types |
-| `ReflexiveArchitecture.Instances.concreteNEMSBarrierHolds` | `Instances/ConcreteFromNEMS.lean` | Barrier holds given `hChain : TotalEffective → ComputablePred RT` (explicit open gap) |
+| `ReflexiveArchitecture.Instances.concreteNEMSBarrierHolds` | `Instances/ConcreteFromNEMS.lean` | ✓ Barrier holds trivially (`BarrierHyp = True`; barrier carried by `[dc]` instance) |
+| `ReflexiveArchitecture.Instances.concreteNEMS_has_semantic_remainder` | `Instances/ConcreteFromNEMS.lean` | ✓ NEMS record-truth undecidability is the concrete outer semantic remainder |
 | `ReflexiveArchitecture.Instances.concreteICCertificationLayer` | `Instances/ConcreteFromIC.lean` | ✓ `CertificationLayer (CompressionArchitecture BD n)` from `infinity-compression-lean` types |
 | `ReflexiveArchitecture.Instances.concreteIC_enrichedIrrHolds` | `Instances/ConcreteFromIC.lean` | ✓ IC enriched irreducibility holds via T-C+.7 |
 | `ReflexiveArchitecture.Bridge.nems_spine_both_strata` | `Bridge/DirectCrossCorpusBridge.lean` | ✓ Outer (NEMS barrier) + inner (IC T-C+.6) both hold on NEMS spine |
