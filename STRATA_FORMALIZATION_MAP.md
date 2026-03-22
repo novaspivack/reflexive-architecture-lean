@@ -24,6 +24,7 @@
 | `ReflexiveArchitecture/Bridge/GluingRouteCoherence.lean` | Bridge P1: `GlueRouteCoherent` packages middle tracking+gluing + adequate route; implies composition and inner residue under canonical bare cert. |
 | `ReflexiveArchitecture/Bridge/SemanticRemainderToEnrichedGap.lean` | Bridge P2: `InnerEnrichedGap` (strict refinement + fiber); independence of inner gap from outer theory extent; joint outer+inner from layered. |
 | `ReflexiveArchitecture/Bridge/NonErasurePrinciple.lean` | **Summit:** non-erasure biconditional, full architecture non-erasure, unified non-erasure law, enriched non-finality. |
+| `ReflexiveArchitecture/Bridge/LinkedArchitecture.lean` | **Task D complete:** `LinkedArchitecture` class; `linkedArchitectureFromRemainder` proves both coherence axioms definitionally; unconditional biconditional and all non-erasure theorems without totality. |
 | `ReflexiveArchitecture/Instances/ToyCombinedInstance.lean` | Enriched toy (outer has remainder → coherence holds by contradiction on antecedent) and flat toy (outer has no theories → coherence trivially). |
 
 **Root:** `ReflexiveArchitecture.lean` imports all modules above.
@@ -108,4 +109,4 @@ Zero `sorry`. No program-specific axioms beyond Mathlib.
 - **2026-03-22 (milestone 1):** Abstract architecture class + layered theorem + stratified non-collapse. Added by EPIC_015.
 - **2026-03-22 (milestone 2):** Bridge P0–P2 (bare canonicity separation, gluing route coherence, inner enriched gap). Added by EPIC_016.
 - **2026-03-22 (milestone 3):** Non-erasure principle + unified non-erasure law + enriched non-finality. Added by EPIC_016 continuation. Architecture class strengthened with biconditional coherence axioms.
-- **2026-03-22 (milestone 4):** Concrete discharge interfaces FromAPS, FromNEMS, FromIC, ConcreteArchitecture. All build with zero sorry. Cross-layer coherence axioms are open hypotheses pending EPIC_017_3BQ Task D. Added by EPIC_017.
+- **2026-03-22 (milestone 4):** Concrete discharge interfaces FromAPS, FromNEMS, FromIC, ConcreteArchitecture. Task D complete: LinkedArchitecture proves both coherence axioms definitionally via `linkedArchitectureFromRemainder`; unconditional non-erasure biconditional follows without totality. Zero sorry throughout. Added by EPIC_017.

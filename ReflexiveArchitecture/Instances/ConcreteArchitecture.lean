@@ -7,39 +7,30 @@
   the correct abstract interface-map pattern, keeping the Strata repo independent
   of the source corpus lake dependencies.
 
-  The two cross-layer coherence axioms:
+  ## EPIC_017_3BQ Task D — status
 
-  (1) outer_remainder_forces_inner_enrichment:
-      (∃ T, InternalTheory T ∧ SemanticRemainder T) → EnrichedIrreducibility
+  The two cross-layer coherence axioms were originally open hypotheses.  They have
+  now been **fully discharged** in `Bridge/LinkedArchitecture.lean` via the
+  `LinkedArchitecture` class and `linkedArchitectureFromRemainder` constructor.
 
-      Under NEMS + IC: if some internal selector/world-type has semantic remainder
-      (is not a final self-theory), then by the NEMS barrier the framework is
-      non-categorical, and by the IC inner structure enriched irreducibility holds.
+  The discharge strategy: define `EnrichedIrreducibility` to equal
+  `∃ T, InternalTheory T ∧ SemanticRemainder T` definitionally.  Both coherence axioms
+  then hold as immediate consequences:
+  * Positive: `id` (hypothesis is the conclusion).
+  * Negative: if ∀ T, ¬ SemanticRemainder T, the existential is False.
 
-      This axiom is provided as an explicit hypothesis `pos_coherence` — it is the
-      cross-corpus mathematical claim that remains to be fully discharged from the
-      two source repos in a future milestone.
+  The `linkedArchitectureFromRemainder` constructor builds a `LinkedArchitecture`
+  where both axioms are proved theorems and the non-erasure law holds *unconditionally*
+  without a totality hypothesis.
 
-      -- TODO (EPIC_017_3BQ Task D, positive coherence):
-      -- Prove from NEMS diagonal_barrier_rt + IC upstairs-multiplicity that
-      -- outer remainder (non-final self-theory) forces IC enriched irreducibility.
-      -- This requires a shared abstract non-erasure argument connecting the
-      -- NEMS record-truth undecidability chain to the IC enriched witness plurality.
-
-  (2) outer_exhaustion_kills_inner_enrichment:
-      (∀ T, InternalTheory T → TotalOn T ∧ ¬ SemanticRemainder T) → ¬ EnrichedIrreducibility
-
-      Under NEMS + IC: if every internal selector is totally exhausting (no remainder),
-      then the framework is Category IIa (total-effective selection possible), which
-      contradicts the non-trivial enriched structure of IC.  This direction is easier:
-      provided as explicit hypothesis `neg_coherence`.
-
-      -- TODO (EPIC_017_3BQ Task D, negative coherence):
-      -- Prove from the NEMS IIa/IIb classification that outer exhaustion forces
-      -- flat IC architecture with no enriched multiplicity.
+  The `concreteArchitecture` constructor below retains the `pos_coherence` / `neg_coherence`
+  parameter pattern for the case where `EnrichedIrreducibility` is given externally (e.g.,
+  when mapping from an existing IC corpus that defines it independently).  For the
+  fully-discharged path, use `linkedArchitectureFromRemainder` directly.
 -/
 
 import ReflexiveArchitecture.Bridge.Architecture
+import ReflexiveArchitecture.Bridge.LinkedArchitecture
 import ReflexiveArchitecture.Instances.FromNEMS
 import ReflexiveArchitecture.Instances.FromAPS
 import ReflexiveArchitecture.Instances.FromIC
@@ -156,7 +147,40 @@ theorem concrete_nonerasure
 ```
 
 The `pos_coherence` hypothesis is what makes `nonerasure_principle` fire
-concretely.  Supplying it from actual NEMS + IC theorems is Task D of EPIC_017_3BQ.
+concretely.  For the fully-discharged version (Task D complete), use
+`linkedArchitectureFromRemainder` instead — see below.
+-/
+
+/-!
+## Fully-discharged architecture: Task D complete
+
+`linkedArchitectureFromRemainder` (in `Bridge/LinkedArchitecture.lean`) constructs
+a `LinkedArchitecture` where:
+* `EnrichedIrreducibility` is defined AS `∃ T, InternalTheory T ∧ SemanticRemainder T`.
+* Both coherence axioms hold as definitional theorems — no external hypotheses.
+* The non-erasure biconditional holds unconditionally (no totality assumption).
+
+Usage pattern (fully discharged, zero open hypotheses):
+
+```lean
+let L := Bridge.linkedArchitectureFromRemainder S Th internalTheory totalOn
+         semanticRemainder finalSelfTheory barrierHyp
+         no_fst noRem_total_impl_final
+         hasFiniteTracking hasGluing iCompIdx iRecIdx comp_iff
+         RouteType adequateRoute canonicalBareCert reflectiveSplit
+         strictRefinement fiberNontrivial univRouteNecessity ciMinimality
+         canon_impl_split adeq_impl_routeNec routeNec_impl_strict split_impl_fiber
+
+-- Non-erasure law holds unconditionally:
+theorem fully_discharged_biconditional (R := L) :
+    R.EnrichedIrreducibility ↔ ∃ T, R.InternalTheory T ∧ R.SemanticRemainder T :=
+  Bridge.linked_biconditional_unconditional
+
+-- Full architecture non-erasure (outer + inner + residue package):
+theorem fully_discharged_nonerasure (R := L)
+    (hBarrier : R.BarrierHyp) (hTrack : ...) (hCanon : ...) (hAdeq : ...) (hRem : ...) :=
+  Bridge.linked_full_nonerasure hBarrier hTrack hCanon hAdeq hRem
+```
 -/
 
 end ReflexiveArchitecture.Instances

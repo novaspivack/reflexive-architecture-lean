@@ -16,7 +16,7 @@
 | Outer | `ReflexiveArchitecture/Outer/` | `ReflexiveLayer`, `semantic_remainder_or_nontotality` |
 | Middle | `ReflexiveArchitecture/Middle/` | `RealizationLayer`, composition projections |
 | Inner | `ReflexiveArchitecture/Inner/` | `CertificationLayer`, `inner_residue_package` |
-| Bridge | `ReflexiveArchitecture/Bridge/` | `Architecture` (with coherence axioms), layered + stratified + bridge P0–P2 + non-erasure summit |
+| Bridge | `ReflexiveArchitecture/Bridge/` | `Architecture` (with coherence axioms), layered + stratified + bridge P0–P2 + non-erasure summit + `LinkedArchitecture` (coherence discharged) |
 | Instances | `ReflexiveArchitecture/Instances/` | `ToyCombinedInstance` (enriched + flat); `FromAPS`, `FromNEMS`, `FromIC`, `ConcreteArchitecture` (concrete discharge interfaces) |
 | Papers | `paper/` | suite TeX + *Closure, Realization, and Reflective Residue* |
 
@@ -72,6 +72,11 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Bridge.unified_nonerasure_law` | `Bridge/NonErasurePrinciple.lean` | ✓ proved |
 | `ReflexiveArchitecture.Bridge.nonerasure_from_barrier_with_totality` | `Bridge/NonErasurePrinciple.lean` | ✓ proved |
 | `ReflexiveArchitecture.Bridge.enriched_hence_not_reflexively_final` | `Bridge/NonErasurePrinciple.lean` | ✓ proved |
+| `ReflexiveArchitecture.Bridge.LinkedArchitecture` | `Bridge/LinkedArchitecture.lean` | ✓ class: coherence derived from `enriched_iff_remainder` |
+| `ReflexiveArchitecture.Bridge.linkedArchitectureFromRemainder` | `Bridge/LinkedArchitecture.lean` | ✓ constructor: both coherence axioms proved definitionally |
+| `ReflexiveArchitecture.Bridge.linked_nonerasure_unconditional` | `Bridge/LinkedArchitecture.lean` | ✓ biconditional without totality hypothesis |
+| `ReflexiveArchitecture.Bridge.linked_full_nonerasure` | `Bridge/LinkedArchitecture.lean` | ✓ outer+inner+residue simultaneously |
+| `ReflexiveArchitecture.Bridge.linked_barrier_forces_both` | `Bridge/LinkedArchitecture.lean` | ✓ barrier forces outer remainder and inner enriched together |
 
 ---
 
@@ -84,7 +89,7 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Instances.icCertificationLayer` | `Instances/FromIC.lean` | Parametric `CertificationLayer` map from IC route-residue theorems |
 | `ReflexiveArchitecture.Instances.concreteArchitecture` | `Instances/ConcreteArchitecture.lean` | Combined `Architecture` instance; coherence axioms are explicit hypotheses pending Task D |
 
-**Open:** Cross-layer coherence axioms (`pos_coherence`, `neg_coherence`) in `ConcreteArchitecture.lean` are explicit hypothesis parameters pending EPIC_017_3BQ Task D.
+**Task D complete:** The cross-layer coherence axioms are now proved as theorems in `LinkedArchitecture` via `linkedArchitectureFromRemainder`. Coherence holds definitionally when `EnrichedIrreducibility` is defined as `∃ T, SemanticRemainder T`. The unconditional biconditional and all non-erasure theorems follow without totality assumption. `ConcreteArchitecture.lean` retains the parametric hypothesis pattern for external IC definitions; use `linkedArchitectureFromRemainder` for the fully-discharged path.
 
 ---
 

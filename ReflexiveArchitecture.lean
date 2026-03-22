@@ -17,6 +17,7 @@ import ReflexiveArchitecture.Bridge.BareCanonicityNotReflectiveFinality
 import ReflexiveArchitecture.Bridge.GluingRouteCoherence
 import ReflexiveArchitecture.Bridge.SemanticRemainderToEnrichedGap
 import ReflexiveArchitecture.Bridge.NonErasurePrinciple
+import ReflexiveArchitecture.Bridge.LinkedArchitecture
 import ReflexiveArchitecture.Instances.ToyCombinedInstance
 import ReflexiveArchitecture.Instances.FromAPS
 import ReflexiveArchitecture.Instances.FromNEMS
