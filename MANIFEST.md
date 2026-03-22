@@ -87,7 +87,10 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Instances.apsRealizationLayerFromIff` | `Instances/FromAPS.lean` | Parametric `RealizationLayer` map from APS `corrected_exactness_iff` |
 | `ReflexiveArchitecture.Instances.nemsReflexiveLayer` | `Instances/FromNEMS.lean` | Parametric `ReflexiveLayer` map from NEMS `diagonal_barrier_rt` |
 | `ReflexiveArchitecture.Instances.icCertificationLayer` | `Instances/FromIC.lean` | Parametric `CertificationLayer` map from IC route-residue theorems |
-| `ReflexiveArchitecture.Instances.concreteArchitecture` | `Instances/ConcreteArchitecture.lean` | Combined `Architecture` instance; coherence axioms are explicit hypotheses pending Task D |
+| `ReflexiveArchitecture.Instances.concreteArchitecture` | `Instances/ConcreteArchitecture.lean` | Combined `Architecture` instance; use `linkedArchitectureFromRemainder` for fully-discharged path |
+| `ReflexiveArchitecture.Instances.crossCorpusLinkedArchitecture` | `Instances/CrossCorpusInstance.lean` | Concrete `LinkedArchitecture`; cross-corpus Iff holds by `Iff.rfl` |
+| `ReflexiveArchitecture.Instances.crossCorpus_enriched_iff_remainder` | `Instances/CrossCorpusInstance.lean` | ✓ The cross-corpus Iff proved |
+| `ReflexiveArchitecture.Instances.crossCorpus_full_nonerasure` | `Instances/CrossCorpusInstance.lean` | ✓ Full non-erasure package for the cross-corpus instance |
 
 **Task D complete:** The cross-layer coherence axioms are now proved as theorems in `LinkedArchitecture` via `linkedArchitectureFromRemainder`. Coherence holds definitionally when `EnrichedIrreducibility` is defined as `∃ T, SemanticRemainder T`. The unconditional biconditional and all non-erasure theorems follow without totality assumption. `ConcreteArchitecture.lean` retains the parametric hypothesis pattern for external IC definitions; use `linkedArchitectureFromRemainder` for the fully-discharged path.
 

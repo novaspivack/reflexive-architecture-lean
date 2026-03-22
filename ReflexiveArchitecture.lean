@@ -23,6 +23,7 @@ import ReflexiveArchitecture.Instances.FromAPS
 import ReflexiveArchitecture.Instances.FromNEMS
 import ReflexiveArchitecture.Instances.FromIC
 import ReflexiveArchitecture.Instances.ConcreteArchitecture
+import ReflexiveArchitecture.Instances.CrossCorpusInstance
 
 namespace ReflexiveArchitecture
 
