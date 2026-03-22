@@ -108,3 +108,4 @@ Zero `sorry`. No program-specific axioms beyond Mathlib.
 - **2026-03-22 (milestone 1):** Abstract architecture class + layered theorem + stratified non-collapse. Added by EPIC_015.
 - **2026-03-22 (milestone 2):** Bridge P0–P2 (bare canonicity separation, gluing route coherence, inner enriched gap). Added by EPIC_016.
 - **2026-03-22 (milestone 3):** Non-erasure principle + unified non-erasure law + enriched non-finality. Added by EPIC_016 continuation. Architecture class strengthened with biconditional coherence axioms.
+- **2026-03-22 (milestone 4):** Concrete discharge interfaces FromAPS, FromNEMS, FromIC, ConcreteArchitecture. All build with zero sorry. Cross-layer coherence axioms are open hypotheses pending EPIC_017_3BQ Task D. Added by EPIC_017.

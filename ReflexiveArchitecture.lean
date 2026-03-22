@@ -18,10 +18,14 @@ import ReflexiveArchitecture.Bridge.GluingRouteCoherence
 import ReflexiveArchitecture.Bridge.SemanticRemainderToEnrichedGap
 import ReflexiveArchitecture.Bridge.NonErasurePrinciple
 import ReflexiveArchitecture.Instances.ToyCombinedInstance
+import ReflexiveArchitecture.Instances.FromAPS
+import ReflexiveArchitecture.Instances.FromNEMS
+import ReflexiveArchitecture.Instances.FromIC
+import ReflexiveArchitecture.Instances.ConcreteArchitecture
 
 namespace ReflexiveArchitecture
 
-/-- Root marker: EPIC_015_RA1 synthesis package + EPIC_016 bridge lemmas loaded. -/
+/-- Root marker: EPIC_015+016 abstract synthesis + EPIC_017 concrete discharge interfaces loaded. -/
 def apex001Root := ()
 
 end ReflexiveArchitecture

@@ -17,7 +17,7 @@
 | Middle | `ReflexiveArchitecture/Middle/` | `RealizationLayer`, composition projections |
 | Inner | `ReflexiveArchitecture/Inner/` | `CertificationLayer`, `inner_residue_package` |
 | Bridge | `ReflexiveArchitecture/Bridge/` | `Architecture` (with coherence axioms), layered + stratified + bridge P0–P2 + non-erasure summit |
-| Instances | `ReflexiveArchitecture/Instances/` | `ToyCombinedInstance` (enriched + flat architectures) |
+| Instances | `ReflexiveArchitecture/Instances/` | `ToyCombinedInstance` (enriched + flat); `FromAPS`, `FromNEMS`, `FromIC`, `ConcreteArchitecture` (concrete discharge interfaces) |
 | Papers | `paper/` | suite TeX + *Closure, Realization, and Reflective Residue* |
 
 ---
@@ -75,6 +75,21 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 
 ---
 
+### Concrete discharge (milestone 4 — EPIC 017)
+
+| Name | File | Role |
+|------|------|------|
+| `ReflexiveArchitecture.Instances.apsRealizationLayerFromIff` | `Instances/FromAPS.lean` | Parametric `RealizationLayer` map from APS `corrected_exactness_iff` |
+| `ReflexiveArchitecture.Instances.nemsReflexiveLayer` | `Instances/FromNEMS.lean` | Parametric `ReflexiveLayer` map from NEMS `diagonal_barrier_rt` |
+| `ReflexiveArchitecture.Instances.icCertificationLayer` | `Instances/FromIC.lean` | Parametric `CertificationLayer` map from IC route-residue theorems |
+| `ReflexiveArchitecture.Instances.concreteArchitecture` | `Instances/ConcreteArchitecture.lean` | Combined `Architecture` instance; coherence axioms are explicit hypotheses pending Task D |
+
+**Open:** Cross-layer coherence axioms (`pos_coherence`, `neg_coherence`) in `ConcreteArchitecture.lean` are explicit hypothesis parameters pending EPIC_017_3BQ Task D.
+
+---
+
 ## Sorry / axiom policy
 
 No `sorry` in shipped proof terms. No program-specific `axiom` beyond Mathlib.
+Explicit hypothesis parameters in `ConcreteArchitecture.lean` are open mathematical
+claims, not proof placeholders.
