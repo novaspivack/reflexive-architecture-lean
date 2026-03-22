@@ -3,9 +3,9 @@
 **Version:** v1.0.0  
 **Lean:** leanprover/lean4:v4.29.0-rc6  
 **Mathlib:** v4.29.0-rc6  
-**Build:** 8216 jobs, 0 errors, **0 sorry in proof terms**, **0 custom axioms**  
+**Build:** 8218 jobs, 0 errors, **0 sorry in proof terms**, **0 custom axioms**  
 **Lake deps:** `nems-lean` (local), `infinity-compression-lean` (local)  
-**Commit:** `843f0d9` — see `MANIFEST.md` for full theorem index and `STRATA_FORMALIZATION_MAP.md` for module tree.
+**Commit:** `(see git log)` — latest — see `MANIFEST.md` for full theorem index and `STRATA_FORMALIZATION_MAP.md` for module tree.
 
 ## What This Artifact Proves
 
@@ -71,6 +71,12 @@ All builds verified clean on `leanprover/lean4:v4.29.0-rc6` with Mathlib `v4.29.
 | `nems_spine_both_strata` | `Bridge/DirectCrossCorpusBridge.lean` | ✓ 0 sorry |
 | `ic_enriched_iff_nems_remainder` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ 0 sorry |
 | `ic_enriched_iff_nems_remainder_unconditional` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ 0 sorry |
+| `universal_nonerasure_law` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
+| `universal_nonerasure_law_library` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
+| `nems_spine_from_universal` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
+| `universal_nonerasure_law` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
+| `universal_nonerasure_law_library` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
+| `nems_spine_from_universal` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
 
 For the complete theorem table see **[MANIFEST.md](MANIFEST.md)**.
 For module roles and informal glosses see **[STRATA_FORMALIZATION_MAP.md](STRATA_FORMALIZATION_MAP.md)**.

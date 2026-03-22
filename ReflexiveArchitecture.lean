@@ -28,6 +28,7 @@ import ReflexiveArchitecture.Instances.ConcreteFromNEMS
 import ReflexiveArchitecture.Instances.ConcreteFromIC
 import ReflexiveArchitecture.Bridge.DirectCrossCorpusBridge
 import ReflexiveArchitecture.Bridge.SharedReflexiveArchitecture
+import ReflexiveArchitecture.Bridge.UniversalNonErasureLaw
 
 namespace ReflexiveArchitecture
 
