@@ -52,8 +52,8 @@
 %% These are used consistently throughout.
 
 \title{Closure, Realization, and Reflective Residue:\\[0.4em]
-\large A Synthesis of NEMS, Infinity Compression, and APS\\
-with Machine-Checked Bridge Theorems and the Non-Erasure Principle}
+\large A Machine-Checked Synthesis of NEMS, Infinity Compression, and APS\\
+with Bridge Theorems and the Non-Erasure Principle}
 \author{Nova Spivack\\[0.3em]
 {\small Independent Researcher}}
 \date{March 2026}
@@ -191,6 +191,14 @@ abstract unifying principle behind both the NEMS and IC results.  All results ca
 proof placeholders.  Concrete instantiation from the source corpora into $\RAL$ is the
 next step, described at the end of Section~\ref{sec:conjecture}.
 
+\paragraph{Scope.}
+All results in this paper are proved inside $\RAL$ at the abstract architecture level.
+They do not yet constitute concrete imported instances of the NEMS, APS, and IC source
+corpora, nor do they show that the Milestone~3 coherence axioms follow automatically
+from those corpora.  The contribution is an abstract machine-checked synthesis with
+proved bridge and non-erasure laws internal to $\RAL$, plus toy architectures witnessing
+consistency of the design.
+
 \section{The machine-checked synthesis}
 \label{sec:formalization}
 
@@ -207,7 +215,7 @@ M'stone & Layer / bridge & Main content & Representative \\
 \midrule
 1 & Outer / Middle / Inner & Layered coexistence + anti-collapse
   & Thms.~\ref{thm:layered}, \ref{thm:noncollapse} \\[2pt]
-2 & Cross-layer bridges & Separation, interaction, independence
+2 & Cross-layer bridges & Separation, interaction, independence + joint packaging
   & Thms.~\ref{thm:bcrf}--\ref{thm:ieg} \\[2pt]
 3 & Non-erasure summit & Positive, negative, biconditional, full package
   & Thms.~\ref{thm:pos-nonerasure}--\ref{thm:enriched-nonfinal} \\
@@ -262,9 +270,9 @@ $\RAL$ and resist flattening.
 
 Milestone~2 proves three first bridge theorems: one \emph{separation} theorem (bare
 canonicity does not pin reflective finality), one \emph{interaction} theorem (middle
-gluing data feeds the inner residue chain), and one \emph{independence and joint
-packaging} theorem (inner enriched gap is independent of outer extent yet holds jointly
-with outer non-exhaustion under the full hypotheses).
+gluing data feeds the inner residue chain), and one \emph{independence + joint packaging}
+theorem (inner enriched gap is independent of outer extent yet holds jointly with outer
+non-exhaustion under the full hypotheses).
 
 \begin{theorem}[Bare Canonicity / Reflective Finality Separation]
 \label{thm:bcrf}
@@ -281,10 +289,13 @@ Define $\GRC$ as the conjunction of finite tracking, gluing, and existence of an
 certification route.  Under canonical bare certification, $\GRC$ implies middle indexed
 composition and inner strict refinement with fiber nontriviality.  The middle layer's
 exact realization architecture participates directly in the inner residue chain.
+This theorem does not identify gluing with route residue; it shows only that a specific
+middle-layer package contributes formally to the inner residue consequences under the
+stated hypotheses.
 \par\noindent{\footnotesize Lean: \texttt{Bridge.glue\_route\_coherent\_canonical\_implies\_composition\_and\_strict\_refinement}.}
 \end{theorem}
 
-\begin{theorem}[Inner Enriched Gap: Independence and Joint Packaging]
+\begin{theorem}[Inner Enriched Gap: Independence + Joint Packaging]
 \label{thm:ieg}\sloppy
 Architectures with identical middle/inner layers but distinct outer theory types yield
 the same inner enriched gap ($\IEG$: strict refinement and fiber nontriviality) from
@@ -341,6 +352,10 @@ singleton model.
 The axioms isolate exactly the additional data required to move from the Milestone~2
 facts (coexistence, separation, independence) to the Milestone~3 facts (necessity,
 biconditional, full non-erasure package).  Nothing more is assumed.
+
+At the present stage these axioms are additional abstract assumptions on $\RAL$; their
+concrete verification for imported NEMS, APS, and IC structures is part of the open
+discharge problem described in Section~\ref{sec:conjecture}.
 
 \begin{theorem}[Positive Non-Erasure]
 \label{thm:pos-nonerasure}
@@ -423,11 +438,13 @@ hypotheses.
 
 \subsection{Status summary}
 
-All thirteen results stated in Theorems~\ref{thm:layered}--\ref{thm:enriched-nonfinal}
-are machine-checked inside $\RAL$ in Lean~4 with zero proof placeholders and no
-program-specific axioms beyond Mathlib \cite{Mathlib2020}.  Concrete instantiation of
-these abstract results from the NEMS, APS, and IC source corpora is the one remaining
-open task.
+All thirteen theorem statements in Milestones~1--3
+(Theorems~\ref{thm:layered}--\ref{thm:enriched-nonfinal}) are machine-checked inside
+$\RAL$ in Lean~4 with zero proof placeholders and no program-specific axioms beyond
+Mathlib \cite{Mathlib2020}.  Concrete discharge of these abstract results into the
+NEMS, APS, and IC source corpora remains open and splits into two tasks: exported
+interface maps into $\RAL$, and verification that the Milestone~3 coherence axioms hold
+for those imported structures.
 
 \section{The three ingredients}
 \label{sec:ingredients}
@@ -541,15 +558,23 @@ The formal result is now stronger than a parallel picture: the three stages are
 represented in one abstract class, satisfy a proved anti-collapse theorem, and are
 connected by proved bridge theorems including the full non-erasure biconditional.
 
-Closure does not end in flatness:
+Closure does not end in flatness.  The three strata are represented jointly in $\RAL$:
 \[
-\begin{aligned}
-\text{semantic non-exhaustion (outer)}
-&\;\Longrightarrow\; \text{realization architecture (middle)} \\
-&\;\Longrightarrow\; \text{canonical certification with reflective residue (inner)} \\
-&\;\Longleftrightarrow\; \text{semantic remainder (outer), under coherence + totality}.
-\end{aligned}
+\text{outer admissibility}
+\quad\mid\quad
+\text{middle realization architecture}
+\quad\mid\quad
+\text{inner reflective residue},
 \]
+with joint coexistence and anti-collapse proved in $\RAL$, and with the additional
+outer/inner biconditional
+\[
+\EnrIrr \;\Longleftrightarrow\; \exists T,\ \mathrm{InternalTheory}(T)\wedge\SemRem(T)
+\]
+proved separately under the Milestone~3 coherence axioms and universal totality.  The
+chain of implications between stages is a philosophical ordering of the three research
+programs; the formal results are coexistence and anti-collapse (Milestone~1), specific
+bridge theorems across layers (Milestone~2), and the biconditional (Milestone~3).
 
 \subsection{Why these layers are not redundant}
 
@@ -622,8 +647,9 @@ universal totality, outer semantic remainder and inner enriched irreducibility a
 equivalent inside $\RAL$ --- two faces of the same constraint on reflexive architectures.
 \end{quote}
 
-This thesis is a machine-checked theorem (Theorem~\ref{thm:unified}), not a
-philosophical reading.
+The law ``representation does not erase the represented'' is not merely a philosophical
+observation here; it is expressed by a machine-checked theorem inside $\RAL$
+(Theorem~\ref{thm:unified}) under the Milestone~3 coherence axioms and universal totality.
 
 \subsection{NEMS form of non-exhaustion: semantic non-exhaustion and semantic remainder}
 
@@ -795,7 +821,9 @@ Semantic burden, realization architecture, and reflective certification residue 
 merely parallel themes.  They are irreducible strata of a common abstract class, and ---
 under explicit cross-layer coherence axioms --- the outer and inner strata are linked by
 a proved non-erasure biconditional.  The law ``representation does not erase the
-represented'' is not a philosophical observation but a machine-checked theorem.
+represented'' is not merely a philosophical observation; it is expressed by a
+machine-checked theorem inside $\RAL$ under the Milestone~3 coherence axioms and
+universal totality.
 
 \paragraph{What remains open.}
 The next step is concrete discharge: exported interface maps from the NEMS, APS, and IC
@@ -837,8 +865,9 @@ $\RAL$.  The concrete embeddings are the remaining task.
 
 \bibitem{SpivackStrata2026}
   N.~Spivack, \emph{Strata: Machine-Checked Synthesis of Reflexive Foundations},
-  \url{reflexive-architecture-lean} repository (software artifact), 2026.
-  Zero \texttt{sorry}.
+  \url{https://github.com/novaspivack/reflexive-architecture-lean} (software artifact),
+  2026.  Zero \texttt{sorry}.  Commit: \texttt{d9de39b}; see \texttt{MANIFEST.md} for
+  build policy and theorem index.
 
 \bibitem{Kleene1938}
   S.~C.~Kleene, \emph{On notation for ordinal numbers},
