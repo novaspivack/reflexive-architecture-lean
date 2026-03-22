@@ -1,0 +1,869 @@
+\documentclass[11pt]{article}
+\input{suite_preamble}
+\input{suite_macros}
+
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{xurl}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\newcommand{\IC}{\ensuremath{\mathsf{IC}}}
+\newcommand{\APS}{\ensuremath{\mathsf{APS}}}
+\newcommand{\NEMS}{\ensuremath{\mathsf{NEMS}}}
+\newcommand{\BareCert}{\ensuremath{\mathsf{BareCert}}}
+\newcommand{\EnrWitness}{\ensuremath{\mathsf{EnrWitness}}}
+\newcommand{\Route}{\ensuremath{\mathsf{Route}}}
+\newcommand{\Adq}{\ensuremath{\mathsf{Adequate}}}
+\newcommand{\FinTrack}{\ensuremath{\mathsf{FiniteTracking}}}
+\newcommand{\Glue}{\ensuremath{\mathsf{Gluing}}}
+\newcommand{\Comp}{\ensuremath{\mathsf{IcompIdx}}}
+\newcommand{\Rec}{\ensuremath{\mathsf{IrecIdx}}}
+\newcommand{\DiagCap}{\ensuremath{\mathsf{DiagCap}}}
+\newcommand{\IntSel}{\ensuremath{\mathsf{InternalSelector}}}
+\newcommand{\TotEff}{\ensuremath{\mathsf{TotEff}}}
+\newcommand{\SemRem}{\ensuremath{\mathsf{SemanticRemainder}}}
+\newcommand{\RefCert}{\ensuremath{\mathsf{ReflectiveCertification}}}
+\newcommand{\RefReal}{\ensuremath{\mathsf{ReflectiveRealization}}}
+\newcommand{\Burden}{\ensuremath{\mathsf{Burden}}}
+\newcommand{\Admiss}{\ensuremath{\mathsf{Admissible}}}
+\newcommand{\ClosureCompat}{\ensuremath{\mathsf{ClosureCompatible}}}
+\newcommand{\RouteEq}{\ensuremath{\mathsf{RouteEq}}}
+\newcommand{\CanonicalName}{\ensuremath{\mathsf{Canonical}}}
+\newcommand{\Fiber}{\ensuremath{\mathsf{Fiber}}}
+\newcommand{\Split}{\ensuremath{\mathsf{Split}}}
+\newcommand{\Refine}{\ensuremath{\mathsf{Refine}}}
+\newcommand{\Outer}{\ensuremath{\mathsf{Outer}}}
+\newcommand{\Inner}{\ensuremath{\mathsf{Inner}}}
+\newcommand{\Uniform}{\ensuremath{\mathsf{Uniform}}}
+\newcommand{\RAL}{\ensuremath{\mathsf{ReflexiveArchitecture}}}
+\newcommand{\EnrIrr}{\ensuremath{\mathsf{EnrichedIrreducibility}}}
+\newcommand{\RefFin}{\ensuremath{\mathsf{ReflectiveFinality}}}
+\newcommand{\GRC}{\ensuremath{\mathsf{GlueRouteCoherent}}}
+\newcommand{\IEG}{\ensuremath{\mathsf{InnerEnrichedGap}}}
+
+%% Vocabulary conventions (Issue 7):
+%% \SemNonExh   = semantic non-exhaustion (the disjunctive law SemRem(T) ∨ ¬TotalOn(T))
+%% \SemRem      = semantic remainder (the positive witness case SemRem(T))
+%% These are used consistently throughout.
+
+\title{Closure, Realization, and Reflective Residue:\\[0.4em]
+\large A Synthesis of NEMS, Infinity Compression, and APS\\
+with Machine-Checked Bridge Theorems and the Non-Erasure Principle}
+\author{Nova Spivack\\[0.3em]
+{\small Independent Researcher}}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\keywords{reflexive architecture, non-erasure principle, semantic remainder, enriched
+irreducibility, outer--inner bridge, NEMS, infinity compression, abstract programming systems,
+Lean~4 formalization, stratified foundations}
+
+\amsclassification{03F40, 03B70, 68Q05, 03D25}
+
+\codeavailability{Lean~4 formalization: \url{reflexive-architecture-lean} (this repo).
+Build: \texttt{lake update \&\& lake exe cache get \&\& lake build}.
+Zero \texttt{sorry} in proof terms under \texttt{ReflexiveArchitecture/}.
+See \texttt{MANIFEST.md} and \texttt{STRATA\_FORMALIZATION\_MAP.md} at the project root.
+Supporting corpora: \cite{SpivackAPS2026,SpivackIC2026,SpivackNEMS81-2026}.
+NEMS, APS, and IC references below are suite-internal preprints (2026); they are not
+yet external journal publications.}
+
+\begin{abstract}
+Three research lines developed in parallel now display a common structural spine and have
+been unified in a machine-checked Lean~4 development at the abstract architecture level,
+with zero proof placeholders.  The NEMS program proves that load-bearing determinacy cannot
+be outsourced: if a framework is non-categorical under closure, some internal selector is
+forced, and in diagonal-capable settings that selector cannot collapse to a total-effective
+decider on the relevant self-referential fragment.  The APS program proves that indexed
+composition is neither automatic from self-reference nor a vague closure property: it is
+exactly finite tracking plus gluing, so fixed-point abundance alone does not suffice for
+global uniform realization.  Infinity Compression proves that canonical theorem-level
+certification does not exhaust reflective structure: enriched realization above the bare
+certificate is irreducibly plural, and any adequate certification route must instantiate
+split/refinement/fiber architecture.
+
+This paper presents the machine-checked synthesis of these three lines as the Strata
+program.  NEMS governs the \emph{outer admissibility law}; APS governs the \emph{exact
+local-to-global architecture required for uniform realization}; Infinity Compression
+governs the \emph{inner reflective geometry} of canonical certification.
+
+The formalization proceeds in three milestones, all clean.  \textbf{Milestone~1}
+(abstract architecture and anti-collapse): defines an abstract class $\RAL$, proves a
+layered architecture theorem showing that all three structural conclusions hold jointly, and
+proves a stratified non-collapse theorem showing the three layers resist simultaneous
+flattening.  \textbf{Milestone~2} (first bridge theorems — one separation, one interaction,
+one independence/joint-packaging): proves that bare canonicity does not pin reflective
+finality; that a gluing--route coherence predicate connects middle tracking/gluing to the
+inner residue chain under canonical certification; and that inner enriched gap is
+independent of outer theory extent while holding jointly with outer semantic
+non-exhaustion under the full layered hypotheses.  \textbf{Milestone~3} (non-erasure
+summit): strengthens the architecture class with two explicit cross-layer coherence
+axioms and proves a complete package of non-erasure results, culminating in the
+\textbf{Non-Erasure Principle}: under the Milestone~3 layered and coherence hypotheses and
+a remainder-bearing internal theory, enriched irreducibility holds; and the \textbf{Unified
+Non-Erasure Law}: under the coherence axioms and universal totality, $\EnrIrr \iff \exists
+T,\,\SemRem(T)$.  This is the abstract unifying law behind the NEMS semantic remainder
+theorem and the IC enriched residue theorem.
+
+The summit result is: in any architecture in $\RAL$ satisfying the Milestone~3 layered
+and coherence hypotheses and carrying a remainder-bearing internal theory, outer semantic
+non-exhaustion, inner enriched irreducibility, and the full inner residue package hold
+simultaneously and resist joint flattening.  Concrete discharge of these abstract results
+into the NEMS, APS, and IC source corpora is the remaining open step.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+The present paper is a synthesis paper, and its central claims have been machine-checked
+as abstract synthesis theorems inside the class $\RAL$.  Three parallel research lines ---
+NEMS, APS, and Infinity Compression --- have been unified in the Lean~4 repository
+\url{reflexive-architecture-lean} with zero proof placeholders across all three milestones
+of the formalization.  Concrete discharge of the abstract results into the source corpora
+is a separate remaining task, discussed in Section~\ref{sec:conjecture}.
+
+\subsection{The three lines}
+
+Taken separately, the NEMS, APS, and Infinity Compression lines appear to answer
+different questions.
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{NEMS:} What must be true of a system that claims to determine its own
+realized world without importing ontologically external selector structure
+\cite{SpivackNEMS01-2026,SpivackNEMS08-2026}?
+\item \textbf{APS:} What is the exact local-to-global architecture required to pass from
+local representability and fixed-point phenomena to global uniform composition --- rather
+than relying on fixed-point abundance alone \cite{SpivackAPS2026}?
+\item \textbf{Infinity Compression:} What remains of reflective structure once
+canonical theorem-level certification has already been achieved \cite{SpivackIC2026}?
+\end{enumerate}
+
+Taken together, they answer a single deeper question:
+
+\begin{quote}
+\textbf{What is the structure of a genuinely reflexive foundation?}
+\end{quote}
+
+A closed foundational system is not merely a system with self-reference, fixed points,
+or a canonical theorem.  It is a system in which:
+\begin{enumerate}[leftmargin=2em]
+\item determinacy is internally borne rather than outsourced,
+\item the machinery of realization contains the exact local-to-global architecture
+required to pass from local representability to uniform composition, rather than
+relying on fixed-point abundance alone,
+\item successful certification still leaves an irreducible reflective overstructure
+rather than collapsing to a fully exhausted point,
+\item and the connection between outer semantic remainder and inner enriched
+irreducibility is itself a provable law under explicit cross-layer coherence hypotheses.
+\end{enumerate}
+
+This synthesis establishes a three-layer architecture:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Layer & Governing line & Structural role \\
+\midrule
+$\Outer$ & NEMS & Admissibility of determinacy under closure \\
+Middle & APS & Exact mechanics of uniform realization \\
+$\Inner$ & Infinity Compression & Reflective residue above canonical certification \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{What is new}
+
+The thesis that these layers form a unified architecture has been machine-checked as an
+abstract synthesis theorem in the class $\RAL$, in three milestones.  Milestone~1
+establishes the abstract class and an anti-collapse theorem.  Milestone~2 proves the first
+bridge results across layers.  Milestone~3 proves the non-erasure summit: a biconditional
+law connecting outer semantic remainder with inner enriched irreducibility, which is the
+abstract unifying principle behind both the NEMS and IC results.  All results carry zero
+proof placeholders.  Concrete instantiation from the source corpora into $\RAL$ is the
+next step, described at the end of Section~\ref{sec:conjecture}.
+
+\section{The machine-checked synthesis}
+\label{sec:formalization}
+
+The Lean repository \url{reflexive-architecture-lean} carries the complete formal
+development in three milestones.  Full Lean identifiers and informal glosses appear
+in \texttt{STRATA\_FORMALIZATION\_MAP.md}; build policy in \texttt{MANIFEST.md}.
+
+\begin{center}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{1.2cm}p{2.8cm}p{5.0cm}p{2.8cm}}
+\toprule
+M'stone & Layer / bridge & Main content & Representative \\
+\midrule
+1 & Outer / Middle / Inner & Layered coexistence + anti-collapse
+  & Thms.~\ref{thm:layered}, \ref{thm:noncollapse} \\[2pt]
+2 & Cross-layer bridges & Separation, interaction, independence
+  & Thms.~\ref{thm:bcrf}--\ref{thm:ieg} \\[2pt]
+3 & Non-erasure summit & Positive, negative, biconditional, full package
+  & Thms.~\ref{thm:pos-nonerasure}--\ref{thm:enriched-nonfinal} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Milestone 1: layered architecture and stratified non-collapse}
+
+The outer layer is abstracted by \texttt{ReflexiveLayer}, supporting a generic theorem
+of the form
+\[
+\SemRem(T)\ \lor\ \neg\, \mathrm{TotalOn}(T)
+\]
+for every internal self-theory $T$ under the barrier hypothesis — this is what we call
+\emph{semantic non-exhaustion}.  The middle layer is abstracted by
+\texttt{RealizationLayer}, carrying the exact composition characterization
+\[
+\Comp \;\Longleftrightarrow\; \FinTrack \wedge \Glue.
+\]
+The inner layer is abstracted by \texttt{CertificationLayer}, with an implication chain
+from canonical bare certification and adequacy to split, route necessity, strict
+refinement, and fiber nontriviality.
+
+\begin{theorem}[Layered Architecture]
+\label{thm:layered}
+Any architecture $A \in \RAL$ carrying barrier hypotheses, finite tracking and gluing,
+and canonical bare certification with an adequate route simultaneously exhibits:
+\begin{enumerate}[label=(\alph*), leftmargin=2em]
+\item outer: every internal theory has \emph{semantic remainder} or fails totality
+(semantic non-exhaustion),
+\item middle realization exactness: indexed composition holds,
+\item inner reflective residue: reflective split, universal route necessity, strict
+refinement, fiber nontriviality.
+\end{enumerate}
+\par\noindent{\footnotesize Lean: \texttt{Bridge.layered\_architecture\_theorem}.}
+\end{theorem}
+
+\begin{theorem}[Stratified Non-Collapse]
+\label{thm:noncollapse}
+No architecture in $\RAL$ under the layered hypotheses can simultaneously collapse
+all three strata.  The semantic, realizational, and certification layers are formally
+irreducible.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.stratified\_noncollapse}.}
+\end{theorem}
+
+These two theorems establish that the synthesis is not merely descriptive: there is a
+machine-checked abstract object in which outer, middle, and inner laws coexist inside
+$\RAL$ and resist flattening.
+
+\subsection{Milestone 2: bridge theorems}
+
+Milestone~2 proves three first bridge theorems: one \emph{separation} theorem (bare
+canonicity does not pin reflective finality), one \emph{interaction} theorem (middle
+gluing data feeds the inner residue chain), and one \emph{independence and joint
+packaging} theorem (inner enriched gap is independent of outer extent yet holds jointly
+with outer non-exhaustion under the full hypotheses).
+
+\begin{theorem}[Bare Canonicity / Reflective Finality Separation]
+\label{thm:bcrf}
+Define $\RefFin(I) \coloneqq \neg\, I.\EnrIrr$.  Two \texttt{CertificationLayer}
+structures on the same carrier share canonical bare certification but have opposite
+$\EnrIrr$.  The predicate $\RefFin$ is therefore not determined by bare canonicity:
+witnesses with and without reflective finality coexist at the abstract certification level.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.canonical\_bare\_does\_not\_pin\_enriched\_irreducibility}.}
+\end{theorem}
+
+\begin{theorem}[Gluing--Route Coherence Interaction]
+\label{thm:grc}
+Define $\GRC$ as the conjunction of finite tracking, gluing, and existence of an adequate
+certification route.  Under canonical bare certification, $\GRC$ implies middle indexed
+composition and inner strict refinement with fiber nontriviality.  The middle layer's
+exact realization architecture participates directly in the inner residue chain.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.glue\_route\_coherent\_canonical\_implies\_composition\_and\_strict\_refinement}.}
+\end{theorem}
+
+\begin{theorem}[Inner Enriched Gap: Independence and Joint Packaging]
+\label{thm:ieg}\sloppy
+Architectures with identical middle/inner layers but distinct outer theory types yield
+the same inner enriched gap ($\IEG$: strict refinement and fiber nontriviality) from
+canonical bare certification and adequacy alone, without any outer hypothesis.  Under
+the full layered hypotheses, outer semantic non-exhaustion and inner enriched gap hold
+jointly.
+\par\noindent{\footnotesize Lean: \texttt{inner\_enriched\_gap\_independent\ldots},
+\texttt{joint\_outer\_inner\_from\_layered}.}
+\end{theorem}
+
+These results are not yet the necessity tier: Theorems~\ref{thm:bcrf}--\ref{thm:ieg}
+establish separation, interaction, and independence inside $\RAL$.  The necessity
+direction --- that outer semantic \emph{remainder} forces inner enriched irreducibility
+--- requires the coherence axioms introduced in Milestone~3.
+
+\subsection{Milestone 3: the non-erasure summit}
+
+The $\RAL$ class is strengthened in Milestone~3 with two explicit cross-layer coherence
+axioms.  Their role is to make the non-erasure biconditional derivable from the abstract
+interfaces, without smuggling.
+
+\begin{definition}[Cross-layer coherence axioms]
+\label{def:coherence}
+An architecture $A \in \RAL$ is said to carry the Milestone~3 coherence when it
+satisfies:
+\begin{enumerate}[label=(\roman*), leftmargin=2em]
+\item \emph{Positive coherence}: $(\exists T,\ \mathrm{InternalTheory}(T) \wedge
+\SemRem(T)) \;\Rightarrow\; \EnrIrr$.
+\item \emph{Negative coherence}: $(\forall T,\ \mathrm{InternalTheory}(T) \Rightarrow
+\mathrm{TotalOn}(T) \wedge \neg\SemRem(T)) \;\Rightarrow\; \neg\EnrIrr$.
+\end{enumerate}
+\end{definition}
+
+\subsection*{Why the coherence axioms are not ad hoc}
+
+A skeptical reader will notice that the axioms were added to support the summit theorem.
+It is therefore worth being explicit about what they do and do not assert.
+
+The coherence axioms do not identify $\SemRem$ with $\EnrIrr$ by fiat.  They specify
+only one positive and one negative transport principle between the outer and inner
+predicates.  The biconditional (Theorem~\ref{thm:unified}) is then derived from these
+transfer principles together with the layered hypotheses and, where stated, universal
+totality --- it is not assumed.
+
+The axioms are \emph{strictly weaker} than postulating the biconditional itself, and
+they are \emph{bridge principles} rather than identifications: they do not assert that
+the outer and inner predicates are the same notion, only that one kind of outer structure
+transports to one kind of inner consequence.  Their satisfaction by both an enriched toy
+architecture (with outer semantic remainder always present, inner irreducibility true) and
+a flat toy architecture (with empty outer theory type, inner irreducibility false) shows
+that they define a nontrivial design space with two distinct witnesses, not a vacuous
+singleton model.
+
+The axioms isolate exactly the additional data required to move from the Milestone~2
+facts (coexistence, separation, independence) to the Milestone~3 facts (necessity,
+biconditional, full non-erasure package).  Nothing more is assumed.
+
+\begin{theorem}[Positive Non-Erasure]
+\label{thm:pos-nonerasure}
+Under the positive coherence axiom, if some internal theory has semantic remainder,
+then enriched irreducibility holds.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.outer\_remainder\_forces\_enriched\_irreducibility}.}
+\end{theorem}
+
+\begin{theorem}[Negative Non-Erasure]
+\label{thm:neg-nonerasure}
+Under the negative coherence axiom, if every internal theory is totally exhausted
+without semantic remainder, then enriched irreducibility fails.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.outer\_exhaustion\_kills\_enriched\_irreducibility}.}
+\end{theorem}
+
+\begin{theorem}[Non-Erasure Biconditional]
+\label{thm:bic-nonerasure}
+Under the Milestone~3 coherence axioms and the assumption that every internal theory
+is total,
+\[
+\EnrIrr \;\Longleftrightarrow\; \exists T,\ \mathrm{InternalTheory}(T) \wedge \SemRem(T).
+\]
+\par\noindent{\footnotesize Lean: \texttt{Bridge.enriched\_iff\_outer\_remainder\_total}.}
+\end{theorem}
+
+\begin{theorem}[Non-Erasure Principle]
+\label{thm:nonerasure}
+Under the full layered hypotheses, the Milestone~3 coherence axioms, and the existence
+of a remainder-bearing internal theory, enriched irreducibility holds.  Outer semantic
+remainder directly entails inner enriched irreducibility via the positive coherence axiom.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.nonerasure\_principle}.}
+\end{theorem}
+
+\begin{theorem}[Full Architecture Non-Erasure]
+\label{thm:full-nonerasure}
+Under all layered hypotheses, the Milestone~3 coherence axioms, and an inhabited
+semantic remainder, the architecture simultaneously exhibits:
+\begin{enumerate}[label=(\alph*), leftmargin=2em]
+\item outer: every internal theory has semantic remainder or fails totality
+(semantic non-exhaustion),
+\item inner: enriched irreducibility holds,
+\item inner: the full residue package (split, route necessity, strict refinement, fiber
+nontriviality).
+\end{enumerate}
+These are three strata of one non-erasure theorem inside $\RAL$.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.full\_architecture\_nonerasure}.}
+\end{theorem}
+
+\begin{theorem}[Unified Non-Erasure Law]
+\label{thm:unified}
+Under the Milestone~3 coherence axioms and universal totality:
+\[
+\EnrIrr \;\Longleftrightarrow\; \exists T,\ \mathrm{InternalTheory}(T) \wedge \SemRem(T).
+\]
+This is the abstract unifying law, internal to $\RAL$, behind the NEMS semantic
+remainder theorem and the IC enriched residue theorem: they are the outer and inner
+expressions of one non-erasure constraint on reflexive architectures.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.unified\_nonerasure\_law}.}
+\end{theorem}
+
+\begin{theorem}[Non-Erasure from Barrier with Totality]
+\label{thm:barrier-total}
+Under the Milestone~3 coherence axioms, barrier, universal totality, and full layered
+hypotheses, every internal theory has semantic remainder and enriched irreducibility holds.
+The barrier forces outer semantic remainder, which forces inner enriched structure,
+completing the cross-layer derivation.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.nonerasure\_from\_barrier\_with\_totality}.}
+\end{theorem}
+
+\begin{theorem}[Enriched Irreducibility Rules Out Reflective Finality]
+\label{thm:enriched-nonfinal}
+Under the full layered hypotheses, the Milestone~3 coherence axioms, and a remainder
+witness, reflective finality ($\RefFin = \neg\EnrIrr$) is ruled out.  This directly
+connects Milestone~2's bare-canonicity separation (Theorem~\ref{thm:bcrf}) with the
+non-erasure principle (Theorem~\ref{thm:nonerasure}): enriched structure is not merely
+possible in some models, but provably forced by the coherence axioms and the layered
+hypotheses.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.enriched\_hence\_not\_reflexively\_final}.}
+\end{theorem}
+
+\subsection{Status summary}
+
+All thirteen results stated in Theorems~\ref{thm:layered}--\ref{thm:enriched-nonfinal}
+are machine-checked inside $\RAL$ in Lean~4 with zero proof placeholders and no
+program-specific axioms beyond Mathlib \cite{Mathlib2020}.  Concrete instantiation of
+these abstract results from the NEMS, APS, and IC source corpora is the one remaining
+open task.
+
+\section{The three ingredients}
+\label{sec:ingredients}
+
+\subsection{NEMS as the law of closure-compatible determinacy}
+
+The NEMS suite \cite{SpivackNEMS01-2026,SpivackNEMS08-2026,SpivackNEMS11-2026,
+SpivackNEMS81-2026} is best read as a theory of burden-bearing under closure.  Its
+central structural lesson is that load-bearing determinacy cannot be silently outsourced.
+If a finite or internal description admits observational multiplicity, and yet a unique
+realized world is obtained, then the burden of that selection must be borne somewhere
+internally.
+
+This point becomes sharper in the diagonal-bearing case.  In sufficiently expressive
+self-referential fragments, internal selection cannot be reduced to a total-effective
+decider on the relevant fragment \cite{SpivackNEMS11-2026}.  NEMS does not merely say
+that some internal selector is forced; it says that the selector's burden cannot be
+trivialized by computational collapse.
+
+At the formal synthesis level, the outer layer is abstracted by the theorem
+\(
+\SemRem(T)\ \lor\ \neg\, \mathrm{TotalOn}(T)
+\)
+for every internal self-theory $T$ under the barrier hypotheses.  This is the
+\emph{semantic non-exhaustion} law carried into $\RAL$.
+
+\subsection{APS as the law of uniform realization}
+
+The APS program \cite{SpivackAPS2026} asks whether fixed-point structure already yields
+full indexed composition.  The answer is no: composition is neither a vague closure
+property nor a corollary of self-reference.
+
+The exact composition characterization
+\[
+\Comp(\APS)
+\;\Longleftrightarrow\;
+\FinTrack(\APS)\ \wedge\ \Glue(\APS)
+\]
+shows that composition decomposes into a local interpolation component and a global
+passage-to-unity component.  A system may support diagonal or recursive phenomena and
+still lack the architectural strength needed to globalize local structure into a single
+coherent code.  APS identifies this gap precisely.
+
+APS is also the theorem that prevents the entire synthesis from becoming too easy.
+Without APS, one might say: once a system has enough self-reference and closure, the
+rest is mostly automatic.  APS proves this is false.  There is real architecture in the
+middle, and the Gluing--Route Coherence theorem (Theorem~\ref{thm:grc}) shows that this
+middle architecture is not merely adjacent to the inner residue chain but participates
+in it directly.
+
+The middle layer is essential because it identifies a precise failure mode: self-reference
+can be present while global realization architecture is still absent.  The synthesis would
+be materially false if this stratum were omitted.
+
+\subsection{Infinity Compression as the law of reflective residue}
+
+Infinity Compression \cite{SpivackIC2026} begins where many foundational programs would
+naturally stop: at canonical certification.  If every derivation route collapses to the
+same theorem-level certificate, one might expect the reflective problem to be finished.
+Infinity Compression proves it is not.
+
+Bare certification may be canonical, but enriched realization above it remains
+irreducibly plural.  Distinct adequate routes can agree on the bare certificate while
+differing genuinely at the level of enriched witness or realization structure.  Any
+adequate route must instantiate the same split/refinement/fiber architecture up to
+certification-coherent route equivalence.
+
+At the formal synthesis level, the inner layer carries the implication chain from
+canonical bare certification and adequacy to the full residue package.  Under the
+Milestone~3 coherence axioms, the Non-Erasure Principle (Theorem~\ref{thm:nonerasure})
+shows this inner structure is not merely possible but forced by the outer layer's
+semantic remainder.
+
+\section{The common structural spine}
+\label{sec:spine}
+
+\begin{principle}[Programmatic Spine]
+A genuine reflexive foundation must internally bear the burden of its own determinacy,
+must possess the exact local-to-global realization architecture required to globalize
+local representable structure, and must preserve irreducible reflective overstructure
+even when canonical certification is achieved.  Moreover, under the Milestone~3
+coherence axioms and universal totality, outer semantic remainder and inner enriched
+irreducibility are logically equivalent manifestations of one cross-layer non-erasure
+constraint.
+\end{principle}
+
+\subsection{From admissibility to realization to residue to entailment}
+
+\paragraph{Stage~1: admissibility.}
+NEMS asks whether a purported foundation is even structurally admissible as a
+closure-compatible explanation.  If determinacy is silently imported, the program fails
+before deeper questions arise.
+
+\paragraph{Stage~2: realization.}
+APS asks whether the internal architecture possesses the exact constructive strength to
+globalize local representability.  A system may survive Stage~1 and still fail to
+support the stronger uniform structure needed for robust realization.
+
+\paragraph{Stage~3: residue.}
+Infinity Compression asks what survives after successful certification.  Even if a
+canonical certificate is obtained, the system's reflective reality is not thereby
+exhausted.
+
+\paragraph{Stage~4: cross-layer entailment.}
+The non-erasure principle asks whether the outer and inner forms of non-exhaustion are
+related.  Under the Milestone~3 coherence axioms, they are: outer semantic remainder and
+inner enriched irreducibility are dual faces of one biconditional, proved inside $\RAL$
+for the first time.
+
+The formal result is now stronger than a parallel picture: the three stages are
+represented in one abstract class, satisfy a proved anti-collapse theorem, and are
+connected by proved bridge theorems including the full non-erasure biconditional.
+
+Closure does not end in flatness:
+\[
+\begin{aligned}
+\text{semantic non-exhaustion (outer)}
+&\;\Longrightarrow\; \text{realization architecture (middle)} \\
+&\;\Longrightarrow\; \text{canonical certification with reflective residue (inner)} \\
+&\;\Longleftrightarrow\; \text{semantic remainder (outer), under coherence + totality}.
+\end{aligned}
+\]
+
+\subsection{Why these layers are not redundant}
+
+\begin{enumerate}[leftmargin=2em]
+\item NEMS does \emph{not} tell us the exact algebraic architecture needed for global
+composition.  It governs admissibility, not realization mechanics.
+\item APS does \emph{not} by itself tell us whether determinacy is being illicitly
+outsourced.  It governs the middle gap between self-reference and uniform realization.
+\item Infinity Compression does \emph{not} merely restate Gödel-style limitative facts;
+it describes a positive non-collapse phenomenon \emph{after} canonical certification has
+already been secured.
+\item The non-erasure principle does \emph{not} collapse the three layers into one; it
+proves that two of them are equivalent manifestations of a single cross-layer constraint,
+while the middle layer remains irreducibly separate.
+\end{enumerate}
+
+The middle layer deserves special emphasis.  Its indispensability is structural: without
+APS, one might claim that self-reference is sufficient for everything that follows, and
+the synthesis would then be trivial.  APS refutes that claim by exhibiting a precise
+failure mode.  Theorem~\ref{thm:grc} then shows that the middle gluing data is not
+merely a precondition but an active participant in the inner residue chain.
+
+The Lean formalization makes this complementarity precise: the outer, middle, and inner
+layers are distinct interfaces with distinct theorems, and their commonality is not
+conflation but proved equivalence under the coherence axioms.
+
+\section{Outer object, inner object, middle object}
+\label{sec:objects}
+
+\subsection{The outer object}
+
+The outer object is the closure-bearing explanatory architecture of a purported world
+or framework.  NEMS studies this issue: whether the burden of singling out a realized
+observational world-type has been carried internally, and under what non-totalizable
+conditions.  In the synthesis, the outer object is the theory space over which the
+barrier forces \emph{semantic non-exhaustion}: $\SemRem(T) \lor \neg\,\mathrm{TotalOn}(T)$
+for every internal theory $T$.
+
+\subsection{The inner object}
+
+The inner object is not merely the theorem or final certificate.  It is the reflective
+realization space over that certificate.  Infinity Compression shows that irreducible
+plurality reappears once one descends from the canonical theorem level into the
+structure of realization, refinement, witness-space, and route-equivalence.  In the
+synthesis, the inner object is the space of enriched reflective structure witnessed by
+$\EnrIrr$ and the full residue package.
+
+\subsection{The middle object}
+
+APS reveals that between outer admissibility and inner reflective residue there is a
+middle problem: the problem of \emph{uniform realization}.  This is governed by finite
+tracking and gluing rather than by fixed points alone.  The $\GRC$ bridge
+(Theorem~\ref{thm:grc}) shows that the middle gluing data is not merely present but
+participates directly in the inner residue chain.
+
+The architecture is genuinely ternary, $\Outer\,-\,\text{Middle}\,-\,\Inner$, with
+proved non-redundancy at each layer.
+
+\section{The non-erasure principle: formal and philosophical content}
+\label{sec:nonerasure}
+
+\subsection{The core philosophical image}
+
+\begin{quote}
+\textbf{Closure without exhaustion.}
+Closure can force internal burden-bearing and can even produce canonical certification,
+yet neither internal burden-bearing nor canonical certification exhausts the system's
+reflective structure.  On the contrary: under the Milestone~3 coherence axioms and
+universal totality, outer semantic remainder and inner enriched irreducibility are
+equivalent inside $\RAL$ --- two faces of the same constraint on reflexive architectures.
+\end{quote}
+
+This thesis is a machine-checked theorem (Theorem~\ref{thm:unified}), not a
+philosophical reading.
+
+\subsection{NEMS form of non-exhaustion: semantic non-exhaustion and semantic remainder}
+
+In NEMS, the disjunctive outer law --- $\SemRem(T) \lor \neg\,\mathrm{TotalOn}(T)$ for
+every internal theory --- is what we call \emph{semantic non-exhaustion}.  In the
+regime where totality holds, this collapses to \emph{semantic remainder} $\SemRem(T)$:
+the system can represent itself but cannot fully erase the distinction between itself
+and its own internal semantic image.
+
+\subsection{APS form of non-exhaustion}
+
+In APS, recursion does not exhaust composition.  Fixed points do not yield global
+uniformity.  There remains a gap --- exactly the gap between local tracking and global
+gluing \cite{SpivackAPS2026}.
+
+\subsection{IC form of non-exhaustion}
+
+In Infinity Compression, canonical certification does not exhaust reflective realization.
+Bare theorem-level collapse coexists with enriched witness plurality and route-level
+strict refinement \cite{SpivackIC2026}.
+
+\subsection{The unifying law}
+
+Under the Milestone~3 coherence axioms and universal totality, the non-erasure
+biconditional (Theorem~\ref{thm:unified}) identifies the common law:
+
+\begin{quote}
+\textbf{Representation does not erase the represented.}
+\end{quote}
+
+In NEMS, the represented object is the realized system's own semantics.  In IC, the
+represented object is the realized certification architecture above the canonical theorem.
+In both cases there is a provably irremovable gap between bare internal image and full
+reflective reality.  Theorem~\ref{thm:unified} shows these are the outer and inner
+expressions of one biconditional internal to $\RAL$:
+\(
+\EnrIrr \iff \exists T,\, \SemRem(T)
+\)
+(under the coherence axioms and totality).
+
+\section{The role of diagonality}
+\label{sec:diagonality}
+
+Diagonality runs through all three lines, but is progressively transformed:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Stage & Role of diagonality \\
+\midrule
+NEMS (outer) & Barrier: blocks total-effective collapse of the self-referential fragment \\
+APS (middle) & Insufficiency: fixed-point abundance is present but not sufficient \\
+IC (inner) & Positive residue: enriched structure persists above canonical collapse \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+That progression --- from barrier to insufficiency to positive residue --- is one of the
+deepest conceptual gains of the combined corpus.  The formal architecture reflects this:
+diagonal-style barrier hypotheses enter the outer layer; exact realization conditions
+enter the middle layer; post-canonical residue enters the inner layer.  The non-erasure
+biconditional, under the coherence axioms and totality, then connects the outer barrier
+result to the inner residue result, closing the loop.
+
+The anti-collapse theorem is not a theorem of generic undecidability.  It proves that
+three different kinds of flattening fail inside one abstract class.  The bridge theorems
+add that bare canonicity does not pin reflective finality, and that under the
+Milestone~3 coherence axioms and totality, outer semantic remainder and inner enriched
+irreducibility are proved equivalent.  These are stronger and more structural claims
+than any generic incompleteness slogan captures.
+
+\section{The architecture conjecture: proved and open tiers}
+\label{sec:conjecture}
+
+\begin{conjecture}[Architecture Conjecture]
+Any sufficiently expressive closure-compatible reflective system that supports
+nontrivial internal determinacy, robust global realization, and theorem-level canonical
+certification must instantiate a layered architecture with internal burden-bearing for
+determinacy, exact constructive machinery for uniform realization, and irreducible
+proof-relevant reflective overstructure above bare certification.
+\end{conjecture}
+
+\subsection{Proved tier (abstract)}
+
+The following claims are machine-checked inside $\RAL$.  There exists an abstract class
+$\RAL$ in which outer semantic non-exhaustion, middle realization exactness, and inner
+reflective residue coexist, jointly yield stratified non-collapse, satisfy three
+cross-layer bridge theorems, and satisfy the complete non-erasure principle package
+including the unified biconditional law.  Two concrete toy architectures (enriched and
+flat) confirm the class is non-vacuous and that the coherence axioms are satisfiable
+in both directions.
+
+\subsection{Open tier: concrete discharge into source corpora}
+
+Two major tasks remain open at the concrete level.
+
+First, one must export stable interface maps from the existing NEMS, APS, and IC
+repositories into the abstract class $\RAL$.  This requires each source corpus to expose
+stable Lean interfaces compatible with \texttt{ReflexiveLayer}, \texttt{RealizationLayer},
+and \texttt{CertificationLayer}.
+
+Second, one must show that the cross-layer coherence axioms (Definition~\ref{def:coherence})
+are satisfied by those concrete imported structures, rather than only by the toy architectures
+used to witness satisfiability of the abstract design.  The abstract bridge and
+non-erasure laws have been proved inside $\RAL$; their concrete discharge into the
+source corpora is the next stage.
+
+\section{Consequences for the larger program}
+\label{sec:consequences}
+
+\subsection{A formal notion of foundational adequacy}
+
+A foundational account is not adequate merely because it is elegant, self-referential,
+or theorem-rich.  It must answer:
+\begin{enumerate}[leftmargin=2em]
+\item where determinacy-bearing work lives (outer admissibility),
+\item how local structure is globalized via the exact required architecture (middle
+realization),
+\item what reflective structure remains above canonical proof (inner residue),
+\item and whether outer and inner non-exhaustion are connected by a provable law (non-erasure
+biconditional, under the coherence axioms).
+\end{enumerate}
+The repository \url{reflexive-architecture-lean} gives this adequacy notion its first
+explicit machine-checked abstract formal home.
+
+\subsection{Against flat foundational pictures}
+
+Many foundational programs tacitly aim at one of the following ideals: a final external
+chooser, a universal internal decider, a fixed-point collapse sufficient for all uniform
+structure, or a canonical theorem that exhausts all reflective content.  The combined
+corpus rejects all four.  The non-erasure biconditional sharpens the rejection further:
+not only can outer and inner structure not be collapsed independently, they are proved
+equivalent inside $\RAL$ under the coherence constraints.
+
+\subsection{A new role for proof architecture}
+
+APS and Infinity Compression together suggest that resistant proof targets may fail not
+only because target statements are hard, but because the proof architecture being used
+lacks the requisite realization or refinement structure.  The Gluing--Route Coherence
+theorem (Theorem~\ref{thm:grc}) makes this explicit: middle gluing data is part of the
+package that forces the inner fiber structure.
+
+\subsection{A formal field of architecture theory}
+
+The repository \url{reflexive-architecture-lean} is the first instantiation of a new
+formal domain: architecture theory for reflexive systems.  Its verified lessons inside
+$\RAL$ are: semantic burden, realization architecture, and certification residue are
+irreducible strata of a well-defined abstract class; bare canonicity does not pin
+reflective finality; middle gluing and inner route discipline interact in a proved
+theorem; and outer semantic remainder and inner enriched irreducibility are equivalent
+under the coherence axioms and universal totality.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+\paragraph{What is proved.}
+At the abstract architecture level inside $\RAL$, the outer, middle, and inner strata of
+reflexive foundations have been unified in a machine-checked Lean~4 development with
+zero proof placeholders.  The development proves layered coexistence, stratified
+non-collapse, three first bridge theorems (separation, interaction, independence), and
+the full non-erasure package culminating in the biconditional
+\(
+\EnrIrr \iff \exists T,\,\SemRem(T)
+\)
+under the Milestone~3 coherence axioms and universal totality.
+
+\paragraph{What this means.}
+Semantic burden, realization architecture, and reflective certification residue are not
+merely parallel themes.  They are irreducible strata of a common abstract class, and ---
+under explicit cross-layer coherence axioms --- the outer and inner strata are linked by
+a proved non-erasure biconditional.  The law ``representation does not erase the
+represented'' is not a philosophical observation but a machine-checked theorem.
+
+\paragraph{What remains open.}
+The next step is concrete discharge: exported interface maps from the NEMS, APS, and IC
+corpora into $\RAL$, together with verification that the coherence axioms hold for those
+imported structures.  The abstract bridge and non-erasure laws have been proved inside
+$\RAL$.  The concrete embeddings are the remaining task.
+
+\begin{thebibliography}{99}
+\raggedright
+
+\bibitem{SpivackNEMS01-2026}
+  N.~Spivack, \emph{The NEMS Framework},
+  Paper~1, NEMS Suite (suite-internal preprint), 2026.
+
+\bibitem{SpivackNEMS08-2026}
+  N.~Spivack, \emph{From NEMS to MFRR: A Machine-Checked Bridge Between Semantic
+  Closure and Reflexive Reality},
+  Paper~8, NEMS Suite (suite-internal preprint), 2026.
+
+\bibitem{SpivackNEMS11-2026}
+  N.~Spivack, \emph{Physical Incompleteness: ASR from Universal Computation},
+  Paper~11, NEMS Suite (suite-internal preprint), 2026.
+
+\bibitem{SpivackNEMS81-2026}
+  N.~Spivack, \emph{Big Results from the NEMS Program},
+  Paper~81, NEMS Suite (suite-internal preprint), 2026.
+
+\bibitem{SpivackAPS2026}
+  N.~Spivack, \emph{Composition as Finite Tracking plus Gluing,
+  and its Separation from Recursion in Abstract Indexed Programming Systems},
+  \url{aps-recursion-uniformization-lean} repository (preprint), 2026.
+  Lean~4 artifact: zero \texttt{sorry}, zero additional axioms.
+
+\bibitem{SpivackIC2026}
+  N.~Spivack, \emph{Canonical Certification Does Not Exhaust Reflective Structure:
+  Reflective Split, Strict Refinement, and Fiber Structure in Infinity Compression},
+  \url{infinity-compression-lean} repository (preprint), 2026.
+  Lean~4 artifact: zero \texttt{sorry} in proof terms under \texttt{InfinityCompression/}.
+
+\bibitem{SpivackStrata2026}
+  N.~Spivack, \emph{Strata: Machine-Checked Synthesis of Reflexive Foundations},
+  \url{reflexive-architecture-lean} repository (software artifact), 2026.
+  Zero \texttt{sorry}.
+
+\bibitem{Kleene1938}
+  S.~C.~Kleene, \emph{On notation for ordinal numbers},
+  Journal of Symbolic Logic, 3(4):150--155, 1938.
+
+\bibitem{Rogers1987}
+  H.~Rogers Jr., \emph{Theory of Recursive Functions and Effective Computability},
+  MIT Press, 1987.
+
+\bibitem{Odifreddi1989}
+  P.~Odifreddi, \emph{Classical Recursion Theory},
+  North-Holland, Studies in Logic and the Foundations of Mathematics,
+  vol.~125, 1989.
+
+\bibitem{deMouraUllrich2021}
+  L.~de~Moura and S.~Ullrich,
+  \emph{The Lean~4 theorem prover and programming language},
+  in \emph{Automated Deduction -- CADE~28}, LNCS~12699,
+  pp.~625--635, Springer, 2021.
+
+\bibitem{Mathlib2020}
+  The Mathlib Community,
+  \emph{The Lean mathematical library},
+  in \emph{Proceedings of CPP 2020}, pp.~367--381, ACM, 2020.
+
+\end{thebibliography}
+
+\end{document}
