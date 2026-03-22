@@ -133,6 +133,7 @@ def crossCorpusInner : Inner.CertificationLayer Unit where
 /-- The cross-corpus LinkedArchitecture:
 the enriched_iff_remainder field holds by reflexivity since EnrichedIrreducibility
 IS the outer remainder existential by definition. -/
+@[reducible]
 def crossCorpusLinkedArchitecture : LinkedArchitecture Unit where
   -- Outer
   toReflexiveLayer    := crossCorpusOuter

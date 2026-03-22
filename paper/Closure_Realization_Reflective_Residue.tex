@@ -515,10 +515,11 @@ All theorem statements across all four milestones
 (Theorems~\ref{thm:layered}--\ref{thm:crosscorpus}) are machine-checked inside
 $\RAL$ in Lean~4 with zero proof placeholders and no program-specific axioms beyond
 Mathlib \cite{Mathlib2020}.  This includes the cross-corpus biconditional
-(Theorem~\ref{thm:crosscorpus}).  The one further mathematical step that goes beyond
-the abstract architecture --- a direct cross-repo proof of equivalence using source
-corpus theorems without the definitional bridge --- is noted in
-Section~\ref{sec:conjecture} as the remaining frontier.
+(Theorem~\ref{thm:crosscorpus}).  The one further step is the \texttt{hChain} argument in \texttt{concreteNEMSBarrierHolds}:
+a standalone export from \texttt{nems-lean} of the lemma that any total-effective
+selector yields a computable record-truth decider.  This is internal to the
+halting-reduction proof chain but not yet separately exported.
+It is the sole remaining open step, noted in Section~\ref{sec:conjecture}.
 
 \section{The three ingredients}
 \label{sec:ingredients}
@@ -845,9 +846,13 @@ identification requires importing one corpus into the other.  The abstract archi
 class instead expresses their shared content as a single proposition, making the
 cross-corpus Iff definitional rather than requiring a new inter-repo theorem.
 
-The three parametric layer constructors (\texttt{FromAPS}, \texttt{FromNEMS},
-\texttt{FromIC}) supply the layer maps; \texttt{crossCorpusLinkedArchitecture}
-is the combined concrete instance completing the program.
+A further milestone (EPIC\_018) adds direct source-import concrete layer instances
+using the actual NEMS and IC types.  \texttt{ConcreteFromNEMS.lean} builds
+\texttt{ReflexiveLayer Framework} and \texttt{ConcreteFromIC.lean} builds
+\texttt{CertificationLayer} (with IC enriched irreducibility from T-C+.7).
+One argument in the NEMS instance remains explicit --- a lemma
+that total-effective selectors decide record truth, internal to the
+halting-reduction chain but not yet separately exported from \texttt{nems-lean}.
 
 \section{Consequences for the larger program}
 \label{sec:consequences}

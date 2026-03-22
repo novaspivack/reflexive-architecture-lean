@@ -1,11 +1,12 @@
 # reflexive-architecture-lean — manifest
 
-**Toolchain:** `leanprover/lean4:v4.29.0-rc3`  
+**Toolchain:** `leanprover/lean4:v4.29.0-rc6`  
 **Mathlib:** v4.29.0-rc3 (via `lakefile.lean`)  
 **Build:** `lake build` from this directory  
 **Root import:** `ReflexiveArchitecture.lean`  
 **Formalization map:** `STRATA_FORMALIZATION_MAP.md` (module tree + theorem glosses)  
-**Last verified:** 2026-03-22 — clean build; no `sorry` in proof terms under `ReflexiveArchitecture/`.
+**Last verified:** 2026-03-22 — clean build on rc6 with NEMS + IC as lake deps; zero `sorry` in proof terms.  
+**Lake deps:** `nems-lean` (local), `infinity-compression-lean` (local).
 
 ---
 
@@ -91,6 +92,10 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Instances.crossCorpusLinkedArchitecture` | `Instances/CrossCorpusInstance.lean` | Concrete `LinkedArchitecture`; cross-corpus Iff holds by `Iff.rfl` |
 | `ReflexiveArchitecture.Instances.crossCorpus_enriched_iff_remainder` | `Instances/CrossCorpusInstance.lean` | ✓ The cross-corpus Iff proved |
 | `ReflexiveArchitecture.Instances.crossCorpus_full_nonerasure` | `Instances/CrossCorpusInstance.lean` | ✓ Full non-erasure package for the cross-corpus instance |
+| `ReflexiveArchitecture.Instances.concreteNEMSReflexiveLayer` | `Instances/ConcreteFromNEMS.lean` | ✓ `ReflexiveLayer Framework` from `nems-lean` types |
+| `ReflexiveArchitecture.Instances.concreteNEMSBarrierHolds` | `Instances/ConcreteFromNEMS.lean` | Barrier holds given `hChain : TotalEffective → ComputablePred RT` (explicit open gap) |
+| `ReflexiveArchitecture.Instances.concreteICCertificationLayer` | `Instances/ConcreteFromIC.lean` | ✓ `CertificationLayer (CompressionArchitecture BD n)` from `infinity-compression-lean` types |
+| `ReflexiveArchitecture.Instances.concreteIC_enrichedIrrHolds` | `Instances/ConcreteFromIC.lean` | ✓ IC enriched irreducibility holds via T-C+.7 |
 
 **Task D complete:** The cross-layer coherence axioms are now proved as theorems in `LinkedArchitecture` via `linkedArchitectureFromRemainder`. Coherence holds definitionally when `EnrichedIrreducibility` is defined as `∃ T, SemanticRemainder T`. The unconditional biconditional and all non-erasure theorems follow without totality assumption. `ConcreteArchitecture.lean` retains the parametric hypothesis pattern for external IC definitions; use `linkedArchitectureFromRemainder` for the fully-discharged path.
 

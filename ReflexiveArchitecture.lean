@@ -24,10 +24,12 @@ import ReflexiveArchitecture.Instances.FromNEMS
 import ReflexiveArchitecture.Instances.FromIC
 import ReflexiveArchitecture.Instances.ConcreteArchitecture
 import ReflexiveArchitecture.Instances.CrossCorpusInstance
+import ReflexiveArchitecture.Instances.ConcreteFromNEMS
+import ReflexiveArchitecture.Instances.ConcreteFromIC
 
 namespace ReflexiveArchitecture
 
-/-- Root marker: EPIC_015+016 abstract synthesis + EPIC_017 concrete discharge interfaces loaded. -/
+/-- Root: EPIC_015–018 complete. Abstract synthesis + bridge theorems + non-erasure + concrete source imports. -/
 def apex001Root := ()
 
 end ReflexiveArchitecture
