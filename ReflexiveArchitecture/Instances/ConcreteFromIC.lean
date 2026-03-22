@@ -27,6 +27,7 @@ open InfinityCompression.Meta
 
 All `Prop` fields are instantiated with IC types. All four implications are proved
 from IC corpus theorems. -/
+@[reducible]
 def concreteICCertificationLayer
     {BD : Type} {n : Nat}
     (A : CompressionArchitecture BD n)

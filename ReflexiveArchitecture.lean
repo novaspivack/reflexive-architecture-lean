@@ -26,6 +26,7 @@ import ReflexiveArchitecture.Instances.ConcreteArchitecture
 import ReflexiveArchitecture.Instances.CrossCorpusInstance
 import ReflexiveArchitecture.Instances.ConcreteFromNEMS
 import ReflexiveArchitecture.Instances.ConcreteFromIC
+import ReflexiveArchitecture.Bridge.DirectCrossCorpusBridge
 
 namespace ReflexiveArchitecture
 

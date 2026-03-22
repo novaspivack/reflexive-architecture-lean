@@ -807,22 +807,37 @@ and the complete non-erasure package;
 \texttt{CrossCorpusInstance} with cross-corpus $\mathit{Iff}$ by $\mathtt{Iff.rfl}$;
 \texttt{ConcreteFromNEMS} and \texttt{ConcreteFromIC} building the concrete layer
 instances from the source repos;
-and \texttt{concreteNEMS\_has\_semantic\_remainder} showing NEMS record-truth
-undecidability as the concrete outer-layer semantic remainder.  The architecture conjecture is proved at abstract and concrete levels.
+\texttt{nems\_spine\_both\_strata}: on the NEMS spine architecture, both the outer
+NEMS stratum (record-truth undecidability from \texttt{diagonal\_barrier\_rt}) and
+the inner IC stratum (enriched irreducibility from T-C+.6) hold jointly, sourced
+directly from the two repositories.  The architecture conjecture is proved at
+abstract and concrete levels.
 
-\subsection{Remaining frontier: direct cross-repo theorem}
+\subsection{Direct cross-repo joint theorem}
 \label{sec:frontier}
 
-The program is complete.  The one remaining mathematical frontier is a
-\emph{direct} cross-repo theorem proving that the IC \texttt{EnrichedIrreducibility}
-predicate (upstairs witness multiplicity, T-C+.7) and the NEMS \texttt{SemanticRemainder}
-predicate (barrier non-decidability, \texttt{diagonal\_barrier\_rt}) are logically
-equivalent \emph{using theorems from each source repo}, rather than via the definitional
-bridge of \texttt{CrossCorpusInstance}.  This would require both repos to be imported
-into a single Lean workspace and a new bridging argument constructed.  Both
-\texttt{infinity-compression-lean} and \texttt{nems-lean} deliberately avoid importing
-each other; the abstract architecture class has discharged everything that can be
-discharged without that cross-import.
+The program is complete.  The strongest direct cross-repo result is
+\texttt{nems\_spine\_both\_strata}: on the NEMS spine, both strata hold simultaneously
+from their respective source repos, with zero proof placeholders.
+
+\begin{theorem}[Direct Cross-Repo Joint Strata]
+\label{thm:joint}
+On the NEMS spine architecture:\sloppy
+\begin{enumerate}[label=(\roman*), leftmargin=2em]
+\item (NEMS, outer) Record-truth undecidability holds: $\neg\,\mathsf{ComputablePred}\,\mathit{haltingASR.RT}$,
+proved from \texttt{diagonal\_barrier\_rt}.
+\item (IC, inner) Enriched irreducibility holds: two distinct autonomous reflective splits
+share the same bare derivation, proved from T-C+.6
+(\texttt{crown\_eligible\_nems\_exists\ldots}).
+\end{enumerate}
+\par\noindent{\footnotesize Lean: \texttt{Bridge.nems\_spine\_both\_strata},
+\texttt{Bridge.nems\_spine\_strata\_from\_sources}.}
+\end{theorem}
+
+The two sides are not logically equivalent propositions --- IC upstairs multiplicity and
+NEMS halting undecidability inhabit different mathematical domains.  The conjunction is
+the correct statement.  A full logical equivalence would require a new bridging argument
+connecting the two domains; that remains the one open frontier.
 
 \subsection{Concrete discharge: \texttt{CrossCorpusInstance}}
 
@@ -915,11 +930,11 @@ biconditional in \texttt{LinkedArchitecture}; and concrete source-import instanc
 \texttt{ConcreteFromNEMS} (barrier = semantic remainder, from \texttt{diagonal\_barrier\_rt})
 and \texttt{ConcreteFromIC} (enriched irreducibility from T-C+.7).
 The cross-corpus $\mathit{Iff}$
-\(
-\EnrIrr \iff \exists T,\,\SemRem(T)
-\)
-holds in \texttt{CrossCorpusInstance} by $\mathtt{Iff.rfl}$ and in \texttt{concreteNEMS}
-by direct application of \texttt{diagonal\_barrier\_rt}.  Zero proof placeholders.
+$\EnrIrr \iff \exists T,\,\SemRem(T)$
+holds in \texttt{CrossCorpusInstance} by $\mathtt{Iff.rfl}$.
+The direct cross-repo joint theorem \texttt{nems\_spine\_both\_strata} proves that
+both the outer NEMS stratum and inner IC stratum hold simultaneously on the NEMS
+spine, sourced directly from the two repositories.  Zero proof placeholders.
 
 \paragraph{What this means.}
 Semantic burden, realization architecture, and reflective certification residue are not
@@ -931,10 +946,13 @@ philosophical observation; it is a machine-checked theorem that discharges concr
 against the actual NEMS and IC source repositories.
 
 \paragraph{What remains open.}
-The sole remaining frontier is a direct cross-repo proof that IC enriched
-irreducibility and NEMS semantic remainder are equivalent using each repo's own
-theorems, without the definitional bridge.  Both repos deliberately avoid
-importing each other.  Everything else is complete.
+The direct cross-repo joint theorem (\texttt{nems\_spine\_both\_strata}) has been
+proved: the outer NEMS stratum and inner IC stratum hold simultaneously on the NEMS
+spine from their respective source repos.  The one true remaining frontier is a
+logical \emph{equivalence} between the two strata --- connecting IC upstairs
+multiplicity directly to NEMS halting undecidability as propositions.  That would
+require a new bridging argument across two distinct mathematical domains, which no
+current theorem in either repo supplies.
 
 \begin{thebibliography}{99}
 \raggedright
