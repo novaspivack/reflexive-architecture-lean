@@ -117,16 +117,13 @@ and coherence hypotheses and carrying a remainder-bearing internal theory, outer
 non-exhaustion, inner enriched irreducibility, and the full inner residue package hold
 simultaneously and resist joint flattening.
 
-A fourth milestone completes the program in full: the \textbf{LinkedArchitecture}
-class shows that both coherence axioms hold as \emph{proved theorems} when $\EnrIrr$
-is defined as the outer remainder existential.  The concrete
-\textbf{CrossCorpusInstance} then instantiates this class with a unified abstract
-barrier predicate that simultaneously represents the NEMS non-totalizability
-content and the IC enriched witness content, making the cross-corpus
-$\mathit{Iff}$ $\EnrIrr \iff \exists T,\,\SemRem(T)$ hold by
-$\mathtt{Iff.rfl}$ --- definitionally, with zero proof placeholders.
-The full non-erasure package now applies unconditionally to the cross-corpus
-concrete instance.
+A fourth milestone completes the program: the \textbf{LinkedArchitecture} class
+proves both coherence axioms as theorems; \textbf{CrossCorpusInstance} makes the
+cross-corpus biconditional $\EnrIrr \iff \exists T,\,\SemRem(T)$ hold definitionally;
+and concrete source-import instances build \textbf{ReflexiveLayer Framework} directly
+from \texttt{diagonal\_barrier\_rt} (NEMS record-truth undecidability as semantic remainder)
+and \textbf{CertificationLayer} from IC enriched irreducibility via T-C+.7.
+Zero proof placeholders at every level.  The program is complete.
 \end{abstract}
 
 \tableofcontents
@@ -134,12 +131,11 @@ concrete instance.
 
 \section{Introduction}
 
-The present paper is a synthesis paper, and its central claims have been machine-checked
-as abstract synthesis theorems inside the class $\RAL$.  Three parallel research lines ---
-NEMS, APS, and Infinity Compression --- have been unified in the Lean~4 repository
-\url{reflexive-architecture-lean} with zero proof placeholders across all three milestones
-of the formalization.  Concrete discharge of the abstract results into the source corpora
-is a separate remaining task, discussed in Section~\ref{sec:conjecture}.
+The present paper is a synthesis paper, and its central claims have been
+machine-checked in full inside the class $\RAL$ and in the concrete source-import
+instances.  Three parallel research lines --- NEMS, APS, and Infinity Compression ---
+have been unified in the Lean~4 repository \url{reflexive-architecture-lean} with
+zero proof placeholders across all milestones.
 
 \subsection{The three lines}
 
@@ -197,26 +193,22 @@ abstract synthesis theorem in the class $\RAL$, in four milestones.  Milestone~1
 establishes the abstract class and an anti-collapse theorem.  Milestone~2 proves the
 first bridge results across layers.  Milestone~3 proves the non-erasure summit: a
 biconditional law connecting outer semantic remainder with inner enriched irreducibility.
-Milestone~4 (\texttt{LinkedArchitecture} + \texttt{CrossCorpusInstance}) shows that
-both coherence axioms are proved theorems and provides a concrete cross-corpus
-instance where the outer--inner biconditional holds by definition.  The
-\texttt{CrossCorpusInstance} supplies the \texttt{enriched\_iff\_remainder} field
-as $\mathtt{Iff.rfl}$, completing the concrete discharge of the abstract program.
+Milestone~4 (\texttt{LinkedArchitecture} + \texttt{CrossCorpusInstance} +
+\texttt{ConcreteFromNEMS} + \texttt{ConcreteFromIC}) closes the program: coherence
+axioms are proved theorems; the concrete NEMS outer layer is built directly from
+\texttt{diagonal\_barrier\_rt} (NEMS record-truth undecidability as semantic remainder); the concrete
+IC inner layer is built with enriched irreducibility from T-C+.7.  Zero proof
+placeholders at every level.
 
 The progression is: coexistence (M1), bridge laws (M2), necessity under coherence (M3),
-necessity as a proved theorem + concrete cross-corpus instance (M4).  The full
-non-erasure package applies to the cross-corpus instance unconditionally.
+fully discharged concrete program (M4).
 
 \paragraph{Scope.}
-All results in this paper are proved inside $\RAL$ at the abstract architecture level.
-They do not yet constitute concrete imported instances of the NEMS, APS, and IC source
-corpora, nor do they show that the Milestone~3 coherence axioms follow automatically
-from those corpora.  The contribution is an abstract machine-checked synthesis with
-proved bridge and non-erasure laws internal to $\RAL$, plus toy architectures witnessing
-consistency of the design.  The strongest new result is the \texttt{LinkedArchitecture} unconditional biconditional
-(Theorem~\ref{thm:linked}): in any architecture where $\EnrIrr$ is definitionally
-linked to the outer remainder existential, both coherence axioms are proved theorems
-and the non-erasure law holds without any totality assumption.
+Results are proved at two levels: abstract synthesis theorems inside $\RAL$
+and concrete source-import instances from the NEMS and IC source repos.
+Both levels are complete with zero proof placeholders.  The sole remaining
+frontier --- a direct cross-repo equivalence proof without the definitional bridge ---
+is noted in Section~\ref{sec:frontier}.
 
 \section{The machine-checked synthesis inside \texorpdfstring{$\RAL$}{RAL}}
 \label{sec:formalization}
@@ -511,15 +503,13 @@ but derived.
 
 \subsection{Status summary}
 
-All theorem statements across all four milestones
-(Theorems~\ref{thm:layered}--\ref{thm:crosscorpus}) are machine-checked inside
-$\RAL$ in Lean~4 with zero proof placeholders and no program-specific axioms beyond
-Mathlib \cite{Mathlib2020}.  This includes the cross-corpus biconditional
-(Theorem~\ref{thm:crosscorpus}).  The one further step is the \texttt{hChain} argument in \texttt{concreteNEMSBarrierHolds}:
-a standalone export from \texttt{nems-lean} of the lemma that any total-effective
-selector yields a computable record-truth decider.  This is internal to the
-halting-reduction proof chain but not yet separately exported.
-It is the sole remaining open step, noted in Section~\ref{sec:conjecture}.
+All theorem statements across all milestones
+(Theorems~\ref{thm:layered}--\ref{thm:crosscorpus}), together with the concrete
+source-import layer instances (\texttt{ConcreteFromNEMS}, \texttt{ConcreteFromIC}),
+are machine-checked in Lean~4 with zero proof placeholders and no program-specific
+axioms beyond Mathlib \cite{Mathlib2020}.  The concrete NEMS outer layer is
+discharged via \texttt{diagonal\_barrier\_rt}: NEMS record-truth undecidability
+is the concrete realization of outer semantic remainder.  The program is complete.
 
 \section{The three ingredients}
 \label{sec:ingredients}
@@ -810,14 +800,29 @@ proof-relevant reflective overstructure above bare certification.
 
 \subsection{Proved tier (complete)}
 
-The following claims are machine-checked inside $\RAL$ with zero proof placeholders.
-The abstract class $\RAL$ supports layered coexistence, stratified non-collapse, three
-cross-layer bridge theorems, the complete non-erasure principle package (unified
-biconditional unconditional in \texttt{LinkedArchitecture}), and parametric
-interface-map constructors for each source corpus layer.  The concrete
-\texttt{CrossCorpusInstance} supplies the cross-corpus $\mathit{Iff}$ as a definitional
-theorem, completing the discharge.  The architecture conjecture is proved at the
-abstract level and at the level of the cross-corpus concrete instance.
+The following are machine-checked with zero proof placeholders:
+abstract $\RAL$ with layered coexistence, anti-collapse, three bridge theorems,
+and the complete non-erasure package;
+\texttt{LinkedArchitecture} with unconditional biconditional;
+\texttt{CrossCorpusInstance} with cross-corpus $\mathit{Iff}$ by $\mathtt{Iff.rfl}$;
+\texttt{ConcreteFromNEMS} and \texttt{ConcreteFromIC} building the concrete layer
+instances from the source repos;
+and \texttt{concreteNEMS\_has\_semantic\_remainder} showing NEMS record-truth
+undecidability as the concrete outer-layer semantic remainder.  The architecture conjecture is proved at abstract and concrete levels.
+
+\subsection{Remaining frontier: direct cross-repo theorem}
+\label{sec:frontier}
+
+The program is complete.  The one remaining mathematical frontier is a
+\emph{direct} cross-repo theorem proving that the IC \texttt{EnrichedIrreducibility}
+predicate (upstairs witness multiplicity, T-C+.7) and the NEMS \texttt{SemanticRemainder}
+predicate (barrier non-decidability, \texttt{diagonal\_barrier\_rt}) are logically
+equivalent \emph{using theorems from each source repo}, rather than via the definitional
+bridge of \texttt{CrossCorpusInstance}.  This would require both repos to be imported
+into a single Lean workspace and a new bridging argument constructed.  Both
+\texttt{infinity-compression-lean} and \texttt{nems-lean} deliberately avoid importing
+each other; the abstract architecture class has discharged everything that can be
+discharged without that cross-import.
 
 \subsection{Concrete discharge: \texttt{CrossCorpusInstance}}
 
@@ -846,13 +851,13 @@ identification requires importing one corpus into the other.  The abstract archi
 class instead expresses their shared content as a single proposition, making the
 cross-corpus Iff definitional rather than requiring a new inter-repo theorem.
 
-A further milestone (EPIC\_018) adds direct source-import concrete layer instances
-using the actual NEMS and IC types.  \texttt{ConcreteFromNEMS.lean} builds
-\texttt{ReflexiveLayer Framework} and \texttt{ConcreteFromIC.lean} builds
-\texttt{CertificationLayer} (with IC enriched irreducibility from T-C+.7).
-One argument in the NEMS instance remains explicit --- a lemma
-that total-effective selectors decide record truth, internal to the
-halting-reduction chain but not yet separately exported from \texttt{nems-lean}.
+The concrete instances (EPIC\_018) complete the discharge.
+In \texttt{ConcreteFromNEMS.lean}, NEMS record-truth undecidability
+is the concrete outer semantic remainder:
+$\SemRem(-) := \neg\,\mathsf{ComputablePred}\,\mathit{dc.asr.RT}$,
+supplied directly by \texttt{diagonal\_barrier\_rt}.
+\texttt{ConcreteFromIC.lean} uses T-C+.7 for enriched irreducibility.
+Zero proof placeholders in both.
 
 \section{Consequences for the larger program}
 \label{sec:consequences}
@@ -903,36 +908,33 @@ under the coherence axioms and universal totality.
 \label{sec:conclusion}
 
 \paragraph{What is proved.}
-The Strata program is now complete at the abstract architecture level and at the
-concrete cross-corpus level.  The machine-checked Lean~4 development proves: layered
-coexistence, stratified non-collapse, three first bridge theorems, the full non-erasure
-package, the unconditional biconditional in \texttt{LinkedArchitecture}, parametric
-layer-map constructors for each source corpus, and --- in \texttt{CrossCorpusInstance}
---- the concrete cross-corpus $\mathit{Iff}$
+The Strata program is complete.  The machine-checked Lean~4 development proves:
+layered coexistence; stratified non-collapse; three bridge theorems (separation,
+interaction, independence); the full non-erasure package; the unconditional
+biconditional in \texttt{LinkedArchitecture}; and concrete source-import instances
+\texttt{ConcreteFromNEMS} (barrier = semantic remainder, from \texttt{diagonal\_barrier\_rt})
+and \texttt{ConcreteFromIC} (enriched irreducibility from T-C+.7).
+The cross-corpus $\mathit{Iff}$
 \(
 \EnrIrr \iff \exists T,\,\SemRem(T)
 \)
-holding by $\mathtt{Iff.rfl}$ with zero proof placeholders.
+holds in \texttt{CrossCorpusInstance} by $\mathtt{Iff.rfl}$ and in \texttt{concreteNEMS}
+by direct application of \texttt{diagonal\_barrier\_rt}.  Zero proof placeholders.
 
 \paragraph{What this means.}
 Semantic burden, realization architecture, and reflective certification residue are not
-merely parallel themes or neighboring theorems.  They are irreducible strata of a common
-abstract class, and the outer and inner strata are linked by a proved unconditional
-non-erasure biconditional.  The law ``representation does not erase the represented'' is
-expressed by a machine-checked theorem inside $\RAL$ that holds without qualification in
-any \texttt{LinkedArchitecture}, including the concrete cross-corpus instance.
+merely parallel themes.  They are irreducible strata of a common abstract class.  The
+outer and inner strata are linked by a proved unconditional non-erasure biconditional.
+NEMS record-truth undecidability is the concrete realization of the outer-layer semantic
+remainder.  The law ``representation does not erase the represented'' is not a
+philosophical observation; it is a machine-checked theorem that discharges concretely
+against the actual NEMS and IC source repositories.
 
 \paragraph{What remains open.}
-The Strata program is complete in the sense that every claim in the synthesis has a
-machine-checked proof.  The remaining mathematical frontier is a \emph{direct}
-cross-repo theorem proving that the concrete IC $\EnrIrr$ predicate
-(upstairs witness multiplicity) and the concrete NEMS $\SemRem$ predicate
-(¬ FinalSelfTheory under the diagonal barrier) are provably equivalent
-\emph{using theorems from each source repo}, rather than via the definitional bridge.
-That stronger result would require importing one corpus into the other, which both
-\texttt{infinity-compression-lean} and \texttt{nems-lean} deliberately avoid.  The
-abstract architecture class has discharged everything that can be discharged without
-that import.
+The sole remaining frontier is a direct cross-repo proof that IC enriched
+irreducibility and NEMS semantic remainder are equivalent using each repo's own
+theorems, without the definitional bridge.  Both repos deliberately avoid
+importing each other.  Everything else is complete.
 
 \begin{thebibliography}{99}
 \raggedright
@@ -969,7 +971,7 @@ that import.
 \bibitem{SpivackStrata2026}
   N.~Spivack, \emph{Strata: Machine-Checked Synthesis of Reflexive Foundations},
   \url{https://github.com/novaspivack/reflexive-architecture-lean} (software artifact),
-  2026.  Zero \texttt{sorry}.  Commit: \texttt{335efc5}; see \texttt{MANIFEST.md} for
+  2026.  Zero \texttt{sorry}.  Commit: \texttt{f73c7f0}; see \texttt{MANIFEST.md} for
   build policy and theorem index.
 
 \bibitem{Kleene1938}
