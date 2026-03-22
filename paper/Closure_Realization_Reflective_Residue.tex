@@ -109,8 +109,8 @@ axioms and proves a complete package of non-erasure results, culminating in the
 \textbf{Non-Erasure Principle}: under the Milestone~3 layered and coherence hypotheses and
 a remainder-bearing internal theory, enriched irreducibility holds; and the \textbf{Unified
 Non-Erasure Law}: under the coherence axioms and universal totality, $\EnrIrr \iff \exists
-T,\,\SemRem(T)$.  This is the abstract unifying law behind the NEMS semantic remainder
-theorem and the IC enriched residue theorem.
+T,\,\SemRem(T)$.  This is the abstract architecture-level unifying law corresponding to the NEMS
+semantic remainder theorem and the IC enriched residue theorem.
 
 The summit result is: in any architecture in $\RAL$ satisfying the Milestone~3 layered
 and coherence hypotheses and carrying a remainder-bearing internal theory, outer semantic
@@ -197,7 +197,10 @@ They do not yet constitute concrete imported instances of the NEMS, APS, and IC 
 corpora, nor do they show that the Milestone~3 coherence axioms follow automatically
 from those corpora.  The contribution is an abstract machine-checked synthesis with
 proved bridge and non-erasure laws internal to $\RAL$, plus toy architectures witnessing
-consistency of the design.
+consistency of the design.  The strongest new result is the Unified Non-Erasure Law
+(Section~\ref{sec:formalization}): under the added coherence axioms and universal
+totality, outer semantic remainder and inner enriched irreducibility are equivalent
+inside $\RAL$.
 
 \section{The machine-checked synthesis}
 \label{sec:formalization}
@@ -209,9 +212,9 @@ in \texttt{STRATA\_FORMALIZATION\_MAP.md}; build policy in \texttt{MANIFEST.md}.
 \begin{center}
 \small
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{p{1.2cm}p{2.8cm}p{5.0cm}p{2.8cm}}
+\begin{tabular}{p{1.7cm}p{2.8cm}p{4.7cm}p{2.6cm}}
 \toprule
-M'stone & Layer / bridge & Main content & Representative \\
+Milestone & Layer / bridge & Main content & Representative \\
 \midrule
 1 & Outer / Middle / Inner & Layered coexistence + anti-collapse
   & Thms.~\ref{thm:layered}, \ref{thm:noncollapse} \\[2pt]
@@ -245,8 +248,8 @@ refinement, and fiber nontriviality.
 Any architecture $A \in \RAL$ carrying barrier hypotheses, finite tracking and gluing,
 and canonical bare certification with an adequate route simultaneously exhibits:
 \begin{enumerate}[label=(\alph*), leftmargin=2em]
-\item outer: every internal theory has \emph{semantic remainder} or fails totality
-(semantic non-exhaustion),
+\item outer: every internal theory satisfies \emph{semantic non-exhaustion}, i.e.\
+has semantic remainder or fails totality,
 \item middle realization exactness: indexed composition holds,
 \item inner reflective residue: reflective split, universal route necessity, strict
 refinement, fiber nontriviality.
@@ -329,7 +332,8 @@ satisfies:
 \end{enumerate}
 \end{definition}
 
-\subsection*{Why the coherence axioms are not ad hoc}
+\subsection{Why the coherence axioms are not ad hoc}
+\label{sec:coherence-not-adhoc}
 
 A skeptical reader will notice that the axioms were added to support the summit theorem.
 It is therefore worth being explicit about what they do and do not assert.
@@ -394,8 +398,8 @@ remainder directly entails inner enriched irreducibility via the positive cohere
 Under all layered hypotheses, the Milestone~3 coherence axioms, and an inhabited
 semantic remainder, the architecture simultaneously exhibits:
 \begin{enumerate}[label=(\alph*), leftmargin=2em]
-\item outer: every internal theory has semantic remainder or fails totality
-(semantic non-exhaustion),
+\item outer: every internal theory satisfies semantic non-exhaustion, i.e.\
+has semantic remainder or fails totality,
 \item inner: enriched irreducibility holds,
 \item inner: the full residue package (split, route necessity, strict refinement, fiber
 nontriviality).
@@ -410,9 +414,10 @@ Under the Milestone~3 coherence axioms and universal totality:
 \[
 \EnrIrr \;\Longleftrightarrow\; \exists T,\ \mathrm{InternalTheory}(T) \wedge \SemRem(T).
 \]
-This is the abstract unifying law, internal to $\RAL$, behind the NEMS semantic
-remainder theorem and the IC enriched residue theorem: they are the outer and inner
-expressions of one non-erasure constraint on reflexive architectures.
+This is the abstract unifying law, internal to $\RAL$, corresponding at the
+architecture level to the NEMS semantic remainder theorem and the IC enriched residue
+theorem: they are the outer and inner expressions of one non-erasure constraint on
+reflexive architectures.
 \par\noindent{\footnotesize Lean: \texttt{Bridge.unified\_nonerasure\_law}.}
 \end{theorem}
 
@@ -420,8 +425,8 @@ expressions of one non-erasure constraint on reflexive architectures.
 \label{thm:barrier-total}
 Under the Milestone~3 coherence axioms, barrier, universal totality, and full layered
 hypotheses, every internal theory has semantic remainder and enriched irreducibility holds.
-The barrier forces outer semantic remainder, which forces inner enriched structure,
-completing the cross-layer derivation.
+Under universal totality, the barrier forces outer semantic remainder, which forces
+inner enriched structure, completing the cross-layer derivation.
 \par\noindent{\footnotesize Lean: \texttt{Bridge.nonerasure\_from\_barrier\_with\_totality}.}
 \end{theorem}
 
@@ -514,9 +519,8 @@ certification-coherent route equivalence.
 
 At the formal synthesis level, the inner layer carries the implication chain from
 canonical bare certification and adequacy to the full residue package.  Under the
-Milestone~3 coherence axioms, the Non-Erasure Principle (Theorem~\ref{thm:nonerasure})
-shows this inner structure is not merely possible but forced by the outer layer's
-semantic remainder.
+coherence axioms, the Non-Erasure Principle (Theorem~\ref{thm:nonerasure}) shows this
+inner structure is not merely possible but forced by the outer layer's semantic remainder.
 
 \section{The common structural spine}
 \label{sec:spine}
@@ -550,8 +554,8 @@ exhausted.
 
 \paragraph{Stage~4: cross-layer entailment.}
 The non-erasure principle asks whether the outer and inner forms of non-exhaustion are
-related.  Under the Milestone~3 coherence axioms, they are: outer semantic remainder and
-inner enriched irreducibility are dual faces of one biconditional, proved inside $\RAL$
+related.  Under the coherence axioms, they are: outer semantic remainder and inner
+enriched irreducibility are dual faces of one biconditional, proved inside $\RAL$
 for the first time.
 
 The formal result is now stronger than a parallel picture: the three stages are
@@ -642,9 +646,9 @@ proved non-redundancy at each layer.
 \textbf{Closure without exhaustion.}
 Closure can force internal burden-bearing and can even produce canonical certification,
 yet neither internal burden-bearing nor canonical certification exhausts the system's
-reflective structure.  On the contrary: under the Milestone~3 coherence axioms and
-universal totality, outer semantic remainder and inner enriched irreducibility are
-equivalent inside $\RAL$ --- two faces of the same constraint on reflexive architectures.
+reflective structure.  On the contrary: under the coherence axioms and universal
+totality, outer semantic remainder and inner enriched irreducibility are equivalent
+inside $\RAL$ --- two faces of the same constraint on reflexive architectures.
 \end{quote}
 
 The law ``representation does not erase the represented'' is not merely a philosophical
@@ -673,8 +677,8 @@ strict refinement \cite{SpivackIC2026}.
 
 \subsection{The unifying law}
 
-Under the Milestone~3 coherence axioms and universal totality, the non-erasure
-biconditional (Theorem~\ref{thm:unified}) identifies the common law:
+Under the coherence axioms and universal totality, the non-erasure biconditional
+(Theorem~\ref{thm:unified}) identifies the common law:
 
 \begin{quote}
 \textbf{Representation does not erase the represented.}
@@ -826,10 +830,11 @@ machine-checked theorem inside $\RAL$ under the Milestone~3 coherence axioms and
 universal totality.
 
 \paragraph{What remains open.}
-The next step is concrete discharge: exported interface maps from the NEMS, APS, and IC
-corpora into $\RAL$, together with verification that the coherence axioms hold for those
-imported structures.  The abstract bridge and non-erasure laws have been proved inside
-$\RAL$.  The concrete embeddings are the remaining task.
+The remaining task is not further abstract proof inside $\RAL$, but concrete discharge:
+exported interface maps from the NEMS, APS, and IC corpora into $\RAL$, together with
+verification that the coherence axioms hold for those imported structures.  The abstract
+bridge and non-erasure laws have been proved inside $\RAL$; the concrete embeddings are
+what comes next.
 
 \begin{thebibliography}{99}
 \raggedright
