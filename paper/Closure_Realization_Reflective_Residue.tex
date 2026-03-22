@@ -808,8 +808,11 @@ and the complete non-erasure package;
 concrete source-import instances (\texttt{ConcreteFromNEMS}, \texttt{ConcreteFromIC});
 \texttt{nems\_spine\_both\_strata} and \texttt{ic\_enriched\_iff\_nems\_remainder}
 (biconditional on the NEMS spine);
-and \texttt{universal\_nonerasure\_law}: the biconditional for all
-\texttt{RolePairDiverseCrownEligible} + \texttt{DiagonalCapable} pairs.
+\texttt{universal\_nonerasure\_law}: the biconditional for all
+\texttt{RolePairDiverseCrownEligible} + \texttt{DiagonalCapable} pairs;
+and \texttt{single\_hypothesis\_nonerasure\_law}: the biconditional from the
+single structural hypothesis \texttt{RolePairDiverseCrownEligible} alone
+(NEMS side always holds from Mathlib's halting problem).
 
 \subsection{The biconditional and the Universal Non-Erasure Law}
 \label{sec:frontier}
@@ -966,15 +969,31 @@ remainder.  The law ``representation does not erase the represented'' is not a
 philosophical observation; it is a machine-checked theorem that discharges concretely
 against the actual NEMS and IC source repositories.
 
-\paragraph{What remains open.}
-The Universal Non-Erasure Law (Theorem~\ref{thm:universal}) has been proved: for any
-\texttt{RolePairDiverseCrownEligible} IC architecture and any \texttt{DiagonalCapable}
-NEMS framework, IC enriched irreducibility and NEMS semantic remainder are logically
-equivalent.  The Strata program is complete.  The remaining mathematical frontier is
-a \emph{necessity} question: showing that the two structural hypotheses
-(\texttt{RolePairDiverseCrownEligible}, \texttt{DiagonalCapable}) are themselves
-logically connected, rather than independent conditions that happen to co-occur on
-the NEMS spine.
+\paragraph{Further strengthening: single-hypothesis form.}
+\texttt{DiagonalCapable} is universally satisfiable: the halting framework
+(\texttt{haltingFramework}, \texttt{haltingASR}) is always diagonally capable,
+independent of any IC architecture.  The two-hypothesis universal law therefore
+collapses to a single hypothesis:
+
+\begin{theorem}[Single-Hypothesis Non-Erasure Law]
+\label{thm:single}
+For any \texttt{RolePairDiverseCrownEligible} IC architecture $A$:
+\[
+\underbrace{\exists m_1 \neq m_2,\ m_1.\text{bare} = m_2.\text{bare}}_{\text{IC enriched irreducibility}}
+\;\Longleftrightarrow\;
+\underbrace{\neg\,\mathsf{ComputablePred}\,\mathit{haltingASR.RT}}_{\text{always true}}
+\]
+The right-hand side holds unconditionally (Mathlib's halting problem).  The law reduces
+to: \emph{structural IC plurality forces IC enriched irreducibility} (T-C+.7), and NEMS
+semantic remainder is always available via the canonical halting framework.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.single\_hypothesis\_nonerasure\_law},
+\texttt{Bridge.single\_hypothesis\_is\_sufficient}.}
+\end{theorem}
+
+The biconditional is fundamentally a theorem about IC structural plurality alone.
+NEMS undecidability --- available unconditionally from Mathlib's halting problem ---
+is always the canonical NEMS partner.  The program is complete at the abstract,
+concrete, universal, and single-hypothesis levels.
 
 \begin{thebibliography}{99}
 \raggedright
