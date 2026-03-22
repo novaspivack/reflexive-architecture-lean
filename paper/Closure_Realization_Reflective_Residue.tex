@@ -817,14 +817,17 @@ single structural hypothesis \texttt{RolePairDiverseCrownEligible} alone
 \subsection{The biconditional and the Universal Non-Erasure Law}
 \label{sec:frontier}
 
-\begin{quote}
-\textbf{Non-Erasure Law (informal).}
+\begin{principle}[One-Breath Form of the Non-Erasure Law]
 In any sufficiently expressive reflective architecture, two conditions are equivalent:
-multiple genuinely distinct proof routes exist above the canonical certificate, and
-the system's own truth predicate is not computably decidable.
-\end{quote}
+there are multiple genuinely distinct proof routes above the canonical certificate, and
+the architecture's own self-referential truth condition is not computably decidable.
+\end{principle}
 
-The machine-checked theorems below are the formal instantiation of this law.
+The statements below are the formal machine-checked instantiation of this law.
+The exact hypotheses and formal objects are given in
+Theorems~\ref{thm:biconditional}--\ref{thm:universal}; the single-hypothesis form
+appears in Theorem~\ref{thm:single}.
+
 The full logical biconditional between the two strata has been proved, first on the
 NEMS spine and then in full generality.  The key structural predicates are
 \texttt{RolePairDiverseCrownEligible} (IC side: crown-eligible with $\geq 2$ distinct
