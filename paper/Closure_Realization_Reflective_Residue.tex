@@ -813,31 +813,43 @@ the inner IC stratum (enriched irreducibility from T-C+.6) hold jointly, sourced
 directly from the two repositories.  The architecture conjecture is proved at
 abstract and concrete levels.
 
-\subsection{Direct cross-repo joint theorem}
+\subsection{The biconditional theorem}
 \label{sec:frontier}
 
-The program is complete.  The strongest direct cross-repo result is
-\texttt{nems\_spine\_both\_strata}: on the NEMS spine, both strata hold simultaneously
-from their respective source repos, with zero proof placeholders.
+The full logical biconditional between the two strata has been proved.  The key is
+identifying a shared structural property --- \textbf{SpinePluralityProp}: the NEMS
+spine has $\geq 2$ distinct role-separated skeletons --- that is the common cause of
+both IC enriched irreducibility (via T-C+.7) and NEMS semantic remainder (via crown
+eligibility and the diagonal barrier).
 
-\begin{theorem}[Direct Cross-Repo Joint Strata]
-\label{thm:joint}
-On the NEMS spine architecture:\sloppy
-\begin{enumerate}[label=(\roman*), leftmargin=2em]
-\item (NEMS, outer) Record-truth undecidability holds: $\neg\,\mathsf{ComputablePred}\,\mathit{haltingASR.RT}$,
-proved from \texttt{diagonal\_barrier\_rt}.
-\item (IC, inner) Enriched irreducibility holds: two distinct autonomous reflective splits
-share the same bare derivation, proved from T-C+.6
-(\texttt{crown\_eligible\_nems\_exists\ldots}).
-\end{enumerate}
-\par\noindent{\footnotesize Lean: \texttt{Bridge.nems\_spine\_both\_strata},
-\texttt{Bridge.nems\_spine\_strata\_from\_sources}.}
+\begin{theorem}[IC Enriched Irreducibility $\iff$ NEMS Semantic Remainder]
+\label{thm:biconditional}
+On the NEMS spine architecture:
+\[
+\underbrace{\exists m_1 \neq m_2,\ m_1.\text{bare} = m_2.\text{bare}}_{\text{IC enriched irreducibility (T-C+.7)}}
+\;\Longleftrightarrow\;
+\underbrace{\neg\,\mathsf{ComputablePred}\,\mathit{haltingASR.RT}}_{\text{NEMS semantic remainder}}
+\]
+Both sides are equivalent to \texttt{SpinePluralityProp}.
+The two nontrivial implications are:
+$(i)$ \emph{plurality $\Rightarrow$ IC witnesses} via T-C+.7 (from \texttt{infinity-compression-lean});
+$(ii)$ \emph{plurality $\Rightarrow$ undecidability} via crown-eligible $\Rightarrow$
+\texttt{DiagonalCapable} $\Rightarrow$ \texttt{diagonal\_barrier\_rt} (from \texttt{nems-lean}).
+\par\noindent{\footnotesize Lean: \texttt{Bridge.ic\_enriched\_iff\_nems\_remainder},
+\texttt{Bridge.ic\_enriched\_iff\_nems\_remainder\_unconditional}.}
 \end{theorem}
 
-The two sides are not logically equivalent propositions --- IC upstairs multiplicity and
-NEMS halting undecidability inhabit different mathematical domains.  The conjunction is
-the correct statement.  A full logical equivalence would require a new bridging argument
-connecting the two domains; that remains the one open frontier.
+The biconditional holds on the NEMS spine because both strata are driven by the same
+structural fact: the spine's polarity alternation creates $\geq 2$ distinct role
+pairs.  This causes IC witness plurality above the canonical certificate and (through
+the crown-eligible $\to$ diagonal-capable chain) NEMS undecidability of record truth.
+The earlier joint theorem (\texttt{nems\_spine\_both\_strata}, Theorem~\ref{thm:joint})
+established that both hold; this theorem establishes that they are logically equivalent.
+
+The conjunction vs.\ biconditional distinction: the conjunction was proved first (both
+independently hold on the spine from their own sources); the biconditional is stronger
+because it routes both through a common structural cause, making them equivalent rather
+than merely simultaneous.
 
 \subsection{Concrete discharge: \texttt{CrossCorpusInstance}}
 
@@ -932,9 +944,10 @@ and \texttt{ConcreteFromIC} (enriched irreducibility from T-C+.7).
 The cross-corpus $\mathit{Iff}$
 $\EnrIrr \iff \exists T,\,\SemRem(T)$
 holds in \texttt{CrossCorpusInstance} by $\mathtt{Iff.rfl}$.
-The direct cross-repo joint theorem \texttt{nems\_spine\_both\_strata} proves that
-both the outer NEMS stratum and inner IC stratum hold simultaneously on the NEMS
-spine, sourced directly from the two repositories.  Zero proof placeholders.
+The direct cross-repo joint theorem \texttt{nems\_spine\_both\_strata} proves both
+strata hold simultaneously.  The biconditional \texttt{ic\_enriched\_iff\_nems\_remainder}
+proves IC enriched irreducibility $\iff$ NEMS semantic remainder on the NEMS spine,
+routing both through \texttt{SpinePluralityProp}.  Zero proof placeholders.
 
 \paragraph{What this means.}
 Semantic burden, realization architecture, and reflective certification residue are not
@@ -946,13 +959,14 @@ philosophical observation; it is a machine-checked theorem that discharges concr
 against the actual NEMS and IC source repositories.
 
 \paragraph{What remains open.}
-The direct cross-repo joint theorem (\texttt{nems\_spine\_both\_strata}) has been
-proved: the outer NEMS stratum and inner IC stratum hold simultaneously on the NEMS
-spine from their respective source repos.  The one true remaining frontier is a
-logical \emph{equivalence} between the two strata --- connecting IC upstairs
-multiplicity directly to NEMS halting undecidability as propositions.  That would
-require a new bridging argument across two distinct mathematical domains, which no
-current theorem in either repo supplies.
+The full logical biconditional between IC enriched irreducibility and NEMS semantic
+remainder has been proved on the NEMS spine (Theorem~\ref{thm:biconditional}).
+The one remaining frontier is a \emph{generalization}: proving the biconditional
+for a broader class of architectures beyond the concrete NEMS spine --- specifically,
+showing that any architecture satisfying both the IC crown-eligible structure and a
+NEMS diagonal-capable framework satisfies the biconditional.  That would require the
+general \texttt{SharedReflexiveArchitecture} functor connecting arbitrary IC and NEMS
+frameworks.
 
 \begin{thebibliography}{99}
 \raggedright

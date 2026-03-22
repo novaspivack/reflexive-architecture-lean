@@ -98,6 +98,9 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Instances.concreteIC_enrichedIrrHolds` | `Instances/ConcreteFromIC.lean` | ✓ IC enriched irreducibility holds via T-C+.7 |
 | `ReflexiveArchitecture.Bridge.nems_spine_both_strata` | `Bridge/DirectCrossCorpusBridge.lean` | ✓ Outer (NEMS barrier) + inner (IC T-C+.6) both hold on NEMS spine |
 | `ReflexiveArchitecture.Bridge.nems_spine_strata_from_sources` | `Bridge/DirectCrossCorpusBridge.lean` | ✓ Both strata via concrete layer instances from source repos |
+| `ReflexiveArchitecture.Bridge.SpinePluralityProp` | `Bridge/SharedReflexiveArchitecture.lean` | Common structural cause: ≥ 2 distinct role-separated skeletons |
+| `ReflexiveArchitecture.Bridge.ic_enriched_iff_nems_remainder` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ IC enriched irreducibility ↔ NEMS semantic remainder (biconditional) |
+| `ReflexiveArchitecture.Bridge.ic_enriched_iff_nems_remainder_unconditional` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ Unconditional form of the biconditional |
 
 **Task D complete:** The cross-layer coherence axioms are now proved as theorems in `LinkedArchitecture` via `linkedArchitectureFromRemainder`. Coherence holds definitionally when `EnrichedIrreducibility` is defined as `∃ T, SemanticRemainder T`. The unconditional biconditional and all non-erasure theorems follow without totality assumption. `ConcreteArchitecture.lean` retains the parametric hypothesis pattern for external IC definitions; use `linkedArchitectureFromRemainder` for the fully-discharged path.
 
