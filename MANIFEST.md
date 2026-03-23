@@ -118,6 +118,19 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Universal.Instances.ic_nonExhaustive_of_distinct_roles` | same — from two distinct `RoleSeparatedSkeleton`s (standard construction) |
 | `ReflexiveArchitecture.Universal.Instances.ic_fiber_nontrivial_of_distinct_roles` | same — nontrivial fiber over shared bare certificate |
 
+### Universal program (EPIC_019 — abstract summit package)
+
+| Name | File | Role |
+|------|------|------|
+| `ReflexiveArchitecture.Universal.minimal_exhaustive_or_nonExhaustive_classical` | `Universal/Dichotomy.lean` | **U4 (classical):** `MinimalExhaustive ∨ NonExhaustive` for any abstract RCS |
+| `ReflexiveArchitecture.Universal.theoremU4_minimal_or_nonExhaustive` | `Universal/AbstractSummit.lean` | Named re-export of U4 |
+| `ReflexiveArchitecture.Universal.exists_rcs_of_raw` | `Universal/ReflectiveFormalSystem.lean` | **U2 (existence):** extend any raw `compare` to a full RCS |
+| `ReflexiveArchitecture.Universal.theoremU2_rcs_from_raw` | `Universal/AbstractSummit.lean` | Named re-export of U2 |
+| `ReflexiveArchitecture.Universal.Instances.toyProduct_nonExhaustive` | `Universal/Instances/ToyFiber.lean` | Synthetic non-exhaustion (product projection) |
+| `ReflexiveArchitecture.Universal.AbstractSummit` | `Universal/AbstractSummit.lean` | Imports IC + toy + dichotomy; module doc = scope boundary for “summit” |
+
+**Honesty note:** There is **no** unconditional theorem “every abstract RCS is `NonExhaustive`” (injective `compare` is a counterexample). The epic’s Tier-4 “universal non-exhaustion for all rich systems” is only available **under explicit forcing hypotheses** (as in Strata’s IC/NEMS concrete layers) or as **U4 ∨** classical dichotomy.
+
 ---
 
 ## Open mathematical frontier (post–M5)

@@ -11,9 +11,9 @@
 
 This Lean 4 library formalizes the **Strata program**: a machine-checked synthesis of the NEMS (No External Model Selection), APS (Abstract Programming Systems), and Infinity Compression research lines into a single abstract architecture class with proved bridge theorems, a non-erasure principle, and a biconditional connecting the two main strata.
 
-### Universal layer (EPIC_019 Phases I–II)
+### Universal layer (EPIC_019 — through abstract summit)
 
-Under `ReflexiveArchitecture.Universal`, the library provides a **domain-agnostic** certification/realization interface (`ReflectiveCertificationSystem`) with fiber lemmas (injectivity vs. subsingleton fibers), minimal/strong/non-exhaustion predicates, and section-based surjectivity. **Phase II** (`Universal/Instances/ICInstance.lean`) maps IC `ReflectiveMirrorWitness` with `compare = bridge.derivation` and proves abstract **`NonExhaustive`** (and nontrivial fiber) from the standard distinct-role pair, aligning the universal story with the IC summit’s “multiplicity upstairs over collapsed bare record.” This layer does not replace `CertificationLayer`; it is a parallel interface for reuse and later extraction theorems.
+Under `ReflexiveArchitecture.Universal`, the library provides a **domain-agnostic** certification/realization interface (`ReflectiveCertificationSystem`) with fiber lemmas, exhaustion predicates, and sections. **IC discharge** (`Universal/Instances/ICInstance.lean`) maps summit mirror witnesses with `compare = bridge.derivation` to abstract **`NonExhaustive`**. **Abstract summit** (`Universal/AbstractSummit.lean`, `Dichotomy.lean`, `ReflectiveFormalSystem.lean`) adds **classical U4** (`MinimalExhaustive ∨ NonExhaustive`), **U2-style extraction** from any raw `compare`, and a **synthetic toy** fiber (`ToyFiber.lean`). There is **no** proof that every abstract system is non-exhaustive without extra hypotheses (injective `compare` counterexample); see module docstrings for the precise “summit” boundary.
 
 ### Abstract architecture (Milestones 1–3)
 
