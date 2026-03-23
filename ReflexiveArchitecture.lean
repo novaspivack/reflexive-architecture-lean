@@ -14,6 +14,7 @@ import ReflexiveArchitecture.Universal.FiberBasics
 import ReflexiveArchitecture.Universal.ExhaustionDefinitions
 import ReflexiveArchitecture.Universal.SectionsAndObstructions
 import ReflexiveArchitecture.Universal.AbstractSummit
+import ReflexiveArchitecture.Universal.AdvisorConditionalUniversality
 import ReflexiveArchitecture.Bridge.Architecture
 import ReflexiveArchitecture.Bridge.LayeredTheorem
 import ReflexiveArchitecture.Bridge.CollapsePredicates

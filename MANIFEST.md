@@ -20,6 +20,7 @@
 | Bridge | `ReflexiveArchitecture/Bridge/` | `Architecture` (with coherence axioms), layered + stratified + bridge P0–P2 + non-erasure summit + `LinkedArchitecture` (coherence discharged) |
 | Universal (EPIC_019) | `ReflexiveArchitecture/Universal/` | Abstract certification/realization comparison: `ReflectiveCertificationSystem`, fiber basics, exhaustion defs, sections/liftability (independent of NEMS/APS/IC interfaces) |
 | Universal / IC | `ReflexiveArchitecture/Universal/Instances/ICInstance.lean` | `icReflectiveCertificationSystem`: IC `ReflectiveMirrorWitness` → universal layer; `NonExhaustive` from distinct roles / same bare derivation (T-F1.1d route) |
+| Universal / advisor roadmap | `ReflexiveArchitecture/Universal/AdvisorConditionalUniversality.lean` | `theoremA_abstract_dichotomy`; `RichReflectiveCandidates` (H1–H3 placeholders); see `EPIC_019_RXK` spec |
 | Instances | `ReflexiveArchitecture/Instances/` | `ToyCombinedInstance` (enriched + flat); `FromAPS`, `FromNEMS`, `FromIC`, `ConcreteArchitecture` (concrete discharge interfaces) |
 | Papers | `paper/` | suite TeX + *Closure, Realization, and Reflective Residue* |
 
