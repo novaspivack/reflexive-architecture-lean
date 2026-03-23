@@ -35,6 +35,10 @@ The library defines an abstract class `Architecture` with three independent laye
 - **Joint theorem** (`Bridge.nems_spine_both_strata`): On the NEMS spine, the outer NEMS stratum (record-truth undecidability from `diagonal_barrier_rt`) and the inner IC stratum (enriched irreducibility from T-C+.6) hold simultaneously, sourced directly from the two repositories.
 - **Biconditional** (`Bridge.ic_enriched_iff_nems_remainder`): IC enriched irreducibility ↔ NEMS semantic remainder on the NEMS spine, via `SpinePluralityProp` as the common structural cause. Two nontrivial implications: T-C+.7 (IC side, from `infinity-compression-lean`) and `diagonal_barrier_rt` (NEMS side, from `nems-lean`).
 
+### Open frontier (necessity of the structural hypotheses)
+
+The universal non-erasure family is stated under **`RolePairDiverseCrownEligible`** and **`DiagonalCapable`** (with a single-hypothesis form after instantiating a diagonal-capable framework). The remaining mathematical frontier is **not** a missing proof obligation inside those theorems: it is the question whether those two hypotheses are **logically linked** (one forces the other, or both follow from a common principle) or are **independent** conditions that happen to align on concrete instances such as the NEMS spine. A resolution would simplify how the law is stated to external audiences and connects to the broader universalization program in EPIC_019.
+
 ## Proof Status
 
 **Zero sorry in all shipped proof terms.** Zero program-specific axioms beyond Mathlib.
@@ -71,9 +75,6 @@ All builds verified clean on `leanprover/lean4:v4.29.0-rc6` with Mathlib `v4.29.
 | `nems_spine_both_strata` | `Bridge/DirectCrossCorpusBridge.lean` | ✓ 0 sorry |
 | `ic_enriched_iff_nems_remainder` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ 0 sorry |
 | `ic_enriched_iff_nems_remainder_unconditional` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ 0 sorry |
-| `universal_nonerasure_law` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
-| `universal_nonerasure_law_library` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
-| `nems_spine_from_universal` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
 | `universal_nonerasure_law` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
 | `universal_nonerasure_law_library` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
 | `nems_spine_from_universal` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |

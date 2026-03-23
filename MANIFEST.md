@@ -109,6 +109,17 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 
 ---
 
+## Open mathematical frontier (post–M5)
+
+The **universal** and **single-hypothesis** non-erasure theorems package the outer/inner alignment under explicit structural hypotheses:
+
+- **`RolePairDiverseCrownEligible`** (IC / certification side), and
+- **`DiagonalCapable`** (NEMS / computability side), where the latter can be collapsed using `haltingFramework` in `Bridge/NecessityTheorem.lean`.
+
+What is **not yet proved** is a **necessity theorem** connecting these two hypotheses: i.e. whether they are independent conditions that merely **co-occur** on the NEMS spine, or whether one implies the other (or both follow from a single underlying reflective principle). Settling that question would sharpen the “one breath” statement of the flagship law and is tracked as research follow-up (see `specs/IN-PROCESS/EPIC_019_UAT1_UNIVERSAL_ARCHITECTURE_NON_EXHAUSTION_PROGRAM.md`).
+
+---
+
 ## Sorry / axiom policy
 
 No `sorry` in shipped proof terms. No program-specific `axiom` beyond Mathlib.
