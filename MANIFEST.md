@@ -5,7 +5,7 @@
 **Build:** `lake build` from this directory  
 **Root import:** `ReflexiveArchitecture.lean`  
 **Formalization map:** `STRATA_FORMALIZATION_MAP.md` (module tree + theorem glosses)  
-**Last verified:** 2026-03-22 — clean build on rc6 with NEMS + IC as lake deps; zero `sorry` in proof terms.  
+**Last verified:** 2026-03-23 — clean build on rc6 with NEMS + IC as lake deps; zero `sorry` in proof terms; EPIC_019 Phase II (IC universal instance) in root import.  
 **Lake deps:** `nems-lean` (local), `infinity-compression-lean` (local).
 
 ---
@@ -19,6 +19,7 @@
 | Inner | `ReflexiveArchitecture/Inner/` | `CertificationLayer`, `inner_residue_package` |
 | Bridge | `ReflexiveArchitecture/Bridge/` | `Architecture` (with coherence axioms), layered + stratified + bridge P0–P2 + non-erasure summit + `LinkedArchitecture` (coherence discharged) |
 | Universal (EPIC_019) | `ReflexiveArchitecture/Universal/` | Abstract certification/realization comparison: `ReflectiveCertificationSystem`, fiber basics, exhaustion defs, sections/liftability (independent of NEMS/APS/IC interfaces) |
+| Universal / IC | `ReflexiveArchitecture/Universal/Instances/ICInstance.lean` | `icReflectiveCertificationSystem`: IC `ReflectiveMirrorWitness` → universal layer; `NonExhaustive` from distinct roles / same bare derivation (T-F1.1d route) |
 | Instances | `ReflexiveArchitecture/Instances/` | `ToyCombinedInstance` (enriched + flat); `FromAPS`, `FromNEMS`, `FromIC`, `ConcreteArchitecture` (concrete discharge interfaces) |
 | Papers | `paper/` | suite TeX + *Closure, Realization, and Reflective Residue* |
 
@@ -107,6 +108,15 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 | `ReflexiveArchitecture.Bridge.nems_spine_from_universal` | `Bridge/UniversalNonErasureLaw.lean` | ✓ NEMS spine biconditional as corollary of the universal law |
 
 **Task D complete:** The cross-layer coherence axioms are now proved as theorems in `LinkedArchitecture` via `linkedArchitectureFromRemainder`. Coherence holds definitionally when `EnrichedIrreducibility` is defined as `∃ T, SemanticRemainder T`. The unconditional biconditional and all non-erasure theorems follow without totality assumption. `ConcreteArchitecture.lean` retains the parametric hypothesis pattern for external IC definitions; use `linkedArchitectureFromRemainder` for the fully-discharged path.
+
+### Universal program (EPIC_019 — Phase II)
+
+| Name | File |
+|------|------|
+| `ReflexiveArchitecture.Universal.Instances.icReflectiveCertificationSystem` | `Universal/Instances/ICInstance.lean` |
+| `ReflexiveArchitecture.Universal.Instances.ic_nonExhaustive_of_witnesses` | same — abstract `NonExhaustive` from two witnesses + equal bare derivation |
+| `ReflexiveArchitecture.Universal.Instances.ic_nonExhaustive_of_distinct_roles` | same — from two distinct `RoleSeparatedSkeleton`s (standard construction) |
+| `ReflexiveArchitecture.Universal.Instances.ic_fiber_nontrivial_of_distinct_roles` | same — nontrivial fiber over shared bare certificate |
 
 ---
 

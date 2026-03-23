@@ -13,6 +13,7 @@ import ReflexiveArchitecture.Universal.ReflectiveCertificationSystem
 import ReflexiveArchitecture.Universal.FiberBasics
 import ReflexiveArchitecture.Universal.ExhaustionDefinitions
 import ReflexiveArchitecture.Universal.SectionsAndObstructions
+import ReflexiveArchitecture.Universal.Instances.ICInstance
 import ReflexiveArchitecture.Bridge.Architecture
 import ReflexiveArchitecture.Bridge.LayeredTheorem
 import ReflexiveArchitecture.Bridge.CollapsePredicates
@@ -37,7 +38,7 @@ import ReflexiveArchitecture.Bridge.NecessityTheorem
 
 namespace ReflexiveArchitecture
 
-/-- Root: EPIC_015–018 complete; EPIC_019 Phase I universal layer imported. -/
+/-- Root: EPIC_015–018 complete; EPIC_019 universal layer + IC instance (Phase II) imported. -/
 def apex001Root := ()
 
 end ReflexiveArchitecture

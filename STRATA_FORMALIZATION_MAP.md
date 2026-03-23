@@ -30,8 +30,9 @@
 | `ReflexiveArchitecture/Universal/FiberBasics.lean` | Fibers of `compare`, injectivity ↔ fiber subsingleton, non-injective ⇒ distinct points in one fiber. |
 | `ReflexiveArchitecture/Universal/ExhaustionDefinitions.lean` | `MinimalExhaustive` / `StrongExhaustive` / `NonExhaustive`, `CanonicalRegion`, local strong exhaustion on canonical locus. |
 | `ReflexiveArchitecture/Universal/SectionsAndObstructions.lean` | `IsSection` (`LeftInverse compare s`), surjectivity, `LiftableWith`, trivial obstruction scaffold. |
+| `ReflexiveArchitecture/Universal/Instances/ICInstance.lean` | **EPIC_019 Phase II:** `icReflectiveCertificationSystem` (IC mirror witness → `ReflectiveCertificationSystem`); abstract `NonExhaustive` / nontrivial fiber from distinct roles, same bare record. |
 
-**Root:** `ReflexiveArchitecture.lean` imports all modules above (including Universal / EPIC_019 Phase I).
+**Root:** `ReflexiveArchitecture.lean` imports all modules above (including Universal / EPIC_019 Phases I–II).
 
 ---
 
