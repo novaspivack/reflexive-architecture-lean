@@ -11,6 +11,10 @@
 
 This Lean 4 library formalizes the **Strata program**: a machine-checked synthesis of the NEMS (No External Model Selection), APS (Abstract Programming Systems), and Infinity Compression research lines into a single abstract architecture class with proved bridge theorems, a non-erasure principle, and a biconditional connecting the two main strata.
 
+### Universal layer (EPIC_019 Phase I)
+
+Under `ReflexiveArchitecture.Universal`, the library also provides a **domain-agnostic** certification/realization interface (`ReflectiveCertificationSystem`) with fiber lemmas (injectivity vs. subsingleton fibers), minimal/strong/non-exhaustion predicates, and section-based surjectivity — intended as the floor for later extraction theorems. This layer does not replace the NEMS/APS/IC strata; it factors generic comparison/fiber facts used in multiple domains.
+
 ### Abstract architecture (Milestones 1–3)
 
 The library defines an abstract class `Architecture` with three independent layer interfaces (outer/NEMS, middle/APS, inner/IC) and proves:

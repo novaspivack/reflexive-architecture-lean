@@ -26,8 +26,12 @@
 | `ReflexiveArchitecture/Bridge/NonErasurePrinciple.lean` | **Summit:** non-erasure biconditional, full architecture non-erasure, unified non-erasure law, enriched non-finality. |
 | `ReflexiveArchitecture/Bridge/LinkedArchitecture.lean` | **Task D complete:** `LinkedArchitecture` class; `linkedArchitectureFromRemainder` proves both coherence axioms definitionally; unconditional biconditional and all non-erasure theorems without totality. |
 | `ReflexiveArchitecture/Instances/ToyCombinedInstance.lean` | Enriched toy (outer has remainder → coherence holds by contradiction on antecedent) and flat toy (outer has no theories → coherence trivially). |
+| `ReflexiveArchitecture/Universal/ReflectiveCertificationSystem.lean` | **EPIC_019 Phase I:** minimal `ReflectiveCertificationSystem` (bare/realized carriers, `compare`, `Canonical`, `Sound`). |
+| `ReflexiveArchitecture/Universal/FiberBasics.lean` | Fibers of `compare`, injectivity ↔ fiber subsingleton, non-injective ⇒ distinct points in one fiber. |
+| `ReflexiveArchitecture/Universal/ExhaustionDefinitions.lean` | `MinimalExhaustive` / `StrongExhaustive` / `NonExhaustive`, `CanonicalRegion`, local strong exhaustion on canonical locus. |
+| `ReflexiveArchitecture/Universal/SectionsAndObstructions.lean` | `IsSection` (`LeftInverse compare s`), surjectivity, `LiftableWith`, trivial obstruction scaffold. |
 
-**Root:** `ReflexiveArchitecture.lean` imports all modules above.
+**Root:** `ReflexiveArchitecture.lean` imports all modules above (including Universal / EPIC_019 Phase I).
 
 ---
 

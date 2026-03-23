@@ -18,6 +18,7 @@
 | Middle | `ReflexiveArchitecture/Middle/` | `RealizationLayer`, composition projections |
 | Inner | `ReflexiveArchitecture/Inner/` | `CertificationLayer`, `inner_residue_package` |
 | Bridge | `ReflexiveArchitecture/Bridge/` | `Architecture` (with coherence axioms), layered + stratified + bridge P0–P2 + non-erasure summit + `LinkedArchitecture` (coherence discharged) |
+| Universal (EPIC_019) | `ReflexiveArchitecture/Universal/` | Abstract certification/realization comparison: `ReflectiveCertificationSystem`, fiber basics, exhaustion defs, sections/liftability (independent of NEMS/APS/IC interfaces) |
 | Instances | `ReflexiveArchitecture/Instances/` | `ToyCombinedInstance` (enriched + flat); `FromAPS`, `FromNEMS`, `FromIC`, `ConcreteArchitecture` (concrete discharge interfaces) |
 | Papers | `paper/` | suite TeX + *Closure, Realization, and Reflective Residue* |
 

@@ -9,6 +9,10 @@ import ReflexiveArchitecture.Middle.Interface
 import ReflexiveArchitecture.Middle.CompositionExactness
 import ReflexiveArchitecture.Inner.Interface
 import ReflexiveArchitecture.Inner.ResiduePackage
+import ReflexiveArchitecture.Universal.ReflectiveCertificationSystem
+import ReflexiveArchitecture.Universal.FiberBasics
+import ReflexiveArchitecture.Universal.ExhaustionDefinitions
+import ReflexiveArchitecture.Universal.SectionsAndObstructions
 import ReflexiveArchitecture.Bridge.Architecture
 import ReflexiveArchitecture.Bridge.LayeredTheorem
 import ReflexiveArchitecture.Bridge.CollapsePredicates
@@ -33,7 +37,7 @@ import ReflexiveArchitecture.Bridge.NecessityTheorem
 
 namespace ReflexiveArchitecture
 
-/-- Root: EPIC_015–018 complete. Abstract synthesis + bridge theorems + non-erasure + concrete source imports. -/
+/-- Root: EPIC_015–018 complete; EPIC_019 Phase I universal layer imported. -/
 def apex001Root := ()
 
 end ReflexiveArchitecture
