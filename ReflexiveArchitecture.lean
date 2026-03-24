@@ -14,7 +14,10 @@ import ReflexiveArchitecture.Universal.FiberBasics
 import ReflexiveArchitecture.Universal.ExhaustionDefinitions
 import ReflexiveArchitecture.Universal.SectionsAndObstructions
 import ReflexiveArchitecture.Universal.AbstractSummit
-import ReflexiveArchitecture.Universal.AdvisorConditionalUniversality
+import ReflexiveArchitecture.Universal.ConditionalUniversality
+import ReflexiveArchitecture.Universal.StrongProgram
+import ReflexiveArchitecture.Universal.SummitProgram
+import ReflexiveArchitecture.Universal.ResidualProgram
 import ReflexiveArchitecture.Bridge.Architecture
 import ReflexiveArchitecture.Bridge.LayeredTheorem
 import ReflexiveArchitecture.Bridge.CollapsePredicates
@@ -39,7 +42,7 @@ import ReflexiveArchitecture.Bridge.NecessityTheorem
 
 namespace ReflexiveArchitecture
 
-/-- Root: EPIC_015–018 complete; EPIC_019 universal layer through abstract summit package imported. -/
+/-- Root: EPIC_015–018 complete; EPIC_019 universal layer + EPIC_020 `StrongProgram` + EPIC_021 `SummitProgram` + EPIC_022 `ResidualProgram` imported. -/
 def apex001Root := ()
 
 end ReflexiveArchitecture

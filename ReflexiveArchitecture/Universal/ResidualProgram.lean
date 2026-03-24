@@ -1,0 +1,25 @@
+/-
+  EPIC_022–029 — Barrel for `Universal/Residual/*` (fiber geometry, observables,
+  refinement order, kernel, stratification, graph, resolution, fundamental theorem).
+-/
+
+import ReflexiveArchitecture.Universal.Residual.CategoricalKernel
+import ReflexiveArchitecture.Universal.Residual.FiberResidual
+import ReflexiveArchitecture.Universal.Residual.FiberSpectrum
+import ReflexiveArchitecture.Universal.Residual.FundamentalTheorem
+import ReflexiveArchitecture.Universal.Residual.MetaLevel
+import ReflexiveArchitecture.Universal.Residual.OptimalCertification
+import ReflexiveArchitecture.Universal.Residual.Incompressibility
+import ReflexiveArchitecture.Universal.Residual.KernelGraph
+import ReflexiveArchitecture.Universal.Residual.KernelStratification
+import ReflexiveArchitecture.Universal.Residual.MinimalResolution
+import ReflexiveArchitecture.Universal.Residual.ObservableAlgebra
+import ReflexiveArchitecture.Universal.Residual.QuantitativeInvariants
+import ReflexiveArchitecture.Universal.Residual.QuantitativeResidual
+import ReflexiveArchitecture.Universal.Residual.RefinementOrder
+import ReflexiveArchitecture.Universal.Residual.ResidualKernel
+import ReflexiveArchitecture.Universal.Residual.ResidualStructure
+import ReflexiveArchitecture.Universal.Residual.ResolutionComplexity
+import ReflexiveArchitecture.Universal.Residual.RCSCategory
+import ReflexiveArchitecture.Universal.Residual.UniversalForgetting
+import ReflexiveArchitecture.Universal.Residual.WitnessFiber

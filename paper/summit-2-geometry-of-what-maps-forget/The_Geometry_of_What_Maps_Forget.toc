@@ -1,0 +1,36 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Main theorem package}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Novelty by synthesis}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Relationship to the earlier summit}{4}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Reflective certification systems}{4}{section.2}%
+\contentsline {section}{\numberline {3}The fundamental equivalence theorem}{5}{section.3}%
+\contentsline {section}{\numberline {4}The exhaustion criterion}{6}{section.4}%
+\contentsline {section}{\numberline {5}The adequacy summit}{7}{section.5}%
+\contentsline {section}{\numberline {6}The residual kernel}{8}{section.6}%
+\contentsline {section}{\numberline {7}Fiber geometry}{9}{section.7}%
+\contentsline {section}{\numberline {8}Observable duality}{9}{section.8}%
+\contentsline {section}{\numberline {9}Refinement and resolution}{10}{section.9}%
+\contentsline {section}{\numberline {10}Optimal certification and residual measurement}{12}{section.10}%
+\contentsline {section}{\numberline {11}Functoriality and invariance}{13}{section.11}%
+\contentsline {section}{\numberline {12}The fundamental theorem of residual geometry}{14}{section.12}%
+\contentsline {section}{\numberline {13}Source discharges}{14}{section.13}%
+\contentsline {paragraph}{The three-layer origin.}{14}{section*.2}%
+\contentsline {paragraph}{Infinity Compression (IC).}{15}{section*.3}%
+\contentsline {paragraph}{NEMS / computability.}{15}{section*.4}%
+\contentsline {paragraph}{APS / algebra.}{15}{section*.5}%
+\contentsline {paragraph}{Cross-corpus synthesis.}{15}{section*.6}%
+\contentsline {section}{\numberline {14}Relationship to incompleteness and proof relevance}{15}{section.14}%
+\contentsline {paragraph}{Relationship to Gödel's incompleteness.}{15}{section*.7}%
+\contentsline {paragraph}{The meta-level distinction.}{16}{section*.8}%
+\contentsline {paragraph}{Related mathematical structures.}{16}{section*.9}%
+\contentsline {paragraph}{Why this is not dependent-type proof relevance.}{16}{section*.10}%
+\contentsline {section}{\numberline {15}The universal theory of forgetting}{16}{section.15}%
+\contentsline {section}{\numberline {16}Frontier}{17}{section.16}%
+\contentsline {paragraph}{Residual spectra and moduli.}{17}{section*.12}%
+\contentsline {paragraph}{Residual observables under refinement.}{17}{section*.13}%
+\contentsline {paragraph}{Iterated certification.}{18}{section*.14}%
+\contentsline {paragraph}{Category-theoretic packaging.}{18}{section*.15}%
+\contentsline {paragraph}{Domain-specific kernel structure.}{18}{section*.17}%
+\contentsline {paragraph}{Broader inevitability.}{18}{section*.18}%
+\contentsline {section}{\numberline {17}Conclusion}{18}{section.17}%
+\contentsline {section}{\numberline {A}Theorem index and Lean correspondence}{18}{appendix.A}%

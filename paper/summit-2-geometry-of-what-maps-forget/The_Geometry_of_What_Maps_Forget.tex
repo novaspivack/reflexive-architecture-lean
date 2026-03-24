@@ -1,0 +1,1684 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{etoolbox}
+\usepackage{longtable}
+
+% Theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{notation}[theorem]{Notation}
+
+% Allow overfull in remark environments and longtable (Lean names with underscores don't break)
+\AtBeginEnvironment{remark}{\small\sloppy}
+\AtBeginEnvironment{longtable}{\sloppy}
+
+% Custom commands
+\newcommand{\Bare}{\mathsf{Bare}}
+\newcommand{\Real}{\mathsf{Realized}}
+\newcommand{\compare}{\pi}
+\newcommand{\Fib}{\mathrm{Fib}}
+\newcommand{\Ker}{\mathcal{K}}
+\newcommand{\KerAt}{\mathcal{K}}
+\newcommand{\BD}{\mathrm{BD}}
+\newcommand{\RCS}{\mathsf{RCS}}
+
+\title{\textbf{The Geometry of What Maps Forget}\\[6pt]
+\large Residual kernels, observable duality, and exact resolution complexity}
+
+\author{Nova Spivack\\[0.3em]
+{\small Independent Researcher}}
+\date{March 2026}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{Keywords:} residual kernel, information loss, fiber automorphism,
+observable duality, resolution complexity, graph coloring, Lean~4 formalization.
+
+\noindent\textbf{MSC 2020:} 03B70, 03F40, 18A05, 05C15.
+
+\noindent\textbf{Code availability:} Lean~4 formalization at
+\texttt{reflexive-architecture-lean}. Build: \texttt{lake build}.
+Zero \texttt{sorry} in proof terms. See \texttt{MANIFEST.md} for the
+complete theorem index.
+
+\begin{abstract}
+Every non-injective function forgets something. We develop a universal
+theory of \emph{what} it forgets and \emph{how much} it costs to recover.
+For an arbitrary map $\compare : \Real \to \Bare$, five conditions---non-exhaustion,
+non-injectivity, existence of a non-trivial $\compare$-preserving
+endomorphism, witness diversity, and nonemptiness of the residual
+kernel---are proved equivalent. Either all hold simultaneously, or none
+do (all-or-nothing dichotomy).
+
+We identify the \emph{residual kernel} $\Ker(\compare)$ as the canonical
+object of information loss: the set of distinct domain pairs sharing a
+common image. We prove its complete geometry: it decomposes
+fiberwise into complete indistinguishability cliques; bare-determined
+observables form a Boolean algebra dual to kernel separation; and
+refinement acts as graph coloring of fiber cliques, with exact per-fiber
+complexity (resolving a fiber of size~$n$ requires exactly~$n$ colors).
+The comparison map is the universal coarse observable; the structure is
+functorial; and the entire theory holds unconditionally for every function
+between any two types.
+
+Because the theory is stated for an arbitrary function between arbitrary
+types, it applies not only to certification but to any map that compresses
+structure: group homomorphisms, topological quotients, type-theoretic
+projections, measurements, compilers, and hash functions all inherit the
+full residual geometry. The theory is a universal geometry of information
+loss under any map.
+
+All results are formalized in Lean~4~\cite{Lean4} with Mathlib~\cite{Mathlib}, with zero
+\texttt{sorry} in proof terms. The theory is discharged against the
+Infinity Compression flagship and admits instances from algebra, topology,
+and computability.
+\end{abstract}
+
+\tableofcontents
+
+%% ========================================================================
+\section{Introduction}\label{sec:intro}
+%% ========================================================================
+
+This paper develops a universal theory of what maps forget.
+
+Every function $\compare : \Real \to \Bare$ between two types identifies
+some elements of $\Real$: those that share an image in $\Bare$. When
+$\compare$ is injective, nothing is lost. When it is not, the
+\emph{residual}---the totality of distinctions that $\compare$ cannot
+see---becomes a nontrivial mathematical object.
+
+We prove that the residual is not merely ``some leftover.'' It is a
+\emph{canonically organized space of indistinguishability} with a precise
+internal geometry, exact observability laws, a resolution theory governed by
+graph coloring, and sharp quantitative bounds on the cost of eliminating it.
+
+The theory arose from a certification problem (where $\Bare$ represents
+bare certificates and $\Real$ represents realized witnesses), but the
+mathematics depends only on the function $\compare$. Group homomorphisms,
+topological quotients, type-theoretic projections, measurements, compilers,
+and hash functions all inherit the full geometry. We use the language of
+certification throughout, but the results are universal.
+
+The results ascend through a sequence of summits:
+
+\begin{enumerate}[label=\textbf{Summit \Roman*.},leftmargin=*]
+\item \textbf{Non-exhaustion exists.} Adequate systems---those carrying
+      witness-diversity data---force non-exhaustion as a theorem, not an
+      assumption (\S\ref{sec:adequacy}).
+\item \textbf{The residual has a canonical object.} The \emph{residual kernel}
+      $\Ker(\compare)$ is the set of distinct realization pairs sharing a bare
+      certificate. It is nonempty if and only if the system is non-exhaustive
+      (\S\ref{sec:kernel}).
+\item \textbf{The residual has geometry.} Fibers are the connected components of
+      the kernel graph, and each fiber is a complete indistinguishability clique.
+      Observables and refinements are governed by kernel structure
+      (\S\S\ref{sec:fiber-geom}--\ref{sec:observable}).
+\item \textbf{Resolution has exact complexity.} Refinement acts as graph coloring
+      of fiber cliques. Resolving a fiber of size~$n$ requires exactly~$n$ colors.
+      Terminal resolution is singletonization of refined classes
+      (\S\ref{sec:refinement}).
+\item \textbf{The fundamental equivalence.} Non-exhaustion, non-injectivity,
+      witness diversity, fiber automorphism, and nontrivial kernel are five
+      equivalent characterizations of the same phenomenon. Either all hold, or
+      none do (\S\ref{sec:fund-equiv}).
+\item \textbf{Universality.} The entire theory applies to any function between
+      any two types. ``Certification'' is a motivating interpretation, not a
+      formal hypothesis. The residual geometry is a universal theory of
+      information loss (\S\ref{sec:universal}).
+\end{enumerate}
+
+\noindent
+Expository order follows the ascent from existence to geometry to resolution;
+the logical organizing theorem is the Classification Theorem in
+\S\ref{sec:fund-equiv}, which governs all five summits simultaneously.
+
+\noindent
+All theorems are formalized in Lean~4~\cite{Lean4} with Mathlib~\cite{Mathlib} dependencies, building
+cleanly with zero \texttt{sorry}. The formalization currently comprises approximately 235 theorems across 26 modules.
+
+\subsection{Main theorem package}
+
+The paper establishes the following five named results, each holding
+unconditionally for every function between any two types. Logically, the
+Classification Theorem governs the whole theory; expositionally, we ascend
+through the canonical object, its geometry, and its resolution before
+stating the equivalence.
+
+\begin{enumerate}[label=(\Alph*),nosep]
+\item \textbf{Classification Theorem}
+      (Theorem~\ref{thm:fund-equiv}): non-exhaustion, non-injectivity, witness
+      diversity, fiber automorphism, and nontrivial kernel are equivalent.
+      Either all hold, or none do.
+\item \textbf{Vanishing Criterion} (Theorem~\ref{thm:exhaust}): the system is
+      exhaustive iff the kernel is empty iff every fiber is a subsingleton.
+\item \textbf{Residual Geometry Theorem}
+      (Theorem~\ref{thm:fund-res}): the residual kernel decomposes fiberwise
+      into complete cliques; observables are dual to kernel separation;
+      refinement resolves iff it separates every kernel pair; resolution
+      decomposes into independent per-fiber coloring problems.
+\item \textbf{Resolution Complexity Theorem}
+      (Theorem~\ref{thm:res-complex}): resolving a fiber of size~$n$ requires
+      exactly~$n$ distinct refinement values on that fiber.
+\item \textbf{Certification--Refinement Gap Theorem}
+      (Theorem~\ref{thm:cert-gap}): certification cannot resolve its own
+      residual; refinement can, but at measurable cost; for adequate systems
+      the cost is always positive.
+\end{enumerate}
+
+\noindent
+These are not five independent results but a single coherent theory: (A)
+classifies the phenomenon, (B) characterizes its absence, (C) describes its
+geometry, (D) quantifies the cost of eliminating it, and (E) proves that the
+cost is real and irreducible for adequate systems. Because the theory is
+stated for an arbitrary function between arbitrary types, it applies to any
+map that compresses structure (\S\ref{sec:universal}).
+
+\noindent\textit{Logical vs.\ expository order.}
+Logically, the Classification Theorem governs the whole theory; expositionally,
+we ascend through the canonical object, its geometry, and its resolution
+before returning to that equivalence as the governing law.
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Question} & \textbf{Answer} \\
+\midrule
+What is information loss? & Nontrivial residual kernel \\
+When does it occur? & Iff any of five equivalent conditions hold \\
+Where does it live? & In the fibers (complete kernel cliques) \\
+What can see it? & Exactly the non-bare-determined predicates \\
+How is it resolved? & By refinements separating kernel pairs \\
+What does resolution cost? & Exactly fiber-size-many colors \\
+When is nothing left? & Exactly when $\compare$ is injective \\
+Can the map see its own loss? & No (meta-level invisibility) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Novelty by synthesis}
+
+The novelty of this paper is not the isolated appearance of fibers, kernels,
+graph colorings, or factorization lemmas---each of those ingredients has
+antecedents. The novelty is that these ingredients form \emph{one exact,
+machine-checked theory}: a classification theorem for information loss, a
+canonical residual object, a duality between observables and kernel separation,
+an exact resolution criterion, a quantitative complexity law, and source
+discharges from independent theorem programs---all valid for arbitrary maps,
+all formalized with zero \texttt{sorry}. No previous work has assembled this
+particular combination into a unified theory, and the assembly is not routine:
+the Classification Theorem requires a classical construction (fiber swap) that
+closes the circle between five superficially unrelated conditions; the
+Residual Geometry Theorem packages unconditional structure that exists for
+every function; and the formal verification is not decoration but the
+mechanism by which the synthesis is checked. The central claim is therefore
+not merely that non-injective maps have fibers, but that arbitrary maps carry
+a full residual geometry with a classification theorem, a canonical residual
+object, an observable duality, and an exact resolution complexity law.
+
+\subsection{Relationship to the earlier summit}
+
+Earlier work in Infinity Compression established the \emph{first summit} of
+the program: canonical certification does not exhaust reflective realization
+in a concrete flagship setting. A companion synthesis paper~\cite{Spivack2026-Strata} then showed that
+this phenomenon sits inside a larger three-layer architecture linking NEMS,
+APS, and Infinity Compression---with bridge theorems, the non-erasure
+principle, and machine-checked coherence axioms proved definitionally.
+
+The present paper is the \emph{higher summit forced by that earlier work}.
+It extracts from those source discharges the map-theoretic core that survives
+after domain-specific structure is stripped away. What appeared first as
+irreducible residue above canonical certification in a concrete program is
+shown here to be an instance of a universal geometry of information loss
+under arbitrary maps. Summit~1 established that non-exhaustion is real and
+unavoidable; Summit~2 identifies the exact mathematical object it produces,
+proves its complete geometry, and shows that the phenomenon belongs to all
+functions, not just to the flagship architecture.
+
+In that sense this paper does not supersede the earlier summit. It completes
+its abstraction. The old flagship now appears as a source discharge of the
+universal theory (\S\ref{sec:discharges}).
+
+%% ========================================================================
+\section{Reflective certification systems}\label{sec:rcs}
+%% ========================================================================
+
+We work in a universe-polymorphic setting. Fix types $\Bare$ and $\Real$ in
+a common universe~$u$. For the universal theory, an RCS is simply a
+convenient packaging of an arbitrary map together with two inert fields
+retained for source-level compatibility (see Remark~\ref{rem:pi-only}).
+
+\begin{definition}[Reflective certification system]\label{def:rcs}
+A \emph{reflective certification system} $S$ on carriers $(\Bare, \Real)$
+consists of:
+\begin{itemize}[nosep]
+\item a \emph{comparison map} $\compare : \Real \to \Bare$,
+\item a \emph{canonical region} $\mathrm{Canonical} : \Bare \to \mathrm{Prop}$,
+\item a \emph{soundness predicate} $\mathrm{Sound} : \mathrm{Prop}$.
+\end{itemize}
+\end{definition}
+
+\begin{remark}[What drives the universal theory]\label{rem:pi-only}
+Every theorem in \S\S\ref{sec:fund-equiv}--\ref{sec:fund-thm} depends only
+on the comparison map $\compare : \Real \to \Bare$. The additional fields
+$\mathrm{Canonical}$ and $\mathrm{Sound}$ are retained because they are part
+of the originating formal interface and matter for source discharges
+(\S\ref{sec:discharges}), but they play no role in the universal results.
+This is what makes the theory broad: it applies to any function between any
+two types, regardless of what mathematical structures the carriers carry.
+\end{remark}
+
+In the universal reading of this paper, one may equivalently regard an RCS
+as an arbitrary map packaged in the originating interface vocabulary; the
+name ``reflective certification system'' is inherited from the source program
+and is not a restriction on the mathematics.
+We write $\compare_S$ or simply $\compare$ for the comparison map of~$S$.
+
+\begin{definition}[Exhaustion predicates]\label{def:exhaust}
+Let $S$ be an RCS with comparison map $\compare$.
+\begin{itemize}[nosep]
+\item $S$ is \emph{minimally exhaustive} (or simply \emph{exhaustive}) if $\compare$
+      is injective: $\compare(x) = \compare(y) \Rightarrow x = y$.
+\item $S$ is \emph{strongly exhaustive} if $\compare$ admits a global section:
+      $\exists\, s : \Bare \to \Real,\; \compare \circ s = \mathrm{id}$.
+\item $S$ is \emph{non-exhaustive} if there exist $x, y \in \Real$ with
+      $x \neq y$ and $\compare(x) = \compare(y)$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Fiber]\label{def:fiber}
+The \emph{fiber} of $\compare$ over $b \in \Bare$ is
+$\Fib(b) = \compare^{-1}(b) = \{\, x \in \Real \mid \compare(x) = b \,\}$.
+\end{definition}
+
+\begin{proposition}[Classical dichotomy]\label{prop:dichotomy}
+For any RCS $S$, exactly one of the following holds: $S$ is exhaustive, or $S$
+is non-exhaustive.
+\end{proposition}
+
+\begin{proof}
+By classical logic applied to $\mathrm{Injective}(\compare)$.
+\end{proof}
+
+\begin{example}[Toy non-exhaustive system]\label{ex:toy}
+Let $\Bare = \mathsf{Bool}$, $\Real = \mathsf{Bool} \times \mathsf{Bool}$,
+and $\compare = \mathrm{fst}$. Then
+$\Fib(\mathsf{true}) = \{(\mathsf{true}, \mathsf{false}),\,
+(\mathsf{true}, \mathsf{true})\}$ has two elements, so the system is
+non-exhaustive. The residual kernel contains the pair
+$((\mathsf{true}, \mathsf{false}),\, (\mathsf{true}, \mathsf{true}))$.
+The swap $\tau(a,b) = (a, \lnot b)$ is a non-identity $\compare$-preserving
+endomorphism, illustrating the fiber automorphism of
+Theorem~\ref{thm:fund-equiv}\ref{it:fa}. Resolving requires a refinement
+with at least two values on each nontrivial fiber.
+\end{example}
+
+\begin{example}[Identity collapse]\label{ex:identity}
+Let $\Bare = \Real = \mathsf{Bool}$ and $\compare = \mathrm{id}$. Every
+fiber is a singleton, the kernel is empty, and the system is exhaustive.
+No adequate or reflectively sufficient structure exists on this system.
+\end{example}
+
+\begin{remark}[Lean formalization]\label{rem:lean-rcs}
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{ReflectiveCertificationSystem} in \texttt{Universal/ReflectiveCertificationSystem.lean}
+\item \texttt{MinimalExhaustive}, \texttt{StrongExhaustive}, \texttt{NonExhaustive} in \texttt{Universal/\allowbreak{}ExhaustionDefinitions.lean}
+\item \texttt{minimal\_exhaustive\_or\_\allowbreak{}nonExhaustive\_classical} in \texttt{Universal/Dichotomy.lean}
+\item \texttt{Fiber}, \texttt{IsSection}, \texttt{LiftableWith} in \texttt{Universal/FiberBasics.lean} and \texttt{Universal/SectionsAndObstructions.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{The fundamental equivalence theorem}\label{sec:fund-equiv}
+%% ========================================================================
+
+The deepest result of this paper is that five superficially different conditions
+on an RCS are logically equivalent. We state it early because it governs
+everything that follows.
+
+\begin{theorem}[Classification Theorem]\label{thm:fund-equiv}
+For any RCS $S = (\Bare, \Real, \compare)$, the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item\label{it:ne} \emph{Non-exhaustion.}
+      $\exists\, x, y \in \Real,\; x \neq y \;\land\; \compare(x) = \compare(y)$.
+\item\label{it:ni} \emph{Non-injectivity.}
+      $\lnot\,\mathrm{Injective}(\compare)$.
+\item\label{it:fa} \emph{Fiber automorphism.}
+      $\exists\, \tau : \Real \to \Real,\;
+      \compare \circ \tau = \compare \;\land\; \tau \neq \mathrm{id}$.
+\item\label{it:wd} \emph{Witness diversity.}
+      $\exists\, w_1, w_2 \in \Real,\; w_1 \neq w_2 \;\land\;
+      \compare(w_1) = \compare(w_2)$.
+\item\label{it:ker} \emph{Nontrivial kernel.}
+      $\Ker(\compare) \neq \varnothing$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The equivalences \ref{it:ne}$\Leftrightarrow$\ref{it:ni},
+\ref{it:ne}$\Leftrightarrow$\ref{it:wd}, and
+\ref{it:ne}$\Leftrightarrow$\ref{it:ker} are definitional: non-exhaustion
+\emph{is} witness diversity (the definitions coincide), non-exhaustion is the
+negation of injectivity by the classical dichotomy, and the kernel is nonempty
+exactly when a witness pair exists. These equivalences are recorded for
+completeness; the theorem's content lies in the non-trivial direction.
+
+The substantive direction is \ref{it:ne}$\Rightarrow$\ref{it:fa}. Given
+$x \neq y$ with $\compare(x) = \compare(y)$, define the \emph{fiber swap}
+\[
+  \tau(z) \;=\; \begin{cases}
+    y & \text{if } z = x, \\
+    x & \text{if } z = y, \\
+    z & \text{otherwise.}
+  \end{cases}
+\]
+Then $\compare(\tau(z)) = \compare(z)$ for all~$z$ (checking the three cases
+using $\compare(x) = \compare(y)$), and $\tau \neq \mathrm{id}$ because
+$\tau(x) = y \neq x$. This construction uses classical decidability of equality
+on $\Real$ (via \texttt{Classical.em} in the Lean formalization). The converse
+direction \ref{it:fa}$\Rightarrow$\ref{it:ne} is constructive.
+
+The converse \ref{it:fa}$\Rightarrow$\ref{it:ne}: if $\tau \neq \mathrm{id}$,
+there exists $x$ with $\tau(x) \neq x$; then $\compare(\tau(x)) = \compare(x)$
+with $\tau(x) \neq x$, witnessing non-exhaustion.
+\end{proof}
+
+The direction \ref{it:ne}$\Rightarrow$\ref{it:fa} is the \emph{fiber automorphism
+diagonal}: the comparison geometry of any non-exhaustive system \emph{forces}
+the existence of a non-trivial $\compare$-preserving self-map. The system's own
+structure generates the symmetry that prevents exhaustion.
+
+Theorem~\ref{thm:fund-equiv} is the \emph{Classification Theorem for
+information loss under a map}. The equivalence of the five conditions is not
+obvious \emph{a priori}: non-injectivity is a property of a function,
+witness diversity is data carried by a structure, fiber automorphism is
+an endomorphism condition, and kernel nonemptiness is a set-theoretic
+statement. That these four perspectives collapse into a single
+dichotomy---and that the fiber automorphism is \emph{forced} by
+non-exhaustion via a classical construction---is the theorem's content.
+Non-exhaustion is not merely a yes/no property; it is a condition with
+five equivalent faces, each revealing a different aspect of the same
+underlying geometry.
+
+\begin{theorem}[All-or-nothing dichotomy]\label{thm:all-or-nothing}
+For any RCS $S$, either all five conditions in
+Theorem~\ref{thm:fund-equiv} hold simultaneously, or none do.
+There is no intermediate position.
+\end{theorem}
+
+\begin{remark}[Honest ceiling]\label{rem:meta}
+By the equivalence \ref{it:ne}$\Leftrightarrow$\ref{it:ni}, any predicate
+$P$ satisfying $P(S) \Rightarrow \text{NonExhaustive}(S)$ also satisfies
+$P(S) \Rightarrow \lnot\,\text{Injective}(\compare_S)$. This is logically
+immediate, but its \emph{methodological} content is significant: at the level
+of bare comparison maps, every forcing predicate must imply non-injectivity.
+There is no way to force non-exhaustion without implying failure of
+injectivity. So any summit class must carry structural data (witnesses,
+twists, cardinality gaps) rather than a clever predicate on $\compare$ alone.
+\end{remark}
+
+\begin{remark}[Lean formalization]\label{rem:lean-equiv}
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{equiv\_1\_iff\_2} through \texttt{equiv\_1\_iff\_5}, \texttt{all\_or\_nothing}, \texttt{FiveWayEquivalence}, \texttt{fiveWayEquivalence}, \texttt{nonExhaustive\_implies\_\allowbreak{}fiberAutomorphism} in \texttt{Summit/FundamentalEquivalence.lean}
+\item \texttt{forcing\_implies\_not\_injective} in \texttt{Summit/Adequacy.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{The exhaustion criterion}\label{sec:exhaust-crit}
+%% ========================================================================
+
+The exhaustion criterion is the exact dual vanishing theorem to the
+fundamental equivalence: where Theorem~\ref{thm:fund-equiv} classifies
+the \emph{presence} of certification failure, the exhaustion criterion
+classifies its \emph{absence}.
+
+\begin{theorem}[Vanishing Criterion]\label{thm:exhaust}
+For any RCS $S$, the following are equivalent:
+\begin{enumerate}[label=(\roman*)]
+\item $\compare$ is injective.
+\item $\Ker(\compare) = \varnothing$.
+\item Every fiber $\Fib(b)$ is a subsingleton.
+\item $S$ is not non-exhaustive.
+\end{enumerate}
+\end{theorem}
+
+There is no partial exhaustion: the system is completely exhaustive if and only
+if the kernel is empty, if and only if every fiber has at most one element.
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{exhaustive\_iff\_kernel\_empty}, \texttt{kernel\_empty\_iff\_\allowbreak{}all\_fibers\_subsingleton}, \texttt{exhaustive\_iff\_not\_nonExhaustive} in \texttt{Residual/FundamentalTheorem.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{The adequacy summit}\label{sec:adequacy}
+%% ========================================================================
+
+The fundamental equivalence tells us \emph{what} non-exhaustion is equivalent to.
+The adequacy summit tells us \emph{when} it is forced.
+
+\begin{definition}[Adequate reflective system]\label{def:adequate}
+An \emph{adequate reflective system} is an RCS equipped with
+\emph{witness diversity data}: two distinguished elements
+$w_1, w_2 \in \Real$ with $w_1 \neq w_2$ and
+$\compare(w_1) = \compare(w_2)$.
+\end{definition}
+
+This is \emph{data}, not a proposition: the witnesses are fields of the
+structure, not existentially quantified. The distinction matters because it
+gives the class computational content.
+
+\begin{theorem}[Adequacy Theorem]\label{thm:adequate-ne}
+Every adequate reflective system is non-exhaustive.
+\end{theorem}
+
+\begin{proof}
+The two witnesses are the existential witnesses for non-exhaustion.
+\end{proof}
+
+\begin{proposition}[Non-circularity]\label{prop:non-circ}
+The axioms of adequacy mention neither non-exhaustion nor injectivity.
+Identity-style collapse ($\compare = \mathrm{id}$) provably cannot satisfy
+the axioms: $\compare(w_1) = \compare(w_2)$ with $\compare = \mathrm{id}$
+forces $w_1 = w_2$, contradicting distinctness. More generally, any adequate
+system has non-injective comparison.
+\end{proposition}
+
+\begin{definition}[Reflectively sufficient system]\label{def:refl-suff}
+A \emph{reflectively sufficient system} is an RCS equipped with a
+non-identity $\compare$-preserving endomorphism
+$\tau : \Real \to \Real$ satisfying $\compare \circ \tau = \compare$
+and $\tau \neq \mathrm{id}$.
+\end{definition}
+
+\begin{theorem}[Self-generation]\label{thm:self-gen}
+Every reflectively sufficient system is adequate. Since $\tau \neq \mathrm{id}$,
+there exists $x$ with $\tau(x) \neq x$; then $(x, \tau(x))$ is a witness pair
+with $\compare(x) = \compare(\tau(x))$.
+\end{theorem}
+
+The self-generation theorem shows that witness diversity need not be externally
+supplied: the system's own internal symmetry generates it. This is the
+\emph{Gödelian core} of the program. In Gödel's incompleteness theorem~\cite{Godel1931}, a
+sufficiently rich formal system's own expressive power constructs a sentence
+the system cannot decide. Here, a non-exhaustive system's own comparison
+geometry constructs the endomorphism that witnesses its own non-exhaustion.
+The mechanism is the same: self-action produces the structure that prevents
+completeness.
+
+By the fundamental equivalence (Theorem~\ref{thm:fund-equiv}), the converse
+also holds: every non-exhaustive system admits a $\compare$-preserving
+endomorphism (via the fiber swap construction). So the three
+classes---non-exhaustive, adequate, reflectively sufficient---coincide
+propositionally. The complete self-generation chain is:
+\[
+  \text{ReflectivelySufficient}
+  \;\xrightarrow{\text{twist produces witnesses}}\;
+  \text{Adequate}
+\]
+\[
+  \text{Adequate}
+  \;\xrightarrow{\text{witnesses force non-exhaustion}}\;
+  \text{NonExhaustive}
+\]
+\[
+  \text{NonExhaustive}
+  \;\xrightarrow{\text{fiber swap}}\;
+  \text{ReflectivelySufficient}.
+\]
+The circle closes: there is no escape from any of the three without escaping
+all of them.
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{AdequateReflectiveSystem}, \texttt{adequate\_nonExhaustive}, \texttt{adequate\_not\_injective}, \texttt{identityCompare\_not\_adequate} in \texttt{Summit/Adequacy.lean}
+\item \texttt{ReflectivelySufficientSystem}, \texttt{toAdequate}, \texttt{reflectivelySufficient\_\allowbreak{}nonExhaustive} in \texttt{Summit/SelfGeneration.lean}
+\item IC discharge: \texttt{icAdequateReflectiveSystem} in \texttt{Summit/ICAdequateDischarge.lean}
+\end{itemize}
+\end{remark}
+
+\begin{remark}[Certification versus refinement]\label{rem:cert-vs-refine}
+A potential confusion must be addressed. The resolution theory
+(\S\ref{sec:refinement}) shows that the residual can always be eliminated
+by adding a sufficiently fine refinement. Does this contradict the claim
+that certification does not exhaust realization?
+
+No. The distinction is between the \emph{certification itself} (the fixed
+comparison map $\compare$) and \emph{supplementary data} (a refinement
+$r : \Real \to E$ added on top of $\compare$). For adequate systems,
+$\compare$ is provably non-injective---the residual is intrinsic to the
+certification and cannot be eliminated by the certification itself
+(Proposition~\ref{prop:non-circ}). A refinement can resolve the residual,
+but the refinement is extra structure \emph{beyond} the certification.
+The identity refinement $r = \mathrm{id}$ always resolves, but it means
+``remember all of $\Real$''---defeating the purpose of certification,
+which is to compress realization into something smaller.
+
+The precise statement is the \emph{certification-refinement gap theorem}:
+for any adequate system, (i)~$\compare$ is not injective, (ii)~there
+exists a refinement that resolves, and (iii)~no subsingleton-valued
+refinement suffices. The residual is real, its resolution requires
+genuine extra data, and the cost is measurable.
+\end{remark}
+
+%% ========================================================================
+\section{The residual kernel}\label{sec:kernel}
+%% ========================================================================
+
+\begin{definition}[Residual kernel]\label{def:kernel}
+The \emph{residual kernel} of an RCS $S$ is
+\[
+  \Ker(\compare) \;=\; \bigl\{\,(x,y) \in \Real \times \Real
+    \;\big|\; x \neq y \;\land\; \compare(x) = \compare(y)\,\bigr\}.
+\]
+\end{definition}
+
+The kernel records every ordered pair of distinct realizations that
+certification cannot distinguish. It is a symmetric relation
+($(x,y) \in \Ker \Leftrightarrow (y,x) \in \Ker$) and is intrinsic to
+$\compare$: two systems with the same comparison map have identical kernels.
+
+From this point onward, non-exhaustion should no longer be thought of merely
+as the existence of two colliding realizations. Its canonical carrier is the
+residual kernel, and the rest of the theory consists in reading geometry,
+observability, and resolution from that single object.
+
+\begin{theorem}[Kernel characterization]\label{thm:kernel-char}
+\leavevmode
+\begin{enumerate}[label=(\roman*),nosep]
+\item $\Ker(\compare) \neq \varnothing$ if and only if $S$ is non-exhaustive.
+\item $\Ker(\compare)$ depends only on $\compare$.
+\item Two systems with the same $\compare$ have identical kernels, identical
+      unresolved kernels for any refinement, and identical incompressibility
+      at any type.
+\item $\Ker(\compare)$ is the off-diagonal of the fiber product:
+      $\Ker(\compare) = (\Real \times_\Bare \Real) \setminus \Delta$,
+      where $\Real \times_\Bare \Real = \{(x,y) \mid \compare(x) = \compare(y)\}$
+      and $\Delta = \{(x,x)\}$. The system is exhaustive iff the fiber product
+      equals the diagonal.
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}[Veil]\label{def:veil}
+For an adequate system $A$, the \emph{veil} is the residual kernel
+$\Ker(\compare_A)$. By Theorem~\ref{thm:adequate-ne}, the veil is nonempty.
+The adequate witnesses $(w_1, w_2)$ are a canonical element of the veil.
+\end{definition}
+
+\begin{theorem}[Veil persistence]\label{thm:veil}
+For any adequate system, the trivial refinement (to a point) leaves the veil
+fully intact: the unresolved kernel equals the full kernel.
+\end{theorem}
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{ResidualKernel}, \texttt{residualKernel\_nonempty\_iff}, \texttt{residualKernel\_symmetric}, \texttt{residualKernel\_eq\_of\_\allowbreak{}compare\_eq}, \texttt{residualTransfer\_\allowbreak{}unresolvedKernel} in \texttt{Residual/\allowbreak{}ResidualKernel.lean}
+\item \texttt{adequate\_kernel\_nonempty}, \texttt{adequate\_witnesses\_in\_kernel}, \texttt{adequate\_veil\_persists\_trivial} in \texttt{Residual/ResidualKernel.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Fiber geometry}\label{sec:fiber-geom}
+%% ========================================================================
+
+The kernel decomposes fiberwise, and each fiber carries a maximally dense
+internal structure.
+
+\begin{definition}[Per-fiber kernel]\label{def:kernel-at}
+For $b \in \Bare$, the \emph{per-fiber kernel} is
+$\KerAt_b = \{(x,y) \mid x \neq y,\, \compare(x) = b,\, \compare(y) = b\}$.
+This is the off-diagonal of $\Fib(b)$.
+\end{definition}
+
+\begin{theorem}[Fiberwise decomposition]\label{thm:fiber-decomp}
+$\Ker(\compare) = \bigcup_{b \in \Bare} \KerAt_b$.
+\end{theorem}
+
+\begin{theorem}[Complete-fiber theorem]\label{thm:complete-fiber}
+For every $b \in \Bare$, the per-fiber kernel $\KerAt_b$ is a
+\emph{complete graph}: every pair of distinct elements in $\Fib(b)$
+is a kernel edge.
+\end{theorem}
+
+\begin{proof}
+If $x, y \in \Fib(b)$ with $x \neq y$, then $\compare(x) = b = \compare(y)$,
+so $(x,y) \in \KerAt_b$.
+\end{proof}
+
+Fibers are not merely clusters of collisions---they are \emph{maximally dense
+indistinguishability cliques}. Every possible collision within a fiber actually
+occurs. There are no gaps in the residual within a fiber.
+
+\begin{theorem}[Connectivity theorem]\label{thm:connectivity}
+Define $x \sim y$ iff $\compare(x) = \compare(y)$ (fiber equivalence). Then:
+\begin{enumerate}[label=(\roman*),nosep]
+\item $\sim$ is an equivalence relation.
+\item $x \sim y$ iff $x = y$ or $(x,y) \in \Ker(\compare)$.
+\item The equivalence classes of $\sim$ are exactly the fibers $\Fib(b)$.
+\item Fibers are the connected components of the kernel graph.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Part~(i) is immediate. For~(ii), $x \sim y$ means $\compare(x) = \compare(y)$;
+if $x \neq y$ this is a kernel pair, otherwise $x = y$. Part~(iii) follows from
+the definition of fibers. Part~(iv) follows from~(ii)--(iii): two elements are
+reachable via kernel edges iff they share a fiber.
+\end{proof}
+
+The kernel neighbors of any element $x$ are exactly
+$\Fib(\compare(x)) \setminus \{x\}$---all other members of its fiber.
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{KernelAt}, \texttt{residualKernel\_eq\_iUnion\_kernelAt}, \texttt{kernelAt\_complete}, \texttt{kernelAt\_eq\_offDiagonal\_fiber} in \texttt{Residual/KernelStratification.lean} and \texttt{Residual/MinimalResolution.lean}
+\item \texttt{KernelRel}, \texttt{KernelRelRefl}, \texttt{kernelRelRefl\_equivalence}, \texttt{fiberEquiv\_iff\_eq\_or\_kernelRel}, \texttt{fiber\_eq\_kernelRelRefl\_class}, \texttt{kernelNeighbors\_eq\_fiber\_minus\_self} in \texttt{Residual/KernelGraph.lean} and \texttt{Residual/MinimalResolution.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Observable duality}\label{sec:observable}
+%% ========================================================================
+
+The kernel determines a sharp boundary between what certification can and
+cannot see.
+
+\begin{definition}[Bare-determined predicate]\label{def:bare-det}
+A predicate $P : \Real \to \mathrm{Prop}$ is \emph{bare-determined} if it
+factors through $\compare$: there exists $Q : \Bare \to \mathrm{Prop}$ with
+$P(x) \Leftrightarrow Q(\compare(x))$ for all $x$.
+\end{definition}
+
+\begin{theorem}[Observable algebra]\label{thm:obs-algebra}
+The bare-determined predicates form a Boolean subalgebra of the full predicate
+algebra on $\Real$: they are closed under $\land$, $\lor$, $\lnot$, $\to$,
+$\leftrightarrow$, and contain $\top$ and $\bot$.
+\end{theorem}
+
+\begin{proof}
+If $P$ factors through $Q_P$ and $P'$ factors through $Q_{P'}$, then
+$P \land P'$ factors through $Q_P \land Q_{P'}$, and similarly for the
+other connectives.
+\end{proof}
+
+\begin{theorem}[Universal factorization]\label{thm:univ-factor}
+A function $f : \Real \to \alpha$ (with $\alpha$ nonempty) is constant on
+every fiber of $\compare$ if and only if it factors through $\compare$:
+there exists $g : \Bare \to \alpha$ with $f = g \circ \compare$.
+\end{theorem}
+
+\begin{proof}
+The forward direction constructs $g$ classically: for each $b \in \Bare$,
+if $b$ is in the image of $\compare$, set $g(b) = f(x)$ for any $x$ with
+$\compare(x) = b$ (well-defined by the fiber-constancy hypothesis);
+otherwise, set $g(b)$ to an arbitrary element of $\alpha$.
+The converse is immediate.
+\end{proof}
+
+This theorem says $\compare$ is the \emph{universal coarse observable}:
+every observable that cannot see inside fibers must factor through $\compare$,
+and anything coarser than $\compare$ is blind to all kernel pairs.
+
+\begin{theorem}[Kernel-observable duality]\label{thm:duality}
+A predicate $P : \Real \to \mathrm{Prop}$ is not bare-determined
+if and only if it separates at least one kernel pair: there exist
+$(x,y) \in \Ker(\compare)$ with $(P(x) \land \lnot P(y))$ or
+$(\lnot P(x) \land P(y))$.
+\end{theorem}
+
+\begin{proof}
+Forward: if $P$ is not bare-determined, it is not constant on some fiber
+(otherwise it would factor through $\compare$ by Theorem~\ref{thm:univ-factor}
+applied to the characteristic function). So there exist $x, y$ in the same
+fiber with $P(x)$ and $\lnot P(y)$; since they share a fiber and are
+distinguished by $P$, they are distinct, hence a kernel pair.
+
+Backward: if $P$ separates $(x,y) \in \Ker$, then $P$ is not constant on
+$\Fib(\compare(x))$, so it cannot factor through $\compare$.
+\end{proof}
+
+This theorem completely characterizes the boundary between
+map-visible and map-invisible predicates. The residual
+observables are not an indeterminate remainder; they are exactly the
+predicates that cut across kernel pairs. The kernel and the non-bare
+observables are dual objects: each determines the other.
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{BareDetermined}, \texttt{bareDetermined\_and/or/not/imp}, \texttt{bareDetermined\_of\_comp} in \texttt{Residual/ObservableAlgebra.lean}
+\item \texttt{constant\_on\_fibers\_iff\_factors}, \texttt{factors\_of\_constant\_on\_fibers} in the same file
+\item \texttt{not\_bareDetermined\_iff\_separates\_kernel} in \texttt{Residual/ResidualKernel.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Refinement and resolution}\label{sec:refinement}
+%% ========================================================================
+
+A \emph{refinement} $r : \Real \to E$ provides extra information beyond
+$\compare$. The \emph{refined comparison} is the pair
+$(\compare, r) : \Real \to \Bare \times E$.
+
+\begin{definition}[Resolution]\label{def:resolution}
+A refinement $r$ \emph{resolves} the system if the refined comparison
+$(\compare, r)$ is injective.
+\end{definition}
+
+\begin{theorem}[Resolution criterion]\label{thm:resolution}
+A refinement resolves the system if and only if it separates every kernel pair:
+for all $(x,y) \in \Ker(\compare)$, $r(x) \neq r(y)$.
+\end{theorem}
+
+\begin{proof}
+If $(\compare, r)$ is injective and $(x,y) \in \Ker$, then
+$\compare(x) = \compare(y)$, so injectivity forces $r(x) \neq r(y)$
+(else $(\compare(x), r(x)) = (\compare(y), r(y))$ would give $x = y$,
+contradicting $x \neq y$). Conversely, if $r$ separates every kernel pair
+and $(\compare(x), r(x)) = (\compare(y), r(y))$, then either $x = y$
+(done) or $(x,y) \in \Ker$ and $r(x) = r(y)$, contradicting separation.
+\end{proof}
+
+\begin{theorem}[Fiber-local resolution]\label{thm:local-res}
+Resolution decomposes into independent per-fiber problems: a refinement
+resolves the whole system if and only if it resolves every fiber individually.
+Cross-fiber pairs are never kernel pairs.
+\end{theorem}
+
+\begin{theorem}[Coloring interpretation]\label{thm:coloring}
+A refinement acts as a graph coloring of each fiber clique: it assigns
+a color $r(x) \in E$ to each vertex. It resolves a fiber if and only
+if it properly colors the complete graph on that fiber.
+\end{theorem}
+
+Since each fiber kernel is a complete graph $K_n$ on $n = |\Fib(b)|$ vertices,
+the chromatic number is~$n$.
+
+\begin{theorem}[Resolution complexity]\label{thm:res-complex}
+Resolving a fiber of size $n$ requires at least $n$ distinct refinement values
+on that fiber. Equivalently, the refinement must be injective on the fiber.
+This is the chromatic number of the complete graph $K_n$: the exact cost of
+eliminating the residual at a given fiber is its size.
+\end{theorem}
+
+\begin{definition}[Refined fiber class]\label{def:refined-class}
+Given a refinement $r$, the \emph{refined fiber class} at $(b, e)$ is
+$\{x \in \Real \mid \compare(x) = b \land r(x) = e\}$. The fiber $\Fib(b)$
+is the disjoint union of its refined classes.
+\end{definition}
+
+\begin{theorem}[Terminal refinement]\label{thm:terminal}
+A refinement is terminal (fully resolving) if and only if every refined class
+is a singleton.
+\end{theorem}
+
+\begin{definition}[Refinement preorder]\label{def:refines-to}
+Refinement $r_2$ \emph{refines} $r_1$ if equal $r_2$-values imply equal
+$r_1$-values. This is a preorder with the trivial refinement (to a point)
+as bottom and the identity refinement (to $\Real$) as top.
+\end{definition}
+
+\begin{definition}[Unresolved kernel]\label{def:unresolved}
+The \emph{unresolved kernel} of a refinement $r$ is
+$\Ker^{\mathrm{unres}}_r = \{(x,y) \in \Ker(\compare) \mid r(x) = r(y)\}$.
+\end{definition}
+
+\begin{theorem}[Monotonicity and progress]\label{thm:monotone}
+\leavevmode
+\begin{enumerate}[label=(\roman*),nosep]
+\item The unresolved kernel is antitone: finer refinements have weakly smaller
+      unresolved kernels.
+\item The resolved kernel (complement in $\Ker$) is monotone: finer refinements
+      resolve weakly more pairs.
+\item A refinement resolves iff its unresolved kernel is empty.
+\item Any refinement separating at least one new kernel pair strictly shrinks the
+      unresolved kernel.
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Trivial-resolves-iff-exhaustive]\label{thm:triv-res}
+The trivial refinement resolves if and only if the system is exhaustive.
+The cheapest possible resolution works exactly when there is no residual.
+\end{theorem}
+
+\begin{theorem}[Adequate resolution bound]\label{thm:adequate-bound}
+For adequate systems: subsingleton-valued refinements cannot resolve.
+The identity refinement always resolves. So the resolution complexity of an
+adequate system is bounded below by~$2$ and above by~$|\Real|$.
+\end{theorem}
+
+\begin{definition}[Nontrivial locus]\label{def:nontrivial-locus}
+The \emph{nontrivial locus} of an RCS is the set of bare certificates whose
+fibers contain at least two distinct elements. The system is exhaustive iff
+the nontrivial locus is empty; non-exhaustive iff it is nonempty. The
+nontrivial locus is nonempty iff the kernel is nonempty.
+\end{definition}
+
+The nontrivial locus is the ``support'' of the residual: it tells you
+\emph{which} certificates carry hidden structure. The resolution cost at
+each certificate in the locus is the fiber size at that certificate.
+
+\begin{definition}[Persistent observable]\label{def:persistent}
+A non-bare-determined predicate is \emph{persistent} under a refinement $r$
+if it separates a kernel pair that $r$ also fails to separate (i.e., a pair
+in the unresolved kernel of $r$).
+\end{definition}
+
+\begin{theorem}[Persistence dichotomy]\label{thm:persist}
+Either a refinement resolves (and no observable is persistent) or the
+unresolved kernel is nonempty (and persistent observables exist).
+\end{theorem}
+
+Persistent observables are the predicates that remain ``invisible to
+certification'' even after the refinement is applied. They measure what
+the refinement has not yet resolved.
+
+\begin{theorem}[Certification-refinement gap]\label{thm:cert-gap}
+For any adequate system $A$:
+\begin{enumerate}[label=(\roman*),nosep]
+\item $\compare_A$ is not injective (the certification has a residual).
+\item There exists a refinement that resolves (the identity refinement).
+\item No subsingleton-valued refinement resolves (the resolution cost is $\geq 2$).
+\end{enumerate}
+The residual is intrinsic to the certification level: it is determined by
+$\compare$ alone and cannot be changed by altering other system data. Eliminating
+it requires genuine extra data beyond the certification.
+\end{theorem}
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item Key definitions: \texttt{Refinement}, \texttt{refinedCompare}, \texttt{RefinesTo}, \texttt{UnresolvedKernel}, \texttt{RefinedFiberClass}
+\item Key theorems: \texttt{resolves\_iff\_separates\_\allowbreak{}all\_kernel\_pairs}, \texttt{resolves\_iff\_properly\_\allowbreak{}colors\_all}, \texttt{terminal\_iff\_all\_\allowbreak{}singletons}, \texttt{trivial\_resolves\_iff\_exhaustive}
+\item Spread across \texttt{Residual/ResidualStructure.lean}, \texttt{Residual/MinimalResolution.lean}, \texttt{Residual/ResolutionComplexity.lean}, \texttt{Residual/QuantitativeResidual.lean}, \texttt{Residual/RefinementOrder.lean}, \texttt{Residual/Incompressibility.lean}, \texttt{Residual/KernelStratification.lean}
+\item Fiber spectrum: \texttt{FiberTrivial}, \texttt{FiberNontrivial}, \texttt{NontrivialLocus} in \texttt{Residual/FiberSpectrum.lean}
+\item Categorical kernel: \texttt{FiberProduct}, \texttt{Diagonal}, \texttt{residualKernel\_eq\_\allowbreak{}fiberProduct\_minus\_diagonal} in \texttt{Residual/CategoricalKernel.lean}
+\item See \texttt{MANIFEST.md} for the complete index
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Optimal certification and residual measurement}\label{sec:optimal}
+%% ========================================================================
+
+The resolution theory raises a natural question: if refinement can always
+eliminate the residual, does anything genuinely remain? The answer depends
+on what ``remains'' means.
+
+\begin{theorem}[Optimal refinement existence]\label{thm:opt-exist}
+For any RCS $S$, there exists a refinement that fully resolves the system:
+the identity refinement $r = \mathrm{id} : \Real \to \Real$ makes the
+refined comparison $(\compare, \mathrm{id})$ injective.
+\end{theorem}
+
+\begin{proof}
+If $(\compare(x), x) = (\compare(y), y)$, then $x = y$.
+\end{proof}
+
+So the residual can always be eliminated. But the identity refinement means
+``remember all of $\Real$''---it defeats the purpose of certification, which
+is to compress realization into something smaller. The real question is the
+\emph{cost} of resolution.
+
+\begin{theorem}[Zero residual characterization]\label{thm:zero-res}
+For any RCS $S$, the following are equivalent:
+\begin{enumerate}[label=(\roman*),nosep]
+\item $\Ker(\compare) = \varnothing$ (kernel empty).
+\item $\compare$ is injective.
+\item Every fiber is trivial (at most one element).
+\item The nontrivial locus is empty.
+\item The trivial refinement (to a point) resolves.
+\item Every predicate on $\Real$ is bare-determined.
+\end{enumerate}
+When any of these hold, the residual is completely absent: certification sees
+everything, no extra data is needed, and there is no hidden structure.
+\end{theorem}
+
+\begin{definition}[Refinement gap]\label{def:gap}
+The \emph{refinement gap} of a refinement $r$ is its unresolved kernel:
+$\mathrm{Gap}(r) = \{(x,y) \in \Ker(\compare) \mid r(x) = r(y)\}$.
+This measures how far $r$ is from full resolution.
+\end{definition}
+
+\begin{theorem}[Gap properties]\label{thm:gap-props}
+\leavevmode
+\begin{enumerate}[label=(\roman*),nosep]
+\item The gap is empty iff the refinement resolves.
+\item The gap of the trivial refinement is the full kernel.
+\item The gap of the identity refinement is empty.
+\item Finer refinements have smaller gaps (monotonicity).
+\end{enumerate}
+\end{theorem}
+
+The gap gives a precise ``distance to resolution'': it is the set of kernel
+pairs that the refinement has not yet separated. Each step of refinement
+that separates a new kernel pair strictly shrinks the gap
+(Theorem~\ref{thm:monotone}(iv)).
+
+\begin{theorem}[Adequate irreducible residual]\label{thm:adequate-irred}
+For any adequate system $A$:
+\begin{enumerate}[label=(\roman*),nosep]
+\item The gap of the trivial refinement is nonempty (it equals the full
+      kernel, which is nonempty by adequacy).
+\item The gap of any subsingleton-valued refinement is nonempty.
+\item The adequate witnesses $(w_1, w_2)$ are in the gap of every
+      subsingleton-valued refinement.
+\end{enumerate}
+The residual of an adequate system has irreducible depth: it cannot be
+eliminated without genuine extra data.
+\end{theorem}
+
+\begin{theorem}[Nothing remains at optimal]\label{thm:nothing-remains}
+If $\compare$ is injective, then:
+\begin{enumerate}[label=(\roman*),nosep]
+\item $\Ker(\compare) = \varnothing$.
+\item The nontrivial locus is empty.
+\item Every predicate on $\Real$ is bare-determined---certification sees
+      everything.
+\item The trivial refinement resolves---no extra data is needed.
+\end{enumerate}
+At optimal certification, the veil is gone. There is no hidden structure.
+\end{theorem}
+
+The picture is now complete. Certification determines a comparison map.
+If the map is injective, the residual is absent and certification exhausts
+realization. If it is not---as the adequacy theorem forces for systems with
+witness diversity---the residual is a nontrivial geometric object: the kernel,
+decomposed into complete fiber cliques, with exact resolution cost. The
+residual can be resolved by adding extra data, but the cost is real and
+measurable, and for adequate systems it is always positive.
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{optimal\_refinement\_exists}, \texttt{zero\_residual\_iff\_injective}, \texttt{zero\_residual\_iff\_all\_trivial}, \texttt{zero\_residual\_iff\_trivial\_resolves} in \texttt{Residual/OptimalCertification.lean}
+\item \texttt{refinementGap}, \texttt{gap\_empty\_iff\_resolves}, \texttt{gap\_trivial\_eq\_kernel}, \texttt{gap\_identity\_empty}, \texttt{gap\_antitone} in the same file
+\item \texttt{adequate\_irreducible\_residual}, \texttt{nothing\_remains\_at\_\allowbreak{}optimal}, \texttt{certification\_refinement\_gap} in the same file
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Functoriality and invariance}\label{sec:functorial}
+%% ========================================================================
+
+The residual geometry is intrinsic to the comparison map and transforms
+coherently under maps between systems.
+
+\begin{definition}[Comparison-compatible map]\label{def:compat}
+A \emph{comparison-compatible map} from $S_1$ to $S_2$ (on the same carriers)
+is a function $\varphi : \Real \to \Real$ with
+$\compare_2 \circ \varphi = \compare_1$.
+\end{definition}
+
+\begin{theorem}[Functoriality]\label{thm:functorial}
+\leavevmode
+\begin{enumerate}[label=(\roman*),nosep]
+\item An injective compatible map sends kernel pairs to kernel pairs and
+      preserves fiber membership.
+\item Compatible maps compose: if $\varphi : S_1 \to S_2$ and
+      $\psi : S_2 \to S_3$, then $\psi \circ \varphi : S_1 \to S_3$.
+\item The identity is compatible with itself.
+\item Composition is associative, and the identity is a two-sided unit.
+\item Two systems with the same $\compare$ have identical kernels,
+      identical unresolved kernels, and identical incompressibility.
+\end{enumerate}
+Thus RCS on fixed carriers and compatible maps form a category.
+\end{theorem}
+
+\begin{theorem}[Optimal coarsening]\label{thm:optimal}
+$\compare$ is the finest fiber-constant map: any function constant on fibers
+factors through $\compare$. Any map coarser than $\compare$ is blind to all
+kernel pairs.
+\end{theorem}
+
+\begin{theorem}[Witness independence]\label{thm:witness-indep}
+Fiber nontriviality, the fiber partition, and the bare-determined algebra all
+depend only on $\compare$, not on the choice of witnesses, canonical region,
+or soundness predicate.
+\end{theorem}
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{CompareCompatible}, \texttt{compCompatible}, \texttt{idCompatible}, \texttt{compCompatible\_assoc}, \texttt{compatible\_preserves\_kernel}, \texttt{CoarserThanCompare}, \texttt{compare\_is\_finest\_fiber\_constant}, \texttt{coarser\_blind\_to\_kernel} in \texttt{Residual/FundamentalTheorem.lean}
+\item \texttt{nonExhaustive\_depends\_only\_on\_compare}, \texttt{fiber\_eq\_of\_compare\_eq}, \texttt{bareDetermined\_depends\_only\_on\_compare} in \texttt{Residual/WitnessFiber.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{The fundamental theorem of residual geometry}\label{sec:fund-thm}
+%% ========================================================================
+
+We package the entire residual theory into a single statement.
+
+\begin{theorem}[Residual Geometry Theorem]\label{thm:fund-res}
+For any comparison map $\compare : \Real \to \Bare$, the results of
+\S\S\ref{sec:kernel}--\ref{sec:refinement} hold unconditionally: the kernel
+characterization (Theorem~\ref{thm:kernel-char}), fiberwise decomposition
+(Theorem~\ref{thm:fiber-decomp}), complete-fiber structure
+(Theorem~\ref{thm:complete-fiber}), kernel-observable duality
+(Theorem~\ref{thm:duality}), resolution criterion
+(Theorem~\ref{thm:resolution}), fiber-local resolution
+(Theorem~\ref{thm:local-res}), resolution complexity
+(Theorem~\ref{thm:res-complex}), and the exhaustion criterion
+(Theorem~\ref{thm:exhaust}). No hypotheses on the RCS are required.
+\end{theorem}
+
+The adequacy and self-generation theorems (\S\ref{sec:adequacy}) tell us
+\emph{when} the kernel is nontrivial; the fundamental theorem tells us
+\emph{what} the kernel is and how it behaves, for every system.
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{FundamentalResidualPackage}, \texttt{fundamentalResidualPackage} in \texttt{Residual/FundamentalTheorem.lean}
+\item The package is a Lean structure whose fields are the eight component theorems; the constructor \texttt{fundamentalResidualPackage} builds it for any RCS
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Source discharges}\label{sec:discharges}
+%% ========================================================================
+
+Historically, the universal theory did not arise by beginning with arbitrary
+maps and asking abstract questions about fibers. It was forced by concrete
+theorems in three source programs. Infinity Compression exhibited irreducible
+residue above canonical certification; NEMS supplied a computability-facing
+non-erasure barrier; APS isolated a local-to-global realization architecture
+that prevented the synthesis from collapsing into a vacuous slogan. The
+present paper extracts from those discharges the universal map-theoretic core
+that survives after all domain-specific structure is stripped away.
+
+Historically, the theory arose from these source programs; formally, they
+now serve as concrete discharges of a universal map-theoretic framework.
+The abstract theory developed in \S\S\ref{sec:fund-equiv}--\ref{sec:fund-thm}
+is universal: it applies to any comparison map. But the theory acquires force
+when discharged against concrete mathematical architectures that exhibit
+non-exhaustion for principled reasons. The program originated in a synthesis
+of three independent research lines, each governing one layer of a reflexive
+architecture.
+
+\paragraph{The three-layer origin.}
+The Strata program unifies three lines into a single architecture:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Layer & Source program & Structural role \\
+\midrule
+Outer & NEMS & Admissibility of determinacy under closure \\
+Middle & APS & Exact mechanics of uniform realization \\
+Inner & Infinity Compression & Reflective residue above canonical certification \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The \emph{Non-Erasure Principle} proved in the Strata formalization states
+that under explicit cross-layer coherence hypotheses, outer semantic
+non-exhaustion and inner enriched irreducibility hold simultaneously and
+resist joint flattening. The \emph{Unified Non-Erasure Law} gives the
+biconditional: enriched irreducibility $\Leftrightarrow$ existence of a
+semantic remainder, under coherence and universal totality. These results
+are formalized in \texttt{Bridge/NonErasurePrinciple.lean} and
+\texttt{Bridge/UniversalNonErasureLaw.lean}.
+
+\paragraph{Infinity Compression (IC).}
+The IC flagship~\cite{Spivack2026-IC-internal,Spivack2026-IC-summit,Spivack2026-IC-synthesis}
+provides the internal origin of the program and the primary
+discharge into the universal theory. Two distinct role-separated skeletons
+with the same summit component extraction yield the witness-diversity data
+for an adequate system. The IC adequate system forgets to the same RCS as
+the IC universal instance ($\texttt{icAdequateReflectiveSystem\_toRCS} =
+\texttt{rfl}$). The role permutation that swaps the two skeletons is a
+non-identity $\compare$-preserving endomorphism, so IC also discharges
+into the reflectively sufficient class.
+
+\paragraph{NEMS / computability.}
+The No External Model Selection (NEMS) framework~\cite{Spivack2026-NEMS01,Spivack2026-NEMS08,Spivack2026-NEMS81}
+provides the outer (computability) layer. The diagonal barrier and semantic
+remainder from NEMS instantiate the reflexive layer interface. NEMS
+record-truth undecidability serves as the concrete semantic remainder.
+
+\paragraph{APS / algebra.}
+The abstract indexed programming systems (APS) framework~\cite{Spivack2026-APS}
+provides the middle (realization) layer. The corrected exactness biconditional
+(indexed composition $\Leftrightarrow$ finite tracking $+$ gluing) instantiates
+the realization layer interface.
+
+\paragraph{Cross-corpus synthesis.}
+The three source programs combine into a concrete linked architecture
+(\texttt{LinkedArchitecture}) with both coherence axioms proved definitionally.
+The cross-corpus biconditional (IC enriched irreducibility
+$\Leftrightarrow$ NEMS semantic remainder) and the universal non-erasure law
+hold for all spine-eligible pairs. This synthesis is the concrete evidence that
+the abstract residual geometry is not vacuous: it is instantiated by a real
+cross-domain architecture with machine-checked proofs at every level.
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{icAdequateReflectiveSystem} in \texttt{Summit/ICAdequateDischarge.lean}
+\item \texttt{nemsReflexiveLayer} in \texttt{Instances/FromNEMS.lean}
+\item \texttt{apsRealizationLayerFromIff} in \texttt{Instances/FromAPS.lean}
+\item \texttt{crossCorpusLinkedArchitecture} in \texttt{Instances/CrossCorpusInstance.lean}
+\item \texttt{universal\_nonerasure\_law} in \texttt{Bridge/UniversalNonErasureLaw.lean}
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Relationship to incompleteness and proof relevance}\label{sec:related}
+%% ========================================================================
+
+\paragraph{Relationship to Gödel's incompleteness.}
+The fundamental equivalence has a structural parallel with Gödel's
+incompleteness theorems~\cite{Godel1931}: in both cases, a system's own internal resources
+produce the object that prevents its completeness. In Gödel's case, the
+system's expressive power constructs an undecidable sentence; in ours, the
+system's comparison geometry constructs a non-trivial fiber automorphism.
+The all-or-nothing dichotomy (Theorem~\ref{thm:all-or-nothing}) mirrors
+Gödel's result in that there is no partial escape: either the system is
+completely exhaustive, or it has all five forms of non-exhaustion
+simultaneously.
+
+The differences are equally important. First, Gödel's theorem concerns
+provability of sentences; ours concerns distinguishability of realizations.
+The objects are different in kind. Second, Gödel's theorem is purely
+negative; ours has a large positive component---the residual has a canonical
+geometry with exact laws (the Fundamental Theorem of Residual Geometry,
+Theorem~\ref{thm:fund-res}). Third, Gödel's theorem requires arithmetic
+expressiveness; the fundamental theorem of residual geometry is
+unconditional. The adequacy conditions that force nontriviality
+(\S\ref{sec:adequacy}) are separate from the geometric theory itself.
+The analogy is structural, not identificatory: the present theory is not a
+new incompleteness theorem about provability, but a theorem about the
+geometry of indistinguishability under maps.
+
+\paragraph{The meta-level distinction.}
+A natural question arises: if the residual can be measured exactly
+(\S\ref{sec:optimal}), does this contradict Gödel's claim that a system
+cannot know its own incompleteness?
+
+No. The residual kernel is defined in terms of \emph{both} $\Bare$ and
+$\Real$---it requires access to the realization level, which is exactly
+what certification compresses away. Any predicate that factors through
+$\compare$ (a ``bare-level'' predicate) is provably constant on every
+kernel pair: it cannot detect whether the residual exists. Formally:
+for any $Q : \Bare \to \mathrm{Prop}$ and any kernel pair $(x,y)$,
+$Q(\compare(x)) = Q(\compare(y))$.
+
+So the residual is \emph{invisible from the bare level} but
+\emph{visible from the meta-level} (which has access to both $\Bare$ and
+$\Real$). This is precisely the Gödelian structure: the veil exists and
+has exact geometry, but the certification level cannot see it. An external
+observer---or a stronger system with access to the realization level---can
+measure the residual exactly. The certification itself cannot.
+
+The theory does not let a system measure its own incompleteness. It lets
+a \emph{meta-theory} measure the incompleteness of any system it can see
+from outside. That is the correct reading of the resolution and measurement
+results in \S\ref{sec:optimal}.
+
+\paragraph{Related mathematical structures.}
+The fiber decomposition of a map is classical; the residual kernel is the
+complement of the diagonal in the fiber product $\Real \times_\Bare \Real$~\cite{MacLane1971}.
+The observable algebra is a quotient Boolean algebra in the sense of
+Stone duality~\cite{Stone1936}. The coloring interpretation connects to the classical theory
+of chromatic numbers of complete graphs~\cite{BrooksBerge}. The functoriality results are
+elementary category theory~\cite{MacLane1971}. What is new is not any single construction but
+the \emph{synthesis}: the complete package of kernel, observables, refinement,
+coloring, and complexity as a unified theory of information loss under arbitrary
+maps, with the Classification Theorem and all-or-nothing dichotomy as the
+governing structural results.
+
+\paragraph{Why this is not dependent-type proof relevance.}
+In dependent type theory~\cite{MartinLof1984,HoTT2013}, ``proof relevance'' means that different proofs of
+the same proposition can be distinguished. Our non-exhaustion is superficially
+similar: different realizations of the same bare certificate are distinguished.
+But the resemblance is shallow. Proof relevance is a design choice in a type
+system; our non-exhaustion is a \emph{theorem} about comparison maps, with
+no dependence on any particular foundational framework. The residual kernel,
+observable duality, and resolution theory have no analogues in the proof
+relevance literature. The theory is about the geometry of what \emph{any}
+certification process forgets, not about the internal structure of proofs.
+
+%% ========================================================================
+\section{The universal theory of forgetting}\label{sec:universal}
+%% ========================================================================
+
+The results of this paper are stated for an arbitrary comparison map
+$\compare : \Real \to \Bare$ between arbitrary types. Nothing in the
+definitions or theorems requires that $\compare$ arise from a ``certification
+process.'' The word ``certification'' is a motivating interpretation, not a
+formal hypothesis.
+
+This means the entire theory applies to \emph{any function between any two
+types}. Every such function determines a residual kernel, a fiber
+decomposition, an observable algebra, a resolution theory, and exact
+complexity bounds. The fundamental equivalence, the all-or-nothing dichotomy,
+and the meta-level invisibility theorem hold universally.
+
+\begin{theorem}[Universal forgetting]\label{thm:universal-forget}
+For any function $\pi : E \to B$ between types in a common universe:
+\begin{enumerate}[label=(\roman*),nosep]
+\item The residual kernel
+      $\{(x,y) \mid x \neq y \land \pi(x) = \pi(y)\}$ is the canonical
+      object of what $\pi$ forgets.
+\item Non-injectivity, witness diversity, fiber automorphism, and nontrivial
+      kernel are equivalent (fundamental equivalence).
+\item A predicate on $E$ factors through $\pi$ iff it does not separate any
+      kernel pair (observable duality).
+\item A refinement $r : E \to C$ makes $(\pi, r)$ injective iff $r$
+      separates every kernel pair (resolution criterion).
+\item Resolving a fiber of size $n$ requires $r$ to be injective on that
+      fiber (resolution complexity).
+\item Any predicate $Q : B \to \mathrm{Prop}$ satisfies
+      $Q(\pi(x)) = Q(\pi(y))$ whenever $\pi(x) = \pi(y)$: the codomain
+      level is blind to the residual (meta-level invisibility).
+\item The full fundamental residual package and five-way equivalence exist
+      unconditionally.
+\end{enumerate}
+\end{theorem}
+
+This theorem applies simultaneously to:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Domain & $\pi$ & Residual \\
+\midrule
+Group theory & homomorphism $\varphi : G \to H$ & classical kernel $\ker\varphi$ \\
+Topology & quotient $X \to X/{\sim}$ & equivalence classes \\
+Type theory & projection $\Sigma_{x:A} B(x) \to A$ & fiber family $B$ \\
+Physics & measurement $\mathrm{state} \to \mathrm{observable}$ & unmeasured degrees of freedom \\
+Compilation & compiler $\mathrm{source} \to \mathrm{bytecode}$ & erased source structure \\
+Cryptography & hash $\mathrm{data} \to \mathrm{hash}$ & collision structure \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+In each case, the residual kernel is the set of distinct inputs that the
+function identifies. The observable duality says which predicates can and
+cannot see the lost information. The resolution complexity says how much
+extra data is needed to recover it. And the meta-level theorem says the
+lost information is invisible from the codomain.
+
+The theory is therefore not merely a theory of certification failure. It is
+a \emph{universal theory of information loss under any map}---a geometry of
+forgetting that applies wherever a function compresses structure.
+
+\begin{remark}[Scope and non-claims]\label{rem:non-claims}
+We do not claim that every useful map is best studied via this theory, nor
+that all information-loss phenomena are exhausted by the kernel. We do not
+claim automatic recoverability of the residual from the codomain: the
+meta-level theorem (\S\ref{sec:related}) proves the opposite. We do not
+claim that the theory replaces domain-specific tools (e.g., cohomological
+obstructions in group extensions, or Rice-style barriers in computability).
+The claim is that the residual kernel, observable duality, and resolution
+theory provide a \emph{universal structural layer} that applies to any map,
+complementing rather than replacing domain-specific analysis
+(e.g.,~\cite{Brown1982} for group cohomology, \cite{Rice1953} for computability barriers).
+\end{remark}
+
+\begin{remark}[Lean formalization]
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{rcsOfMap}, \texttt{forgettingKernel}, \texttt{universal\_fundamental\_\allowbreak{}equivalence}, \texttt{universal\_observable\_\allowbreak{}duality} in \texttt{Residual/\allowbreak{}UniversalForgetting.lean}
+\item \texttt{universal\_resolution}, \texttt{universal\_meta\_blindness}, \texttt{every\_function\_has\_\allowbreak{}residual\_geometry}, \texttt{every\_function\_has\_five\_way\_equivalence} in the same file
+\end{itemize}
+\end{remark}
+
+%% ========================================================================
+\section{Frontier}\label{sec:frontier}
+%% ========================================================================
+
+The theory as presented is complete at the qualitative and structural level.
+We distinguish immediate mathematical next steps from deeper programmatic
+conjectures.
+
+\subsubsection*{Immediate next steps}
+
+\paragraph{Residual spectra and moduli.}
+The fiber-size spectrum (the multiset of fiber sizes) is a complete invariant
+of resolution complexity. Defining entropy-like measures of residual
+spread, moduli of kernel structure, and spectral invariants that survive
+bounded refinement would turn the theory from structural to quantitative.
+
+\paragraph{Residual observables under refinement.}
+Which non-bare-determined predicates survive a given refinement? Can one
+classify the ``persistent residual observables'' that remain non-bare-determined
+after any bounded refinement? This is the formal version of asking what
+structure is \emph{robustly} invisible to certification.
+
+\paragraph{Iterated certification.}
+What happens when a refined comparison is itself treated as a new comparison
+map and the theory is applied again? Does the residual stabilize, shrink
+monotonically, or exhibit more complex dynamics?
+
+\paragraph{Category-theoretic packaging.}
+Compatible maps compose associatively with identity units
+(Theorem~\ref{thm:functorial}). The next step is to package RCS and
+compatible maps into a category and ask whether the kernel construction
+defines a functor, and whether the fundamental residual package is natural.
+
+\subsubsection*{Deeper conjectures}
+
+\paragraph{Domain-specific kernel structure.}
+In each discharge domain (group extensions, embedding problems, Quillen
+fibers, computability barriers), the kernel has domain-specific structure
+beyond the abstract theory. Rewriting these domain results in kernel
+language would test the theory's power as a unifying instrument.
+
+\paragraph{Broader inevitability.}
+The current summit classes require explicit structural data. Whether there
+exist broader ``richness'' conditions that force witness diversity or fiber
+automorphisms from more abstract principles---without supplying witnesses
+or twists as data---remains the deepest open question.
+
+%% ========================================================================
+\section{Conclusion}\label{sec:conclusion}
+%% ========================================================================
+
+This paper has established that information loss under any map is not a
+deficiency to be lamented but a geometric phenomenon to be studied. The
+residual kernel is the canonical object of that geometry; the fundamental
+equivalence theorem shows that non-injectivity, witness diversity, fiber
+automorphism, and nontrivial kernel are the same phenomenon viewed from
+five angles; and the fundamental theorem of residual geometry gives the
+complete structure of the residual unconditionally for every function
+between any two types.
+
+The theory opens a new kind of mathematical question. Classical algebra
+asks: given a group, what are its subgroups? Classical topology asks: given
+a space, what are its open sets? The residual theory asks: given \emph{any
+function}, what is the exact geometry of what it forgets? The answer---a
+disjoint union of complete indistinguishability cliques, with observables
+dual to kernel separation and resolution governed by graph coloring---is
+both precise and universal.
+
+The formalization in Lean~4 with zero \texttt{sorry} ensures that every
+claim in this paper is machine-checked. The discharge against the Infinity
+Compression flagship, the NEMS computability anchor, and the APS algebraic
+layer ensures that the abstract theory is not vacuous.
+
+What a non-injective map forgets is not an accident, not an informal remainder,
+and not merely a by-product of examples. It is a canonically organized object
+with exact laws. This paper identifies that object, proves its classification,
+determines its observables, and computes the exact cost of resolving it. The
+problem is no longer whether information is lost under a map---it always is,
+when the map is non-injective. The problem is to understand the geometry of
+that loss. This paper gives that geometry.
+
+%% ========================================================================
+\appendix
+\section{Theorem index and Lean correspondence}\label{app:index}
+%% ========================================================================
+
+{\sloppy The table below lists every named paper result, its Lean theorem name, and
+its module. All names are within the \texttt{ReflexiveArchitecture\allowbreak.Universal}
+namespace; \texttt{Summit/*} live under
+\texttt{ReflexiveArchitecture\allowbreak.Universal\allowbreak.Summit} and
+\texttt{Residual/*} under
+\texttt{ReflexiveArchitecture\allowbreak.Universal\allowbreak.Residual}.}
+
+\begingroup\sloppy
+\begin{longtable}{>{\footnotesize\raggedright\arraybackslash}p{4.4cm} >{\footnotesize\raggedright\arraybackslash}p{6.4cm} >{\footnotesize\raggedright\arraybackslash}p{3.8cm}}
+\toprule
+\footnotesize\textbf{Paper result} & \footnotesize\textbf{Lean name} & \footnotesize\textbf{Module} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\small(continued)}\\
+\endfoot
+\bottomrule
+\endlastfoot
+%
+Classification Theorem (Thm.~\ref{thm:fund-equiv}) &
+  \texttt{equiv\_1\_iff\_2} \ldots \texttt{equiv\_1\_iff\_5} &
+  \texttt{Summit/\allowbreak{}FundamentalEquivalence} \\[4pt]
+%
+All-or-nothing dichotomy (Thm.~\ref{thm:all-or-nothing}) &
+  \texttt{all\_or\_nothing} &
+  \texttt{Summit/\allowbreak{}FundamentalEquivalence} \\[4pt]
+%
+Five-way equivalence package &
+  \texttt{FiveWayEquivalence}, \texttt{fiveWayEquivalence} &
+  \texttt{Summit/\allowbreak{}FundamentalEquivalence} \\[4pt]
+%
+Fiber automorphism diagonal &
+  \texttt{nonExhaustive\_implies\_\allowbreak{}fiberAutomorphism} &
+  \texttt{Summit/\allowbreak{}FundamentalEquivalence} \\[4pt]
+%
+Vanishing Criterion (Thm.~\ref{thm:exhaust}) &
+  \texttt{exhaustive\_iff\_\allowbreak{}kernel\_empty},
+  \texttt{kernel\_empty\_iff\_\allowbreak{}all\_fibers\_\allowbreak{}subsingleton} &
+  \texttt{Residual/\allowbreak{}FundamentalTheorem} \\[4pt]
+%
+Adequacy Theorem (Thm.~\ref{thm:adequate-ne}) &
+  \texttt{adequate\_nonExhaustive} &
+  \texttt{Summit/\allowbreak{}Adequacy} \\[4pt]
+%
+Self-generation (Thm.~\ref{thm:self-gen}) &
+  \texttt{reflectivelySufficient\_\allowbreak{}nonExhaustive},
+  \texttt{toAdequate} &
+  \texttt{Summit/\allowbreak{}SelfGeneration} \\[4pt]
+%
+Kernel characterization (Thm.~\ref{thm:kernel-char}) &
+  \texttt{residualKernel\_\allowbreak{}nonempty\_iff},
+  \texttt{residualKernel\_eq\_\allowbreak{}of\_compare\_eq} &
+  \texttt{Residual/\allowbreak{}ResidualKernel} \\[4pt]
+%
+Fiberwise decomposition (Thm.~\ref{thm:fiber-decomp}) &
+  \texttt{residualKernel\_eq\_\allowbreak{}iUnion\_kernelAt} &
+  \texttt{Residual/\allowbreak{}KernelStratification} \\[4pt]
+%
+Complete-fiber theorem (Thm.~\ref{thm:complete-fiber}) &
+  \texttt{kernelAt\_complete} &
+  \texttt{Residual/\allowbreak{}MinimalResolution} \\[4pt]
+%
+Connectivity theorem (Thm.~\ref{thm:connectivity}) &
+  \texttt{kernelRelRefl\_equivalence},
+  \texttt{fiber\_eq\_\allowbreak{}kernelRelRefl\_class} &
+  \texttt{Residual/\allowbreak{}KernelGraph} \\[4pt]
+%
+Observable algebra (Thm.~\ref{thm:obs-algebra}) &
+  \texttt{bareDetermined\_and}, \texttt{bareDetermined\_or},
+  \texttt{bareDetermined\_not}, \ldots &
+  \texttt{Residual/\allowbreak{}ObservableAlgebra} \\[4pt]
+%
+Universal factorization (Thm.~\ref{thm:univ-factor}) &
+  \texttt{constant\_on\_fibers\_\allowbreak{}iff\_factors} &
+  \texttt{Residual/\allowbreak{}ObservableAlgebra} \\[4pt]
+%
+Kernel-observable duality (Thm.~\ref{thm:duality}) &
+  \texttt{not\_bareDetermined\_\allowbreak{}iff\_separates\_kernel} &
+  \texttt{Residual/\allowbreak{}ResidualKernel} \\[4pt]
+%
+Resolution criterion (Thm.~\ref{thm:resolution}) &
+  \texttt{resolves\_iff\_separates\_\allowbreak{}all\_kernel\_pairs} &
+  \texttt{Residual/\allowbreak{}ResidualKernel} \\[4pt]
+%
+Resolution complexity (Thm.~\ref{thm:res-complex}) &
+  \texttt{resolution\_complexity\_\allowbreak{}theorem} &
+  \texttt{Residual/\allowbreak{}FundamentalTheorem} \\[4pt]
+%
+Certification--Refinement Gap (Thm.~\ref{thm:cert-gap}) &
+  \texttt{certification\_refinement\_gap} &
+  \texttt{Residual/\allowbreak{}OptimalCertification} \\[4pt]
+%
+Residual Geometry Theorem (Thm.~\ref{thm:fund-res}) &
+  \texttt{FundamentalResidualPackage},
+  \texttt{fundamentalResidualPackage} &
+  \texttt{Residual/\allowbreak{}FundamentalTheorem} \\[4pt]
+%
+Persistence dichotomy (Thm.~\ref{thm:persist}) &
+  \texttt{persistence\_dichotomy},
+  \texttt{exists\_persistent\_\allowbreak{}of\_unresolved} &
+  \texttt{Residual/\allowbreak{}MetaLevel} \\[4pt]
+%
+Universal forgetting (Thm.~\ref{thm:universal-forget}) &
+  \texttt{every\_function\_has\_\allowbreak{}residual\_geometry},
+  \texttt{every\_function\_has\_\allowbreak{}five\_way\_equivalence} &
+  \texttt{Residual/\allowbreak{}UniversalForgetting} \\[4pt]
+%
+Nothing remains at optimal (Thm.~\ref{thm:nothing-remains}) &
+  \texttt{nothing\_remains\_at\_optimal} &
+  \texttt{Residual/\allowbreak{}OptimalCertification} \\[4pt]
+%
+Category laws (Thm.~\ref{thm:functorial}) &
+  \texttt{RCSCategoryLaws}, \texttt{rcsCategoryLaws} &
+  \texttt{Residual/\allowbreak{}RCSCategory} \\
+\end{longtable}
+\endgroup
+
+\noindent
+Build: \texttt{lake build} from \texttt{reflexive-architecture-lean/}.
+See \texttt{MANIFEST.md} for the complete listing ($\sim$235 theorems, 26 modules).
+
+%% ========================================================================
+\begin{thebibliography}{99}
+%% ========================================================================
+
+%%% Standard canonical references
+
+\bibitem{Godel1931}
+K.~Gödel,
+\emph{Über formal unentscheidbare Sätze der Principia Mathematica und
+verwandter Systeme~I},
+Monatshefte für Mathematik und Physik, 38:173--198, 1931.
+English translation: \emph{On Formally Undecidable Propositions of
+Principia Mathematica and Related Systems}, Basic Books, 1962.
+
+\bibitem{Stone1936}
+M.~H.~Stone,
+\emph{The theory of representations for Boolean algebras},
+Transactions of the American Mathematical Society, 40(1):37--111, 1936.
+
+\bibitem{BrooksBerge}
+R.~L.~Brooks,
+\emph{On colouring the nodes of a network},
+Mathematical Proceedings of the Cambridge Philosophical Society,
+37(2):194--197, 1941;
+C.~Berge,
+\emph{Graphs and Hypergraphs},
+North-Holland, Amsterdam, 1973.
+
+\bibitem{MacLane1971}
+S.~Mac~Lane,
+\emph{Categories for the Working Mathematician},
+Springer-Verlag, New York, 1971.
+
+\bibitem{Rice1953}
+H.~G.~Rice,
+\emph{Classes of recursively enumerable sets and their decision problems},
+Transactions of the American Mathematical Society, 74(2):358--366, 1953.
+
+\bibitem{MartinLof1984}
+P.~Martin-Löf,
+\emph{Intuitionistic Type Theory},
+Bibliopolis, Naples, 1984.
+
+\bibitem{HoTT2013}
+The Univalent Foundations Program,
+\emph{Homotopy Type Theory: Univalent Foundations of Mathematics},
+Institute for Advanced Study, 2013.
+Available at \url{https://homotopytypetheory.org/book/}.
+
+\bibitem{Lean4}
+L.~de~Moura and S.~Ullrich,
+\emph{The Lean~4 Theorem Prover and Programming Language},
+in \emph{Automated Deduction --- CADE~28}, Lecture Notes in Computer Science
+vol.~12699, Springer, 2021, pp.~625--635.
+
+\bibitem{Mathlib}
+The Mathlib Community,
+\emph{The Lean Mathematical Library},
+in \emph{Proceedings of CPP 2020}, ACM, 2020, pp.~367--381.
+
+\bibitem{Brown1982}
+K.~S.~Brown,
+\emph{Cohomology of Groups},
+Graduate Texts in Mathematics vol.~87, Springer-Verlag, New York, 1982.
+
+%%% Source program references
+
+\bibitem{Spivack2026-NEMS01}
+N.~Spivack,
+\emph{The NEMS Framework: No External Model Selection},
+Paper~1, NEMS Suite, 2026.
+Lean: \texttt{nems-lean}; zero \texttt{sorry}, zero custom axioms.
+
+\bibitem{Spivack2026-NEMS08}
+N.~Spivack,
+\emph{From NEMS to MFRR: A Machine-Checked Bridge Between Semantic Closure
+and Reflexive Reality},
+Paper~8, NEMS Suite, 2026.
+Lean: \texttt{nems-lean}; zero \texttt{sorry}, zero custom axioms (8051 jobs).
+
+\bibitem{Spivack2026-NEMS15}
+N.~Spivack,
+\emph{No Emulation, Self-Necessitating Adjudication},
+Paper~15, NEMS Suite, 2026.
+Lean: \texttt{nems-lean}; zero \texttt{sorry}, zero custom axioms (8069 jobs).
+
+\bibitem{Spivack2026-NEMS81}
+N.~Spivack,
+\emph{Big Results from the NEMS Program},
+Paper~81, NEMS Suite (Synthesis), 2026.
+Lean: \texttt{nems-lean}.
+
+\bibitem{Spivack2026-APS}
+N.~Spivack,
+\emph{Composition as Finite Tracking plus Gluing, and its Separation from
+Recursion in Abstract Indexed Programming Systems},
+2026.
+Lean: \texttt{aps-recursion-uniformization-lean}; zero \texttt{sorry},
+zero additional axioms.
+
+\bibitem{Spivack2026-IC-internal}
+N.~Spivack,
+\emph{Canonical Certification Does Not Exhaust Reflective Structure},
+Infinity Compression Suite, 2026.
+Lean: \texttt{infinity-compression-lean}; zero \texttt{sorry}.
+
+\bibitem{Spivack2026-IC-synthesis}
+N.~Spivack,
+\emph{Certification, Realization, and Obstruction---A Universal Fiber Architecture},
+Infinity Compression Suite (Synthesis Map), 2026.
+Lean: \texttt{infinity-compression-lean}.
+
+\bibitem{Spivack2026-IC-summit}
+N.~Spivack,
+\emph{Reflective Non-Exhaustion Summit},
+Infinity Compression Suite, 2026.
+Lean: \texttt{infinity-compression-lean}.
+
+\bibitem{Spivack2026-Strata}
+N.~Spivack,
+\emph{Closure, Realization, and Reflective Residue},
+Reflexive Architecture / Strata, 2026.
+Lean: \texttt{reflexive-architecture-lean}; zero \texttt{sorry},
+zero custom axioms ($\sim$8270 jobs).
+
+\end{thebibliography}
+
+\end{document}

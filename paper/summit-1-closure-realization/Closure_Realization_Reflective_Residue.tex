@@ -78,7 +78,7 @@ yet external journal publications.}
 \begin{abstract}
 Three research lines developed in parallel now admit a common structural formalization:
 they have been unified in a machine-checked Lean~4 development at the abstract
-architecture level, with zero proof placeholders.  The NEMS program proves that load-bearing determinacy cannot
+architecture level, with zero proof placeholders.  The NEMS (No External Model Selection) program proves that load-bearing determinacy cannot
 be outsourced: if a framework is non-categorical under closure, some internal selector is
 forced, and in diagonal-capable settings that selector cannot collapse to a total-effective
 decider on the relevant self-referential fragment.  The APS program proves that indexed
@@ -143,9 +143,8 @@ Taken separately, the NEMS, APS, and Infinity Compression lines appear to answer
 different questions.
 
 \begin{enumerate}[leftmargin=2em]
-\item \textbf{NEMS:} What must be true of a system that claims to determine its own
-realized world without importing ontologically external selector structure
-\cite{SpivackNEMS01-2026,SpivackNEMS08-2026}?
+\item \textbf{NEMS} (No External Model Selection)~\cite{SpivackNEMS01-2026,SpivackNEMS08-2026}\textbf{:} What must be true of a system that claims to determine its own
+realized world without importing ontologically external selector structure?
 \item \textbf{APS:} What is the exact local-to-global architecture required to pass from
 local representability and fixed-point phenomena to global uniform composition --- rather
 than relying on fixed-point abundance alone \cite{SpivackAPS2026}?
@@ -506,8 +505,8 @@ but derived.
 All theorem statements across all milestones
 (Theorems~\ref{thm:layered}--\ref{thm:crosscorpus}), together with the concrete
 source-import layer instances (\texttt{ConcreteFromNEMS}, \texttt{ConcreteFromIC}),
-are machine-checked in Lean~4 with zero proof placeholders and no program-specific
-axioms beyond Mathlib \cite{Mathlib2020}.  The concrete NEMS outer layer is
+are machine-checked in Lean~4~\cite{deMouraUllrich2021} with zero proof placeholders and no program-specific
+axioms beyond Mathlib~\cite{Mathlib2020}.  The concrete NEMS outer layer is
 discharged via \texttt{diagonal\_barrier\_rt}: NEMS record-truth undecidability
 is the concrete realization of outer semantic remainder.  The program is complete.
 
@@ -527,10 +526,10 @@ realized world is obtained, then the burden of that selection must be borne some
 internally.
 
 This point becomes sharper in the diagonal-bearing case.  In sufficiently expressive
-self-referential fragments, internal selection cannot be reduced to a total-effective
-decider on the relevant fragment \cite{SpivackNEMS11-2026}.  NEMS does not merely say
-that some internal selector is forced; it says that the selector's burden cannot be
-trivialized by computational collapse.
+self-referential fragments~\cite{Turing1936,Godel1931}, internal selection cannot be
+reduced to a total-effective decider on the relevant fragment~\cite{SpivackNEMS11-2026,Rice1953}.
+NEMS does not merely say that some internal selector is forced; it says that the
+selector's burden cannot be trivialized by computational collapse.
 
 At the formal synthesis level, the outer layer is abstracted by the theorem
 \(
@@ -541,8 +540,8 @@ for every internal self-theory $T$ under the barrier hypotheses.  This is the
 
 \subsection{APS as the law of uniform realization}
 
-The APS program \cite{SpivackAPS2026} asks whether fixed-point structure already yields
-full indexed composition.  The answer is no: composition is neither a vague closure
+The APS program \cite{SpivackAPS2026} asks whether fixed-point structure~\cite{Kleene1952}
+already yields full indexed composition.  The answer is no: composition is neither a vague closure
 property nor a corollary of self-reference.
 
 The exact composition characterization
@@ -649,9 +648,9 @@ bridge theorems across layers (Milestone~2), and the biconditional (Milestone~3)
 composition.  It governs admissibility, not realization mechanics.
 \item APS does \emph{not} by itself tell us whether determinacy is being illicitly
 outsourced.  It governs the middle gap between self-reference and uniform realization.
-\item Infinity Compression does \emph{not} merely restate Gödel-style limitative facts;
-it describes a positive non-collapse phenomenon \emph{after} canonical certification has
-already been secured.
+\item Infinity Compression does \emph{not} merely restate Gödel-style limitative
+facts~\cite{Godel1931}; it describes a positive non-collapse phenomenon \emph{after}
+canonical certification has already been secured.
 \item The non-erasure principle does \emph{not} collapse the three layers into one; it
 proves that two of them are equivalent manifestations of a single cross-layer constraint,
 while the middle layer remains irreducibly separate.
@@ -861,6 +860,15 @@ The NEMS spine biconditional (Theorem~\ref{thm:biconditional}) is a corollary
 \texttt{nems\_spine\_from\_universal}.}
 \end{theorem}
 
+\begin{theorem}[Both Strata Hold Simultaneously on the NEMS Spine]
+\label{thm:joint}
+On the NEMS spine architecture, both the IC stratum (enriched irreducibility: distinct
+role-separated skeletons above the same bare certificate) and the NEMS stratum (semantic
+remainder: record-truth undecidability) hold simultaneously.
+\par\noindent{\footnotesize Lean: \texttt{Bridge.nems\_spine\_both\_strata},
+\texttt{Bridge.nems\_spine\_strata\_from\_sources}.}
+\end{theorem}
+
 The two nontrivial implications are:
 $(i)$ \emph{role-pair diversity $\Rightarrow$ IC witnesses} via T-C+.7 (from \texttt{infinity-compression-lean});
 $(ii)$ \emph{diagonal capability $\Rightarrow$ undecidability} via \texttt{diagonal\_barrier\_rt} (from \texttt{nems-lean}).
@@ -1038,15 +1046,26 @@ concrete, universal, and single-hypothesis levels.
   \url{infinity-compression-lean} repository (preprint), 2026.
   Lean~4 artifact: zero \texttt{sorry} in proof terms under \texttt{InfinityCompression/}.
 
-\bibitem{SpivackStrata2026}
-  N.~Spivack, \emph{Strata: Machine-Checked Synthesis of Reflexive Foundations},
-  \url{https://github.com/novaspivack/reflexive-architecture-lean} (software artifact),
-  2026.  Zero \texttt{sorry}.  Commit: \texttt{f73c7f0}; see \texttt{MANIFEST.md} for
-  build policy and theorem index.
+\bibitem{Godel1931}
+  K.~Gödel,
+  \emph{Über formal unentscheidbare Sätze der Principia Mathematica und
+  verwandter Systeme~I},
+  Monatshefte für Mathematik und Physik, 38:173--198, 1931.
 
-\bibitem{Kleene1938}
-  S.~C.~Kleene, \emph{On notation for ordinal numbers},
-  Journal of Symbolic Logic, 3(4):150--155, 1938.
+\bibitem{Turing1936}
+  A.~M.~Turing,
+  \emph{On computable numbers, with an application to the Entscheidungsproblem},
+  Proceedings of the London Mathematical Society, 42(2):230--265, 1936.
+
+\bibitem{Rice1953}
+  H.~G.~Rice,
+  \emph{Classes of recursively enumerable sets and their decision problems},
+  Transactions of the American Mathematical Society, 74(2):358--366, 1953.
+
+\bibitem{Kleene1952}
+  S.~C.~Kleene,
+  \emph{Introduction to Metamathematics},
+  North-Holland, Amsterdam, 1952.
 
 \bibitem{Rogers1987}
   H.~Rogers Jr., \emph{Theory of Recursive Functions and Effective Computability},

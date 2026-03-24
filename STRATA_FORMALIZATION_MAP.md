@@ -34,9 +34,51 @@
 | `ReflexiveArchitecture/Universal/Dichotomy.lean` | **U4:** classical `MinimalExhaustive ∨ NonExhaustive`. |
 | `ReflexiveArchitecture/Universal/ReflectiveFormalSystem.lean` | **U2:** `RawReflectiveFormalSystem` + `toRCS` / `exists_rcs_of_raw`. |
 | `ReflexiveArchitecture/Universal/Instances/ToyFiber.lean` | Product projection toy; abstract `NonExhaustive` without IC. |
-| `ReflexiveArchitecture/Universal/AbstractSummit.lean` | Aggregates summit-level universal theorems + scope doc (what is / is not proved). |
+| `ReflexiveArchitecture/Universal/AbstractSummit.lean` | Aggregates summit-level universal theorems + scope doc; re-exports `theoremSummit_conditionalA` / `theoremSummit_conditionalB_*` (conditional Theorem B). |
+| `ReflexiveArchitecture/Universal/ConditionalUniversality.lean` | Theorem A; Theorem B (finite card; subsingleton bare + nontrivial realized; infinite→finite; self-location gap); `RichReflectiveCandidates`, `RichReflectiveSelfLocation`. |
+| `ReflexiveArchitecture/Universal/Forcing/FiniteCardForcing.lean` | Finite pigeonhole ⇒ `NonExhaustive`. |
+| `ReflexiveArchitecture/Universal/Forcing/SubsingletonBareForcing.lean` | `Subsingleton Bare` + `Nontrivial Realized` ⇒ `NonExhaustive`. |
+| `ReflexiveArchitecture/Universal/Forcing/InfiniteFiniteForcing.lean` | `Infinite Realized` + `Finite Bare` ⇒ `NonExhaustive`. |
+| `ReflexiveArchitecture/Universal/Forcing/SelfLocationForcing.lean` | `SelfLocationGap` (section + off-witness) ⇒ `NonExhaustive`. |
+| `ReflexiveArchitecture/Universal/Strong/StructuredRCS.lean` | EPIC_020: `StructuredReflectiveCertificationSystem` (nontrivial bare + realized). |
+| `ReflexiveArchitecture/Universal/Strong/Inevitability.lean` | Composed `inevitability_structured_*` (structured + EPIC_019 forcing). |
+| `ReflexiveArchitecture/Universal/Strong/Counterexamples.lean` | `identityCompareRCS`, `equivCompareRCS` — injective collapses. |
+| `ReflexiveArchitecture/Universal/Strong/SelfLocationComponents.lean` | `HasGlobalSection` ↔ `StrongExhaustive`; `SelfLocationGap` ↔ `HasOffSectionWitness`. |
+| `ReflexiveArchitecture/Universal/Strong/RichStructuredClasses.lean` | Bundled rich classes (`FinitePigeonholeStructured`, `InfiniteFiniteStructured`, `SelfLocationGapStructured`) with unconditional `NonExhaustive` for members; umbrella `BundledRich` (inductive sum) + `BundledRichStructured` typeclass. |
+| `ReflexiveArchitecture/Universal/Strong/StructuredDichotomy.lean` | `structured_minimal_or_nonExhaustive`: classical dichotomy on `StructuredReflectiveCertificationSystem.toRCS`. |
+| `ReflexiveArchitecture/Universal/Strong/ICStructuredDischarge.lean` | IC carriers + nontriviality ⇒ `StructuredReflectiveCertificationSystem` packaging. |
+| `ReflexiveArchitecture/Universal/Strong/Instances.lean` | `toyProductStructured`, `toyFinitePigeonholeStructured` discharges. |
+| `ReflexiveArchitecture/Universal/StrongProgram.lean` | Barrel import for EPIC_020 Strong modules. |
+| `ReflexiveArchitecture/Universal/Summit/Adequacy.lean` | EPIC_021: `AdequateReflectiveSystem` (witness-diversity), `adequate_nonExhaustive`, meta-theorem `forcing_implies_not_injective`, `identityCompare_not_adequate`, `adequate_not_injective`. |
+| `ReflexiveArchitecture/Universal/Summit/ICAdequateDischarge.lean` | EPIC_021: `icAdequateReflectiveSystem` (IC → adequate), `ic_adequate_nonExhaustive`. |
+| `ReflexiveArchitecture/Universal/Summit/Instances.lean` | EPIC_021: `toyAdequateSystem`, counterexample verifications (`no_adequate_with_identity`, `no_adequate_with_injective`). |
+| `ReflexiveArchitecture/Universal/Summit/SelfGeneration.lean` | EPIC_031: `ReflectivelySufficientSystem` (fiber twist); `reflectivelySufficient_nonExhaustive` (diagonal theorem); `toAdequate` (self-generation); `identity_not_reflectivelySufficient`; `injective_not_reflectivelySufficient`. |
+| `ReflexiveArchitecture/Universal/Summit/FundamentalEquivalence.lean` | EPIC_031: five-way equivalence (`NonExhaustive ↔ ¬Injective ↔ ∃ fiber automorphism ↔ witness diversity ↔ nontrivial kernel`); `all_or_nothing` dichotomy; `fiberSwap` construction; `FiveWayEquivalence` package. |
+| `ReflexiveArchitecture/Universal/Summit/SummitRich.lean` | EPIC_021: `SummitRichReflectiveSystem` (= `BundledRich`), `summit_universality`, `SummitRichStructured`. |
+| `ReflexiveArchitecture/Universal/SummitProgram.lean` | Barrel for EPIC_021/031 Summit modules. |
+| `ReflexiveArchitecture/Universal/Residual/FiberResidual.lean` | EPIC_022: `FiberEquiv`, fiber observable law, `nonExhaustive_iff_exists_nontrivial_fiber`. |
+| `ReflexiveArchitecture/Universal/Residual/ResidualStructure.lean` | EPIC_022: `BareDetermined`, RFG-T1 exclusion, RFG-T2 necessity, RFG-T4 refinement. |
+| `ReflexiveArchitecture/Universal/Residual/ObservableAlgebra.lean` | EPIC_023: Boolean closure of `BareDetermined` (`∧`, `∨`, `¬`, `→`, `↔`); universal factorization (`constant_on_fibers_iff_factors`). |
+| `ReflexiveArchitecture/Universal/Residual/WitnessFiber.lean` | EPIC_023: adequate witnesses in same fiber; fiber nontriviality independent of witness choice; `BareDetermined` depends only on `compare`. |
+| `ReflexiveArchitecture/Universal/Residual/RefinementOrder.lean` | EPIC_023: trivial/identity/product refinements; `RefinesTo` preorder; product refines both components; finer separates if coarser does. |
+| `ReflexiveArchitecture/Universal/Residual/Incompressibility.lean` | EPIC_023: `IncompressibleAt`; pigeonhole incompressibility; adequate systems incompressible at `PUnit` (depth ≥ 1). |
+| `ReflexiveArchitecture/Universal/Residual/ResidualKernel.lean` | EPIC_024: `ResidualKernel`; kernel-nonempty ↔ `NonExhaustive`; `UnresolvedKernel` (monotone in refinement preorder); veil theorem; kernel-observable duality; residual transfer. |
+| `ReflexiveArchitecture/Universal/Residual/KernelStratification.lean` | EPIC_025: `KernelAt` (fiberwise kernel); decomposition `Kernel = ⋃ KernelAt b`; symmetry; `ResolvedKernel` + partition + monotonicity; off-diagonal characterization. |
+| `ReflexiveArchitecture/Universal/Residual/KernelGraph.lean` | EPIC_026: `KernelRel`, `KernelRelRefl`; fundamental connectivity theorem (fiber = connected component); kernel relation symmetry, transitivity; fiber partition = kernel equivalence classes. |
+| `ReflexiveArchitecture/Universal/Residual/QuantitativeInvariants.lean` | EPIC_026: `CompareImage`, `IsRealized`; surplus witness; resolving refinement characterization; `adequate_surplus_witness`. |
+| `ReflexiveArchitecture/Universal/Residual/MinimalResolution.lean` | EPIC_027: complete-fiber theorem; fiber-local resolution; independent fiber resolution; coloring interpretation; kernel neighbors; refined fiber classes; sub-partition. |
+| `ReflexiveArchitecture/Universal/Residual/ResolutionComplexity.lean` | EPIC_028: per-fiber resolution lower bound; strict refinement progress; terminal refinement ↔ all singletons; finer partitions; adequate ≥ 2 colors. |
+| `ReflexiveArchitecture/Universal/Residual/FundamentalTheorem.lean` | EPIC_029: exhaustion criterion (`exhaustive_iff_kernel_empty`, aliased as `vanishingCriterion`); `CompareCompatible` + `compCompatible` + `compCompatible_assoc` (category laws); `CoarserThanCompare` + optimal coarsening; `FundamentalResidualPackage`; `predicate_classification` (aliased as `predicateClassification`); `bareDetermined_xor_separates_kernel`; `resolution_complexity_theorem` (aliased as `resolutionComplexityTheorem`). |
+| `ReflexiveArchitecture/Universal/Residual/QuantitativeResidual.lean` | EPIC_030: resolution upper/lower bounds; adequate subsingleton unresolvable; trivial-resolves-iff-exhaustive dichotomy; adequate resolution spectrum. |
+| `ReflexiveArchitecture/Universal/Residual/FiberSpectrum.lean` | EPIC_030+: `FiberTrivial`, `FiberNontrivial`, `NontrivialLocus`; spectrum characterization of exhaustion/non-exhaustion; adequate nontrivial fiber; kernel-locus connection. |
+| `ReflexiveArchitecture/Universal/Residual/CategoricalKernel.lean` | EPIC_029+: `FiberProduct`, `Diagonal`; kernel = fiber product minus diagonal; fiber product = diagonal ∪ kernel (disjoint); exhaustive iff fiber product = diagonal. |
+| `ReflexiveArchitecture/Universal/Residual/OptimalCertification.lean` | Optimal refinement existence; zero residual characterization (5 equivalent forms); refinement gap; adequate irreducible residual; `nothing_remains_at_optimal`; **certification-refinement gap theorem** (`certification_refinement_gap`). |
+| `ReflexiveArchitecture/Universal/Residual/MetaLevel.lean` | **Meta-level theorem:** bare-level blindness; `godel_compatibility`; **observable persistence:** `PersistentObservable`, `persistence_dichotomy`, `exists_persistent_of_unresolved`, `no_persistent_if_resolved`; **persistent-observable secondary family:** `adequate_has_persistent_observables`, `persistent_iff_separates_unresolved`, `persistent_implies_nonExhaustive`, `persistence_dichotomy_support`. |
+| `ReflexiveArchitecture/Universal/Residual/RCSCategory.lean` | **Category of RCS:** `RCSCategoryLaws` (4 category laws all by `rfl`); `rcsCategoryLaws`; kernel functoriality: `kernelFunctor_id`, `kernelFunctor_comp`; naturality: `fundamentalPackage_compare_natural`; `rcsCat_id_law`, `rcsCat_comp_id_left`, `rcsCat_comp_id_right`, `rcsCat_comp_assoc`. |
+| `ReflexiveArchitecture/Universal/Residual/UniversalForgetting.lean` | **Universal theory of forgetting:** `rcsOfMap` (any function → RCS); `forgettingKernel`; `universal_fundamental_equivalence`; `universal_observable_duality`; `universal_resolution`; `universal_meta_blindness`; `every_function_has_residual_geometry`; `every_function_has_five_way_equivalence`. |
+| `ReflexiveArchitecture/Universal/ResidualProgram.lean` | Barrel for EPIC_022–030+ Residual modules (17 files). |
 
-**Root:** `ReflexiveArchitecture.lean` imports all modules above (including Universal / EPIC_019 through abstract summit).
+**Root:** `ReflexiveArchitecture.lean` imports all modules above (including Universal / EPIC_019 through EPIC_031 `SummitProgram` + `ResidualProgram`).
 
 ---
 

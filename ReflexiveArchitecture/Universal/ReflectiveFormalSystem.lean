@@ -8,11 +8,16 @@
   abstract RCS carrier for further reasoning.
 -/
 
+import ReflexiveArchitecture.Universal.Forcing.SubsingletonBareForcing
 import ReflexiveArchitecture.Universal.ReflectiveCertificationSystem
 
 universe u
 
 namespace ReflexiveArchitecture.Universal
+
+open Forcing
+
+variable {Bare Realized : Type u}
 
 /-- Minimal raw data: one forgetful map `Realized → Bare`. -/
 structure RawReflectiveFormalSystem (Bare Realized : Type u) where
@@ -42,5 +47,13 @@ def RawReflectiveFormalSystem.toRCS_default {Bare Realized : Type u}
 theorem toRCS_default_compare {Bare Realized : Type u} (F : RawReflectiveFormalSystem Bare Realized) :
     (F.toRCS_default).compare = F.compare :=
   rfl
+
+/-- **Route 2 (extraction):** default RCS extension inherits `compare`; structural forcing on
+the carriers (subsingleton bare + nontrivial realized) therefore yields `NonExhaustive`
+for the extracted system. -/
+theorem nonExhaustive_toRCS_default_of_subsingletonBare_nontrivialRealized [Subsingleton Bare]
+    [Nontrivial Realized] (F : RawReflectiveFormalSystem Bare Realized) :
+    NonExhaustive (F.toRCS_default) :=
+  nonExhaustive_of_subsingleton_bare_nontrivial_realized (F.toRCS_default)
 
 end ReflexiveArchitecture.Universal
