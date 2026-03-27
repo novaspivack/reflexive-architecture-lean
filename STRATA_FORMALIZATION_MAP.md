@@ -1,6 +1,6 @@
 # Strata formalization map
 
-**Purpose:** Human-readable map of the `reflexive-architecture-lean` package: module roles, exported theorem names, and what each result does *and does not* claim. Authoritative build/policy: `MANIFEST.md`.
+**Purpose:** Human-readable map of the `reflexive-architecture-lean` package: module roles, exported theorem names, and what each result does *and does not* claim. Authoritative build/policy: `MANIFEST.md`. Citation snapshot and build fingerprint: `ARTIFACT.md`.
 
 **Program name:** Strata (outer / middle / inner reflexive architecture).
 
@@ -26,6 +26,10 @@
 | `ReflexiveArchitecture/Bridge/NonErasurePrinciple.lean` | **Summit:** non-erasure biconditional, full architecture non-erasure, unified non-erasure law, enriched non-finality. |
 | `ReflexiveArchitecture/Bridge/LinkedArchitecture.lean` | **Task D complete:** `LinkedArchitecture` class; `linkedArchitectureFromRemainder` proves both coherence axioms definitionally; unconditional biconditional and all non-erasure theorems without totality. |
 | `ReflexiveArchitecture/Instances/ToyCombinedInstance.lean` | Enriched toy (outer has remainder → coherence holds by contradiction on antecedent) and flat toy (outer has no theories → coherence trivially). |
+| `ReflexiveArchitecture/Instances/FromAPS.lean` | Parametric `RealizationLayer` from APS-style hypotheses; `apsRealizationLayer`, `apsRealizationLayerFromIff` (marked `@[reducible]` for typeclass/elaboration hygiene). |
+| `ReflexiveArchitecture/Instances/FromNEMS.lean` | Parametric `ReflexiveLayer` from NEMS-style hypotheses; `nemsReflexiveLayer` (`@[reducible]`). |
+| `ReflexiveArchitecture/Instances/FromIC.lean` | Parametric `CertificationLayer` from IC-style hypotheses; `icCertificationLayer` (`@[reducible]`). |
+| `ReflexiveArchitecture/Instances/ConcreteArchitecture.lean` | Combined `Architecture` from outer+middle+inner parametric data; `concreteArchitecture` (`@[reducible]`). |
 | `ReflexiveArchitecture/Universal/ReflectiveCertificationSystem.lean` | **EPIC_019 Phase I:** minimal `ReflectiveCertificationSystem` (bare/realized carriers, `compare`, `Canonical`, `Sound`). |
 | `ReflexiveArchitecture/Universal/FiberBasics.lean` | Fibers of `compare`, injectivity ↔ fiber subsingleton, non-injective ⇒ distinct points in one fiber. |
 | `ReflexiveArchitecture/Universal/ExhaustionDefinitions.lean` | `MinimalExhaustive` / `StrongExhaustive` / `NonExhaustive`, `CanonicalRegion`, local strong exhaustion on canonical locus. |
@@ -68,7 +72,7 @@
 | `ReflexiveArchitecture/Universal/Residual/QuantitativeInvariants.lean` | EPIC_026: `CompareImage`, `IsRealized`; surplus witness; resolving refinement characterization; `adequate_surplus_witness`. |
 | `ReflexiveArchitecture/Universal/Residual/MinimalResolution.lean` | EPIC_027: complete-fiber theorem; fiber-local resolution; independent fiber resolution; coloring interpretation; kernel neighbors; refined fiber classes; sub-partition. |
 | `ReflexiveArchitecture/Universal/Residual/ResolutionComplexity.lean` | EPIC_028: per-fiber resolution lower bound; strict refinement progress; terminal refinement ↔ all singletons; finer partitions; adequate ≥ 2 colors. |
-| `ReflexiveArchitecture/Universal/Residual/FundamentalTheorem.lean` | EPIC_029: exhaustion criterion (`exhaustive_iff_kernel_empty`, aliased as `vanishingCriterion`); `CompareCompatible` + `compCompatible` + `compCompatible_assoc` (category laws); `CoarserThanCompare` + optimal coarsening; `FundamentalResidualPackage`; `predicate_classification` (aliased as `predicateClassification`); `bareDetermined_xor_separates_kernel`; `resolution_complexity_theorem` (aliased as `resolutionComplexityTheorem`). |
+| `ReflexiveArchitecture/Universal/Residual/FundamentalTheorem.lean` | EPIC_029: exhaustion criterion (`exhaustive_iff_kernel_empty`, aliased as `vanishingCriterion`); `CompareCompatible` + `compCompatible` + `compCompatible_assoc` (category laws); `CoarserThanCompare` + optimal coarsening; `FundamentalResidualPackage` (`fiber_complete` uses explicit `@kernelAt_complete` to bind fiber parameters); `predicate_classification` (aliased as `predicateClassification`); `bareDetermined_xor_separates_kernel`; `resolution_complexity_theorem` (aliased as `resolutionComplexityTheorem`). |
 | `ReflexiveArchitecture/Universal/Residual/QuantitativeResidual.lean` | EPIC_030: resolution upper/lower bounds; adequate subsingleton unresolvable; trivial-resolves-iff-exhaustive dichotomy; adequate resolution spectrum. |
 | `ReflexiveArchitecture/Universal/Residual/FiberSpectrum.lean` | EPIC_030+: `FiberTrivial`, `FiberNontrivial`, `NontrivialLocus`; spectrum characterization of exhaustion/non-exhaustion; adequate nontrivial fiber; kernel-locus connection. |
 | `ReflexiveArchitecture/Universal/Residual/CategoricalKernel.lean` | EPIC_029+: `FiberProduct`, `Diagonal`; kernel = fiber product minus diagonal; fiber product = diagonal ∪ kernel (disjoint); exhaustive iff fiber product = diagonal. |
@@ -77,6 +81,8 @@
 | `ReflexiveArchitecture/Universal/Residual/RCSCategory.lean` | **Category of RCS:** `RCSCategoryLaws` (4 category laws all by `rfl`); `rcsCategoryLaws`; kernel functoriality: `kernelFunctor_id`, `kernelFunctor_comp`; naturality: `fundamentalPackage_compare_natural`; `rcsCat_id_law`, `rcsCat_comp_id_left`, `rcsCat_comp_id_right`, `rcsCat_comp_assoc`. |
 | `ReflexiveArchitecture/Universal/Residual/UniversalForgetting.lean` | **Universal theory of forgetting:** `rcsOfMap` (any function → RCS); `forgettingKernel`; `universal_fundamental_equivalence`; `universal_observable_duality`; `universal_resolution`; `universal_meta_blindness`; `every_function_has_residual_geometry`; `every_function_has_five_way_equivalence`. |
 | `ReflexiveArchitecture/Universal/ResidualProgram.lean` | Barrel for EPIC_022–030+ Residual modules (17 files). |
+
+**Authoritative artifact blurb:** `MANIFEST.md` (build index); **`ARTIFACT.md`** (citation/build fingerprint and paper paths).
 
 **Root:** `ReflexiveArchitecture.lean` imports all modules above (including Universal / EPIC_019 through EPIC_031 `SummitProgram` + `ResidualProgram`).
 
@@ -161,3 +167,4 @@ Zero `sorry`. No program-specific axioms beyond Mathlib.
 - **2026-03-22 (milestone 2):** Bridge P0–P2 (bare canonicity separation, gluing route coherence, inner enriched gap). Added by EPIC_016.
 - **2026-03-22 (milestone 3):** Non-erasure principle + unified non-erasure law + enriched non-finality. Added by EPIC_016 continuation. Architecture class strengthened with biconditional coherence axioms.
 - **2026-03-22 (milestone 4):** Concrete discharge interfaces FromAPS, FromNEMS, FromIC, ConcreteArchitecture. Task D complete: LinkedArchitecture proves both coherence axioms definitionally via `linkedArchitectureFromRemainder`; unconditional non-erasure biconditional follows without totality. Zero sorry throughout. Added by EPIC_017.
+- **2026-03-24:** Documented `Instances` modules in the module tree (`FromAPS`, `FromNEMS`, `FromIC`, `ConcreteArchitecture`) including `@[reducible]` on parametric layer defs; noted `FundamentalTheorem` `fiber_complete` proof binding; added **`ARTIFACT.md`** cross-links. Consumer-build linter follow-up: **`docs/CONSUMER_BUILD_NOTE.md`** (canonical in public `reflexive-architecture-lean`; mirror optional in private monorepo `reflexive-architecture/lean/NOTE.md`).

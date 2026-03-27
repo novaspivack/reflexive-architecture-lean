@@ -82,10 +82,10 @@ This is the positive bridging theorem connecting the outer and inner strata:
 outer semantic non-exhaustion (realized as remainder) directly entails inner
 enriched irreducibility via the coherence axiom. -/
 theorem nonerasure_principle {A : Type u} [R : Architecture A]
-    (hBarrier : R.BarrierHyp)
-    (hTrack : R.HasFiniteTracking ∧ R.HasGluing)
-    (hCanon : R.CanonicalBareCertificate)
-    (hAdeq : ∃ r, R.AdequateRoute r)
+    (_hBarrier : R.BarrierHyp)
+    (_hTrack : R.HasFiniteTracking ∧ R.HasGluing)
+    (_hCanon : R.CanonicalBareCertificate)
+    (_hAdeq : ∃ r, R.AdequateRoute r)
     (hRemWitness : ∃ T, R.InternalTheory T ∧ R.SemanticRemainder T) :
     R.EnrichedIrreducibility :=
   R.outer_remainder_forces_inner_enrichment hRemWitness

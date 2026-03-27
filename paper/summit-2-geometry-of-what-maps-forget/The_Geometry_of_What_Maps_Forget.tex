@@ -54,6 +54,9 @@
 
 \maketitle
 
+\noindent\emph{This paper develops the universal residual geometry that appears once comparison ceases to be injective.}
+\medskip
+
 \noindent\textbf{Keywords:} residual kernel, information loss, fiber automorphism,
 observable duality, resolution complexity, graph coloring, Lean~4 formalization.
 
@@ -62,11 +65,13 @@ observable duality, resolution complexity, graph coloring, Lean~4 formalization.
 \noindent\textbf{Code availability:} Lean~4 formalization at
 \texttt{reflexive-architecture-lean}. Build: \texttt{lake build}.
 Zero \texttt{sorry} in proof terms. See \texttt{MANIFEST.md} for the
-complete theorem index.
+complete theorem index, \texttt{ARTIFACT.md} for citation and build fingerprint,
+\texttt{STRATA\_FORMALIZATION\_MAP.md} for the module gloss, and
+\texttt{docs/CONSUMER\_BUILD\_NOTE.md} for consumer-build/linter notes (all at repository root except the last, under \texttt{docs/}).
 
 \begin{abstract}
-Every non-injective function forgets something. We develop a universal
-theory of \emph{what} it forgets and \emph{how much} it costs to recover.
+We prove that whenever a comparison map fails to be injective, the resulting residual is not vague leftover structure but a precise geometric object: a kernel decomposed fiberwise, with exact resolution cost, monotone refinement behavior, and functorial invariants. We then show that this residual geometry is universal: every comparison map carries it, and adequacy determines when it is nontrivial.
+
 For an arbitrary map $\compare : \Real \to \Bare$, five conditions---non-exhaustion,
 non-injectivity, existence of a non-trivial $\compare$-preserving
 endomorphism, witness diversity, and nonemptiness of the residual
@@ -92,7 +97,7 @@ full residual geometry. The theory is a universal geometry of information
 loss under any map.
 
 All results are formalized in Lean~4~\cite{Lean4} with Mathlib~\cite{Mathlib}, with zero
-\texttt{sorry} in proof terms. The theory is discharged against the
+\texttt{sorry} in proof terms on the summit route cited in \texttt{MANIFEST.md}. The theory is discharged against the
 Infinity Compression flagship and admits instances from algebra, topology,
 and computability.
 \end{abstract}
@@ -103,25 +108,29 @@ and computability.
 \section{Introduction}\label{sec:intro}
 %% ========================================================================
 
-This paper develops a universal theory of what maps forget.
+Fix a comparison map $\compare : \Real \to \Bare$. For $b:\Bare$, write the fiber $\Fib(b)=\{\,x\in\Real \mid \compare(x)=b\,\}$.
+The \emph{residual kernel} collects exactly which distinct realizations $\compare$ identifies; injectivity means the kernel is empty; failure of injectivity means nontrivial kernel structure---not an informal ``remainder,'' but an object with fiberwise clique geometry, dual observables, refinement monotonicity, and functorial behavior under comparison morphisms.
 
-Every function $\compare : \Real \to \Bare$ between two types identifies
-some elements of $\Real$: those that share an image in $\Bare$. When
-$\compare$ is injective, nothing is lost. When it is not, the
-\emph{residual}---the totality of distinctions that $\compare$ cannot
-see---becomes a nontrivial mathematical object.
+\begin{center}
+\fbox{\begin{minipage}{0.92\linewidth}
+\textbf{Honesty (injective maps).} Not every comparison map is non-exhaustive or information-losing. Injective $\compare$ is a genuine countercase: the kernel is trivial and the sharp five-way equivalence collapses to the ``nothing to forget'' side. This paper proves the exact dichotomy: either the residual is trivial, or the full residual geometry of Theorem~\ref{thm:fund-res} (\S\ref{sec:fund-thm}) appears.
+\end{minipage}}
+\end{center}
 
-We prove that the residual is not merely ``some leftover.'' It is a
-\emph{canonically organized space of indistinguishability} with a precise
-internal geometry, exact observability laws, a resolution theory governed by
-graph coloring, and sharp quantitative bounds on the cost of eliminating it.
+\begin{center}
+\fbox{\begin{minipage}{0.92\linewidth}
+\textbf{Headline statements (preview)}\\[0.35em]
+\textbf{(1) Fundamental equivalence.} Non-exhaustion, non-injectivity, witness diversity, fiber automorphism, and nontrivial residual kernel are equivalent; either all hold or none do (Theorem~\ref{thm:fund-equiv}).\\
+\textbf{(2) Residual geometry.} The kernel decomposes fiberwise into complete indistinguishability cliques; observables are dual to kernel separation; refinement is graph coloring with exact per-fiber cost (Theorem~\ref{thm:fund-res}, Theorem~\ref{thm:res-complex}).\\
+\textbf{(3) Universal forgetting.} The package is stated for arbitrary types and arbitrary $\compare$; certification language is an interpretation, not a hypothesis (\S\ref{sec:universal}).
+\end{minipage}}
+\end{center}
 
-The theory arose from a certification problem (where $\Bare$ represents
-bare certificates and $\Real$ represents realized witnesses), but the
-mathematics depends only on the function $\compare$. Group homomorphisms,
-topological quotients, type-theoretic projections, measurements, compilers,
-and hash functions all inherit the full geometry. We use the language of
-certification throughout, but the results are universal.
+\medskip
+\noindent
+This paper develops that universal theory in full: what the map forgets, how it is organized, how much refinement costs, and when the structure is forced.
+
+The motivating picture is certification ($\Bare$ bare certificates, $\Real$ realized witnesses), but the theorems need only $\compare$. Group homomorphisms, quotients, projections, measurements, compilers, and hashes inherit the same geometry because they are maps.
 
 The results ascend through a sequence of summits:
 
@@ -261,6 +270,12 @@ functions, not just to the flagship architecture.
 In that sense this paper does not supersede the earlier summit. It completes
 its abstraction. The old flagship now appears as a source discharge of the
 universal theory (\S\ref{sec:discharges}).
+
+%% ========================================================================
+\section{Why this is not merely bookkeeping about kernels}\label{sec:not-bookkeeping}
+%% ========================================================================
+
+The residual attached to a comparison map is not an arbitrary set-theoretic difference quotient ``for flavor.'' It is the canonical locus where distinct realizations become indistinguishable at the bare level, and it is rich enough to support (i) a Boolean algebra of bare-determined observables dual to kernel separation, (ii) an exact notion of resolution cost via chromatic complexity on fibers, and (iii) functorial transport when comparisons change. In other words, ``what maps forget'' is not a slogan: it is a theorem-bearing program with quantitative structure and universal scope.
 
 %% ========================================================================
 \section{Reflective certification systems}\label{sec:rcs}
@@ -916,7 +931,7 @@ it requires genuine extra data beyond the certification.
 \item Spread across \texttt{Residual/ResidualStructure.lean}, \texttt{Residual/MinimalResolution.lean}, \texttt{Residual/ResolutionComplexity.lean}, \texttt{Residual/QuantitativeResidual.lean}, \texttt{Residual/RefinementOrder.lean}, \texttt{Residual/Incompressibility.lean}, \texttt{Residual/KernelStratification.lean}
 \item Fiber spectrum: \texttt{FiberTrivial}, \texttt{FiberNontrivial}, \texttt{NontrivialLocus} in \texttt{Residual/FiberSpectrum.lean}
 \item Categorical kernel: \texttt{FiberProduct}, \texttt{Diagonal}, \texttt{residualKernel\_eq\_\allowbreak{}fiberProduct\_minus\_diagonal} in \texttt{Residual/CategoricalKernel.lean}
-\item See \texttt{MANIFEST.md} for the complete index
+\item See \texttt{MANIFEST.md} for the complete index; \texttt{ARTIFACT.md} for citation metadata
 \end{itemize}
 \end{remark}
 
@@ -1552,7 +1567,9 @@ Category laws (Thm.~\ref{thm:functorial}) &
 
 \noindent
 Build: \texttt{lake build} from \texttt{reflexive-architecture-lean/}.
-See \texttt{MANIFEST.md} for the complete listing ($\sim$235 theorems, 26 modules).
+See \texttt{MANIFEST.md} for the complete listing ($\sim$235 theorems, 26 modules),
+\texttt{STRATA\_FORMALIZATION\_MAP.md} for module glosses, \texttt{ARTIFACT.md}
+for citation and build fingerprint, and \texttt{docs/CONSUMER\_BUILD\_NOTE.md} for consumer-build notes.
 
 %% ========================================================================
 \begin{thebibliography}{99}

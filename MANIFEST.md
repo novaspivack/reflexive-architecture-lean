@@ -5,7 +5,8 @@
 **Build:** `lake build` from this directory  
 **Root import:** `ReflexiveArchitecture.lean`  
 **Formalization map:** `STRATA_FORMALIZATION_MAP.md` (module tree + theorem glosses)  
-**Last verified:** 2026-03-24 — clean build on rc6 (8270 jobs); zero `sorry`; **EPIC_019–031** (~235 theorems, 26 modules): Classification Theorem (five-way equivalence) + Vanishing Criterion + Residual Geometry Theorem + Resolution Complexity Theorem + Certification–Refinement Gap + meta-level/Gödel compatibility + **persistent-observable secondary theorem family** + **RCS category packaging** (category laws + kernel functoriality, all by `rfl`) + **universal theory of forgetting** (every function inherits the full residual geometry). New modules: `Residual/RCSCategory.lean`, expanded `Residual/MetaLevel.lean` (persistent observable spectrum, persistence-support dichotomy).  
+**Artifact / citation:** `ARTIFACT.md` (build fingerprint, paper paths, consumer-build notes)  
+**Last verified:** 2026-03-24 — clean build on rc6 (8270 jobs); zero `sorry`; **EPIC_019–031** (~235 theorems, 26 modules): Classification Theorem (five-way equivalence) + Vanishing Criterion + Residual Geometry Theorem + Resolution Complexity Theorem + Certification–Refinement Gap + meta-level/Gödel compatibility + **persistent-observable secondary theorem family** + **RCS category packaging** (category laws + kernel functoriality, all by `rfl`) + **universal theory of forgetting** (every function inherits the full residual geometry). New modules: `Residual/RCSCategory.lean`, expanded `Residual/MetaLevel.lean` (persistent observable spectrum, persistence-support dichotomy). **Build hygiene (same date):** consumer-facing linter cleanup — `@[reducible]` on parametric `Instances` layer constructors (`apsRealizationLayer`, `apsRealizationLayerFromIff`, `nemsReflexiveLayer`, `icCertificationLayer`, `concreteArchitecture`); proof-only `intro` / `@kernelAt_complete` polish in `Residual/FundamentalTheorem.lean` (no statement changes). See **`ARTIFACT.md`** and **`docs/CONSUMER_BUILD_NOTE.md`** (consumer linter follow-up).  
 **Lake deps:** `nems-lean` (local), `infinity-compression-lean` (local).
 
 ---
@@ -31,6 +32,8 @@
 | Instances | `ReflexiveArchitecture/Instances/` | `ToyCombinedInstance` (enriched + flat); `FromAPS`, `FromNEMS`, `FromIC`, `ConcreteArchitecture` (concrete discharge interfaces) |
 | Papers | `paper/summit-1-closure-realization/` | *Closure, Realization, and Reflective Residue* (summit 1: program synthesis) |
 | Papers | `paper/summit-2-geometry-of-what-maps-forget/` | *The Geometry of What Maps Forget* (summit 2: universal residual theory) |
+| Artifact / Zenodo | `ARTIFACT.md` | Citation snapshot: build jobs, zero-sorry policy, paper paths, consumer-build note |
+| Docs | `docs/CONSUMER_BUILD_NOTE.md` | Consumer `lake build` / linter hygiene (same text mirrored optionally in private monorepo `reflexive-architecture/lean/NOTE.md`) |
 
 ---
 
@@ -198,7 +201,7 @@ Together these form the biconditional (under universal totality): `EnrichedIrred
 
 - **Broader inevitability:** whether there exist conditions that force witness diversity from more abstract principles (without supplying witnesses or twists as data).
 - **Residual spectra:** fiber-size spectrum, entropy-like measures, persistent observables under bounded refinement.
-- **Category-theoretic packaging:** RCS + compatible maps as a category; kernel as functor; naturality of the fundamental package.
+- **Further categorical structure:** beyond the shipped `RCSCategory` layer (kernel functoriality + naturality of the fundamental package), e.g. limits, 2-cells, or functoriality across changing carriers.
 - **Iterated certification:** dynamics of residual under repeated refinement.
 - **Necessity theorem:** whether `RolePairDiverseCrownEligible` (IC) and `DiagonalCapable` (NEMS) are independent or follow from a single principle.
 

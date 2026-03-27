@@ -124,6 +124,7 @@ Two construction paths:
 /-- Construct a `LinkedArchitecture` from any set of layer data where `EnrichedIrreducibility`
 is defined to equal the remainder existential.  This is the fully discharged case:
 coherence axioms follow from `Iff.rfl`-style reasoning. -/
+@[reducible]
 def linkedArchitectureFromRemainder
     (S : Type u)
     -- Outer (NEMS) layer

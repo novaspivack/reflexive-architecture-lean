@@ -90,6 +90,7 @@ def BarrierProp : Prop :=
   ∃ (_ : Unit), True  -- inhabited: the barrier witness exists
 
 /-- The cross-corpus outer layer: Theory = Unit with barrier as semantic remainder. -/
+@[reducible]
 def crossCorpusOuter : Outer.ReflexiveLayer Unit where
   Theory             := Unit
   InternalTheory     := fun _ => True
@@ -104,6 +105,7 @@ def crossCorpusOuter : Outer.ReflexiveLayer Unit where
   no_remainder_and_total_implies_final := fun _ _ _ h => False.elim (h ⟨Unit.unit, trivial⟩)
 
 /-- The cross-corpus middle layer: standard APS-style biconditional. -/
+@[reducible]
 def crossCorpusMiddle : Middle.RealizationLayer Unit where
   HasFiniteTracking := True
   HasGluing         := True
@@ -114,13 +116,14 @@ def crossCorpusMiddle : Middle.RealizationLayer Unit where
 /-- The cross-corpus inner layer:
 EnrichedIrreducibility IS the barrier proposition = ∃ T, InternalTheory T ∧ SemanticRemainder T.
 This is the key definitional equality that makes enriched_iff_remainder = Iff.rfl. -/
+@[reducible]
 def crossCorpusInner : Inner.CertificationLayer Unit where
   Route                   := Unit
   AdequateRoute           := fun _ => True
   CanonicalBareCertificate := True
   ReflectiveSplit         := True
   -- EnrichedIrreducibility IS the outer remainder existential — the cross-corpus Iff
-  EnrichedIrreducibility  := ∃ T : Unit, True ∧ BarrierProp
+  EnrichedIrreducibility  := ∃ _ : Unit, True ∧ BarrierProp
   StrictRefinement        := True
   FiberNontriviality      := True
   UniversalRouteNecessity := True

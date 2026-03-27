@@ -1,87 +1,36 @@
-# reflexive-architecture-lean Artifact Documentation
+# reflexive-architecture-lean — artifact documentation
 
-**Version:** v1.0.0  
-**Lean:** leanprover/lean4:v4.29.0-rc6  
-**Mathlib:** v4.29.0-rc6  
-**Build:** 8218 jobs, 0 errors, **0 sorry in proof terms**, **0 custom axioms**  
-**Lake deps:** `nems-lean` (local), `infinity-compression-lean` (local)  
-**Commit:** `(see git log)` — latest — see `MANIFEST.md` for full theorem index and `STRATA_FORMALIZATION_MAP.md` for module tree.
+**Purpose:** Citation-ready summary of what this Lean 4 library is, how to build it, and where to find the full theorem map. Authoritative tables and module index: **[MANIFEST.md](MANIFEST.md)**; human-readable module glosses: **[STRATA_FORMALIZATION_MAP.md](STRATA_FORMALIZATION_MAP.md)**.
 
-## What This Artifact Proves
+**Toolchain:** `leanprover/lean4:v4.29.0-rc6`  
+**Mathlib:** v4.29.0-rc6 (via `lakefile.lean`)  
+**Root import:** `ReflexiveArchitecture.lean`
 
-This Lean 4 library formalizes the **Strata program**: a machine-checked synthesis of the NEMS (No External Model Selection), APS (Abstract Programming Systems), and Infinity Compression research lines into a single abstract architecture class with proved bridge theorems, a non-erasure principle, and a biconditional connecting the two main strata.
+## Build status
 
-### Universal layer (EPIC_019 — through abstract summit)
+- **Command:** `lake build` (from this directory).
+- **Last verified (2026-03-24):** 8270 jobs, **0 errors**, **0 `sorry`** in shipped proof terms under `ReflexiveArchitecture/`.
+- **Lake dependencies (local):** `nems-lean`, `infinity-compression-lean` (paths in `lakefile.lean`).
 
-Under `ReflexiveArchitecture.Universal`, the library provides a **domain-agnostic** certification/realization interface (`ReflectiveCertificationSystem`) with fiber lemmas, exhaustion predicates, and sections. **IC discharge** (`Universal/Instances/ICInstance.lean`) maps summit mirror witnesses with `compare = bridge.derivation` to abstract **`NonExhaustive`**. **Abstract summit** (`Universal/AbstractSummit.lean`, `Dichotomy.lean`, `ReflectiveFormalSystem.lean`) adds **classical U4** (`MinimalExhaustive ∨ NonExhaustive`), **U2-style extraction** from any raw `compare`, and a **synthetic toy** fiber (`ToyFiber.lean`). There is **no** proof that every abstract system is non-exhaustive without extra hypotheses (injective `compare` counterexample); see module docstrings for the precise “summit” boundary.
+**Consumer builds:** This package is a Lake dependency of other developments (e.g. `adequacy-architecture-lean`). A full consumer `lake build` replays this tree and may surface **linter** warnings; proof-statement hygiene notes for the Strata-facing `Instances` constructors and `Residual/FundamentalTheorem.lean` are recorded in **`docs/CONSUMER_BUILD_NOTE.md`** (same content may exist as `reflexive-architecture/lean/NOTE.md` only in the optional private outer monorepo—**cite this repository’s `docs/` copy** for public artifacts).
 
-### Abstract architecture (Milestones 1–3)
+## What this artifact contains
 
-The library defines an abstract class `Architecture` with three independent layer interfaces (outer/NEMS, middle/APS, inner/IC) and proves:
+1. **Strata (outer / middle / inner):** abstract interfaces for NEMS-style reflexive layers, APS-style realization (indexed composition), and IC-style certification; bridge `Architecture` with cross-layer coherence; non-erasure summit; `LinkedArchitecture` with coherence discharged.
+2. **Universal program (EPIC_019–031):** abstract `ReflectiveCertificationSystem`, forcing and conditional universality, summit five-way equivalence, full **residual geometry** (kernel, observables, resolution, complexity), **universal forgetting** for arbitrary maps, meta-level and persistent-observable families, **`RCSCategory`** (explicit category laws + kernel functoriality).
+3. **Concrete discharge interfaces:** parametric maps `FromAPS`, `FromNEMS`, `FromIC`, combined `ConcreteArchitecture` (see `ReflexiveArchitecture/Instances/`), marked `@[reducible]` where required for typeclass-friendly elaboration.
 
-- **Layered Architecture Theorem** (`Bridge.layered_architecture_theorem`): Under barrier, tracking+gluing, and canonical certification with an adequate route, all three structural conclusions hold jointly.
-- **Stratified Non-Collapse** (`Bridge.stratified_noncollapse`): No architecture collapses all three strata simultaneously.
-- **Bridge P0** (`Bridge.canonical_bare_does_not_pin_enriched_irreducibility`): Bare canonicity does not determine enriched irreducibility (model-theoretic separation).
-- **Bridge P1** (`Bridge.glue_route_coherent_canonical_implies_composition_and_strict_refinement`): Glue-route coherence implies middle composition and inner strict refinement.
-- **Bridge P2** (`Bridge.inner_enriched_gap_independent_of_outer_theory_extent`): Inner enriched gap is independent of outer theory extent.
-- **Non-Erasure Principle** (`Bridge.nonerasure_principle`): Under coherence axioms and a remainder witness, enriched irreducibility holds.
-- **Unified Non-Erasure Law** (`Bridge.unified_nonerasure_law`): Under universal totality, `EnrichedIrreducibility ↔ ∃ T, SemanticRemainder T`.
-- **LinkedArchitecture** (`Bridge.LinkedArchitecture`): Subclass where both coherence axioms are proved theorems; biconditional holds unconditionally without totality hypothesis.
+## Papers (suite-internal)
 
-### Concrete discharge (Milestone 4)
+| Paper | Path |
+|-------|------|
+| Summit 1 — synthesis (NEMS, APS, IC, bridge) | `paper/summit-1-closure-realization/Closure_Realization_Reflective_Residue.tex` |
+| Summit 2 — universal residual geometry | `paper/summit-2-geometry-of-what-maps-forget/The_Geometry_of_What_Maps_Forget.tex` |
 
-- **CrossCorpusInstance** (`Instances.crossCorpusLinkedArchitecture`): Concrete `LinkedArchitecture` where the cross-corpus Iff holds by `Iff.rfl`.
-- **ConcreteFromNEMS** (`Instances.concreteNEMSReflexiveLayer`): `ReflexiveLayer Framework` built directly from `nems-lean`; NEMS record-truth undecidability (`diagonal_barrier_rt`) is the concrete outer semantic remainder (`concreteNEMS_has_semantic_remainder`).
-- **ConcreteFromIC** (`Instances.concreteICCertificationLayer`): `CertificationLayer (CompressionArchitecture BD n)` built from `infinity-compression-lean`; enriched irreducibility from T-C+.7 (`concreteIC_enrichedIrrHolds`).
+## Proof / axiom policy
 
-### Direct cross-corpus theorems
+No program-specific `axiom` beyond Mathlib. No `sorry` in shipped proof terms.
 
-- **Joint theorem** (`Bridge.nems_spine_both_strata`): On the NEMS spine, the outer NEMS stratum (record-truth undecidability from `diagonal_barrier_rt`) and the inner IC stratum (enriched irreducibility from T-C+.6) hold simultaneously, sourced directly from the two repositories.
-- **Biconditional** (`Bridge.ic_enriched_iff_nems_remainder`): IC enriched irreducibility ↔ NEMS semantic remainder on the NEMS spine, via `SpinePluralityProp` as the common structural cause. Two nontrivial implications: T-C+.7 (IC side, from `infinity-compression-lean`) and `diagonal_barrier_rt` (NEMS side, from `nems-lean`).
+## Zenodo / citation
 
-### Open frontier (necessity of the structural hypotheses)
-
-The universal non-erasure family is stated under **`RolePairDiverseCrownEligible`** and **`DiagonalCapable`** (with a single-hypothesis form after instantiating a diagonal-capable framework). The remaining mathematical frontier is **not** a missing proof obligation inside those theorems: it is the question whether those two hypotheses are **logically linked** (one forces the other, or both follow from a common principle) or are **independent** conditions that happen to align on concrete instances such as the NEMS spine. A resolution would simplify how the law is stated to external audiences and connects to the broader universalization program in EPIC_019.
-
-## Proof Status
-
-**Zero sorry in all shipped proof terms.** Zero program-specific axioms beyond Mathlib.
-
-The Milestone 3 coherence axioms (`outer_remainder_forces_inner_enrichment`, `outer_exhaustion_kills_inner_enrichment`) are explicit fields of the `Architecture` class. In `LinkedArchitecture` they are proved as theorems via the `enriched_iff_remainder` field. In `linkedArchitectureFromRemainder` they hold definitionally.
-
-## Reproduction
-
-```bash
-# Requires nems-lean and infinity-compression-lean as siblings
-cd reflexive-architecture-lean
-lake update
-lake exe cache get
-lake build
-```
-
-All builds verified clean on `leanprover/lean4:v4.29.0-rc6` with Mathlib `v4.29.0-rc6`.
-
-## Key theorem summary
-
-| Theorem | Location | Status |
-|---------|----------|--------|
-| `layered_architecture_theorem` | `Bridge/LayeredTheorem.lean` | ✓ 0 sorry |
-| `stratified_noncollapse` | `Bridge/StratifiedNonCollapse.lean` | ✓ 0 sorry |
-| `canonical_bare_does_not_pin_enriched_irreducibility` | `Bridge/BareCanonicityNotReflectiveFinality.lean` | ✓ 0 sorry |
-| `glue_route_coherent_canonical_implies_composition_and_strict_refinement` | `Bridge/GluingRouteCoherence.lean` | ✓ 0 sorry |
-| `inner_enriched_gap_independent_of_outer_theory_extent` | `Bridge/SemanticRemainderToEnrichedGap.lean` | ✓ 0 sorry |
-| `nonerasure_principle` | `Bridge/NonErasurePrinciple.lean` | ✓ 0 sorry |
-| `unified_nonerasure_law` | `Bridge/NonErasurePrinciple.lean` | ✓ 0 sorry |
-| `linked_nonerasure_unconditional` | `Bridge/LinkedArchitecture.lean` | ✓ 0 sorry |
-| `crossCorpus_enriched_iff_remainder` | `Instances/CrossCorpusInstance.lean` | ✓ 0 sorry |
-| `concreteNEMS_has_semantic_remainder` | `Instances/ConcreteFromNEMS.lean` | ✓ 0 sorry |
-| `concreteIC_enrichedIrrHolds` | `Instances/ConcreteFromIC.lean` | ✓ 0 sorry |
-| `nems_spine_both_strata` | `Bridge/DirectCrossCorpusBridge.lean` | ✓ 0 sorry |
-| `ic_enriched_iff_nems_remainder` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ 0 sorry |
-| `ic_enriched_iff_nems_remainder_unconditional` | `Bridge/SharedReflexiveArchitecture.lean` | ✓ 0 sorry |
-| `universal_nonerasure_law` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
-| `universal_nonerasure_law_library` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
-| `nems_spine_from_universal` | `Bridge/UniversalNonErasureLaw.lean` | ✓ 0 sorry |
-
-For the complete theorem table see **[MANIFEST.md](MANIFEST.md)**.
-For module roles and informal glosses see **[STRATA_FORMALIZATION_MAP.md](STRATA_FORMALIZATION_MAP.md)**.
+When registering a snapshot, cite the repository root and this file together with `MANIFEST.md` for the evolving theorem list and build fingerprint.

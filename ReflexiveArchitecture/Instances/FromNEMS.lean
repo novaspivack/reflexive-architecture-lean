@@ -72,6 +72,7 @@ To discharge concretely for a NEMS `Framework F` with `[DiagonalCapable F]`:
 `no_remainder_and_total_implies_final` is the definitional direction and
 follows immediately from the predicate definitions via `noRemAndTotal_impl_final`.
 -/
+@[reducible]
 def nemsReflexiveLayer
     (S  : Type u)
     (Th : Type u)

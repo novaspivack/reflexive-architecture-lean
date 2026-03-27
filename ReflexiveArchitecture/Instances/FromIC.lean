@@ -55,6 +55,7 @@ The four implications:
 * `routeNec_impl_strict`: discharged from route necessity → ProperExtension
 * `split_impl_fiber`: discharged from reflective split → fiber nontriviality
 -/
+@[reducible]
 def icCertificationLayer
     (S : Type u)
     (RouteType           : Type u)

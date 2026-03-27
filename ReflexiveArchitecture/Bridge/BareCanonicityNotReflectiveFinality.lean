@@ -33,6 +33,7 @@ def ReflectiveFinality {S : Type u} (I : CertificationLayer S) : Prop :=
   ¬ I.EnrichedIrreducibility
 
 /-- Inner layer with bare canonicity and *enriched irreducibility* (no reflective finality). -/
+@[reducible]
 def certCanonicalEnrichedIrreducible : CertificationLayer Unit where
   Route := Unit
   AdequateRoute := fun _ => True
@@ -50,6 +51,7 @@ def certCanonicalEnrichedIrreducible : CertificationLayer Unit where
 
 /-- Same carrier and bare-canonical status, but enriched irreducibility is false
 (reflective finality holds). -/
+@[reducible]
 def certCanonicalReflectivelyFinal : CertificationLayer Unit where
   Route := Unit
   AdequateRoute := fun _ => True

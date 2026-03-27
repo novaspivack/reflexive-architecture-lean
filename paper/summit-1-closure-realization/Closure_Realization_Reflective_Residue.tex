@@ -70,7 +70,8 @@ Lean~4 formalization, stratified foundations}
 \codeavailability{Lean~4 formalization: \url{reflexive-architecture-lean} (this repo).
 Build: \texttt{lake update \&\& lake exe cache get \&\& lake build}.
 Zero \texttt{sorry} in proof terms under \texttt{ReflexiveArchitecture/}.
-See \texttt{MANIFEST.md} and \texttt{STRATA\_FORMALIZATION\_MAP.md} at the project root.
+See \texttt{MANIFEST.md}, \texttt{ARTIFACT.md}, and \texttt{STRATA\_FORMALIZATION\_MAP.md} at the project root;
+\texttt{docs/CONSUMER\_BUILD\_NOTE.md} for consumer-build/linter follow-up.
 Supporting corpora: \cite{SpivackAPS2026,SpivackIC2026,SpivackNEMS81-2026}.
 NEMS, APS, and IC references below are suite-internal preprints (2026); they are not
 yet external journal publications.}
@@ -130,6 +131,10 @@ Zero proof placeholders at every level.  The program is complete.
 \newpage
 
 \section{Introduction}
+
+\noindent\textit{Role in the Reflexive Architecture release sequence.} This paper is the architecture and setup layer: cross-layer coherence, milestones, and non-erasure packaging. The mathematically sharp public summit for residual geometry is Summit~2 (\emph{The Geometry of What Maps Forget}), which extracts the map/kernel theory in standalone form; read the present paper as the bridge and program context for that flagship, not as the primary ``first contact'' geometric paper.
+
+\medskip
 
 The present paper is a synthesis paper, and its central claims have been
 machine-checked in full inside the class $\RAL$ and in the concrete source-import

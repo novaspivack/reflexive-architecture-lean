@@ -44,6 +44,7 @@ with the APS corpus theorems:
     (comp_implies_gluing aps ·)
     (finiteTracking_from_comp aps ·)`
 -/
+@[reducible]
 def apsRealizationLayer
     (S : Type u)
     (hasFiniteTracking : Prop)
@@ -65,6 +66,7 @@ def apsRealizationLayer
 /-- Convenience wrapper that packages the biconditional directly from the
 APSUniformization `finite_tracking_and_gluing_implies_comp` and `comp_implies_gluing`
 theorems (once those are available as hypotheses). -/
+@[reducible]
 def apsRealizationLayerFromIff
     (S : Type u)
     (hasFiniteTracking : Prop)

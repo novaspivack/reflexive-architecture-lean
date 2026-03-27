@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  24 MAR 2026 00:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  27 MAR 2026 09:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -558,11 +558,18 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
+
+Overfull \hbox (0.4525pt too wide) in paragraph at lines 65--71
+\T1/cmtt/m/n/10.95 build\T1/cmr/m/n/10.95 (-20) . Zero \T1/cmtt/m/n/10.95 sorry
+ \T1/cmr/m/n/10.95 (-20) in proof terms. See \T1/cmtt/m/n/10.95 MANIFEST.md \T1
+/cmr/m/n/10.95 (-20) for the com-plete the-o-rem in-dex, \T1/cmtt/m/n/10.95 ART
+IFACT.md
+ []
+
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-
 (./The_Geometry_of_What_Maps_Forget.toc
 
 [1
@@ -607,16 +614,23 @@ al/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}])
 
 [17]
 
-[18]
+[18] [19]
+Overfull \hbox (0.49818pt too wide) in paragraph at lines 1568--1573
+\T1/cmtt/m/n/10.95 ARTIFACT.md \T1/cmr/m/n/10.95 (-20) for ci-ta-tion and build
+ fin-ger-print, and \T1/cmtt/m/n/10.95 docs/CONSUMER_BUILD_NOTE.md \T1/cmr/m/n/
+10.95 (-20) for consumer-
+ []
 
-[19]
-Underfull \hbox (badness 1057) in paragraph at lines 1601--1605
+
+
+[20]
+Underfull \hbox (badness 1057) in paragraph at lines 1618--1622
 []\T1/cmr/m/n/10.95 (+20) The Uni-va-lent Foun-da-tions Pro-gram, \T1/cmr/m/it/
 10.95 (+20) Ho-mo-topy Type The-ory: Uni-va-lent Foun-da-
  []
 
 
-Underfull \hbox (badness 1062) in paragraph at lines 1601--1605
+Underfull \hbox (badness 1062) in paragraph at lines 1618--1622
 \T1/cmr/m/it/10.95 (+20) tions of Math-e-mat-ics\T1/cmr/m/n/10.95 (+20) , In-st
 i-tute for Ad-vanced Study, 2013. Avail-able at []$\T1/cmtt/m/n/10.95 https : /
  /
@@ -624,23 +638,23 @@ i-tute for Ad-vanced Study, 2013. Avail-able at []$\T1/cmtt/m/n/10.95 https : /
 
 
 
-[20] (./The_Geometry_of_What_Maps_Forget.aux)
+[21] (./The_Geometry_of_What_Maps_Forget.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `The_Geometry_of_What_Maps_Forget.out' has no
 t changed.
-(rerunfilecheck)             Checksum: B701FF1AD7A0D1E65220C0854E206CB9;3840.
+(rerunfilecheck)             Checksum: 53BAA60677913EFA4B617BAC27C96802;4146.
  ) 
 Here is how much of TeX's memory you used:
- 14479 strings out of 473190
- 224894 string characters out of 5715801
- 673813 words of memory out of 5000000
- 36948 multiletter control sequences out of 15000+600000
- 598322 words of font info for 289 fonts, out of 8000000 for 9000
+ 14495 strings out of 473190
+ 225123 string characters out of 5715801
+ 672922 words of memory out of 5000000
+ 36952 multiletter control sequences out of 15000+600000
+ 598685 words of font info for 294 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,1029b,781s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,1029b,756s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
@@ -669,11 +683,11 @@ onts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2025/texmf-dist/fon
 ts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2025/texmf-dist/fonts
 /type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/t
 ype1/public/cm-super/sftt1095.pfb>
-Output written on The_Geometry_of_What_Maps_Forget.pdf (20 pages, 613106 bytes)
+Output written on The_Geometry_of_What_Maps_Forget.pdf (21 pages, 613416 bytes)
 .
 PDF statistics:
- 678 PDF objects out of 1000 (max. 8388607)
- 592 compressed objects within 6 object streams
- 216 named destinations out of 1000 (max. 500000)
- 70313 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 698 PDF objects out of 1000 (max. 8388607)
+ 610 compressed objects within 7 object streams
+ 218 named destinations out of 1000 (max. 500000)
+ 70321 words of extra memory for PDF output out of 74296 (max. 10000000)
 

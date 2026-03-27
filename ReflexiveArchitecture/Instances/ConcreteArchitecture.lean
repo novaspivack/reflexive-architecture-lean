@@ -50,6 +50,7 @@ theorems that connect the NEMS outer layer to the IC inner layer.  At present th
 are explicit hypotheses; they become fully discharged theorems when Tasks D(+) and
 D(−) of EPIC_017_3BQ are completed.
 -/
+@[reducible]
 def concreteArchitecture
     (S : Type u)
     -- Outer (NEMS) layer data

@@ -59,8 +59,7 @@ theorem exhaustive_iff_kernel_empty (S : ReflectiveCertificationSystem Bare Real
     simp only [Set.mem_empty_iff_false, iff_false]
     intro ⟨hne, heq⟩
     exact hne (hinj heq)
-  · intro hempty
-    intro x y heq
+  · intro hempty x y heq
     by_contra hne
     have : (x, y) ∈ ResidualKernel S := ⟨hne, heq⟩
     rw [hempty] at this
@@ -238,7 +237,7 @@ def fundamentalResidualPackage (S : ReflectiveCertificationSystem Bare Realized)
     FundamentalResidualPackage S where
   kernel_nonempty_iff := residualKernel_nonempty_iff S
   kernel_decomposition := residualKernel_eq_iUnion_kernelAt S
-  fiber_complete := fun b x y hx hy hne => kernelAt_complete S hx hy hne
+  fiber_complete := fun b x y hx hy hne => @kernelAt_complete _ _ S b x y hx hy hne
   observable_duality := fun P => not_bareDetermined_iff_separates_kernel S P
   resolution_criterion := fun r => resolves_iff_separates_all_kernel_pairs S r
   resolution_local := fun r => resolves_iff_resolvesAt_all S r
