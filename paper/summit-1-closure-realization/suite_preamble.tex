@@ -1,9 +1,11 @@
 %===============================================================
 % NEMS/PSC Suite — Shared Preamble
-% Include via: \input{../suite_preamble}  (from any paper subdir)
+% Include via: \input{suite_preamble}  (from this summit-1 paper directory)
 %===============================================================
 
 \usepackage[margin=1in]{geometry}
+\setlength{\hfuzz}{3pt}
+\setlength{\emergencystretch}{2.5em}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
@@ -11,6 +13,10 @@
 \usepackage{enumitem}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro\UrlBreaks{\do\-\do\.\do\_\do\/}
+\makeatother
 
 \usepackage{hyperref}
 \hypersetup{
@@ -51,3 +57,28 @@
 \newcommand{\amsclassification}[1]{\par\noindent\textbf{MSC 2020:} #1\par\vspace{0.5em}}
 \newcommand{\pacs}[1]{\begingroup\def\pacs@temp{#1}\ifx\pacs@temp\empty\else\par\noindent\textbf{PACS:} #1\par\vspace{0.5em}\fi\endgroup}
 \newcommand{\codeavailability}[1]{\par\noindent\textbf{Code/Data availability:} #1\par\vspace{0.5em}}
+
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+\newenvironment{keybox}[1]{%
+  \Needspace*{8\baselineskip}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable=false,
+    colback=blue!5,
+    colframe=blue!45!black,
+    coltitle=black,
+    colbacktitle=blue!14,
+    boxrule=0.85pt,
+    arc=2.5pt,
+    left=9pt, right=9pt, top=6pt, bottom=6pt,
+    titlerule=0.55pt,
+    fonttitle=\bfseries,
+    title={#1},
+    before upper=\raggedright,
+    before skip=0.9\baselineskip,
+    after skip=0.9\baselineskip
+  ]%
+}{%
+  \end{tcolorbox}%
+}

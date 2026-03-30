@@ -13,6 +13,34 @@
 \usepackage{url}
 \usepackage{etoolbox}
 \usepackage{longtable}
+\usepackage{needspace}
+\usepackage[most]{tcolorbox}
+
+% Align with suite §2.8 overfull policy (see NEMS suite_preamble).
+\setlength{\hfuzz}{3pt}
+
+\newenvironment{keybox}[1]{%
+  \Needspace*{8\baselineskip}%
+  \begin{tcolorbox}[
+    enhanced,
+    breakable=false,
+    colback=blue!5,
+    colframe=blue!45!black,
+    coltitle=black,
+    colbacktitle=blue!14,
+    boxrule=0.85pt,
+    arc=2.5pt,
+    left=9pt, right=9pt, top=6pt, bottom=6pt,
+    titlerule=0.55pt,
+    fonttitle=\bfseries,
+    title={#1},
+    before upper=\raggedright,
+    before skip=0.9\baselineskip,
+    after skip=0.9\baselineskip
+  ]%
+}{%
+  \end{tcolorbox}%
+}
 
 % Theorem environments
 \theoremstyle{plain}
@@ -70,6 +98,7 @@ complete theorem index, \texttt{ARTIFACT.md} for citation and build fingerprint,
 \texttt{docs/CONSUMER\_BUILD\_NOTE.md} for consumer-build/linter notes (all at repository root except the last, under \texttt{docs/}).
 
 \begin{abstract}
+\raggedright
 We prove that whenever a comparison map fails to be injective, the resulting residual is not vague leftover structure but a precise geometric object: a kernel decomposed fiberwise, with exact resolution cost, monotone refinement behavior, and functorial invariants. We then show that this residual geometry is universal: every comparison map carries it, and adequacy determines when it is nontrivial.
 
 For an arbitrary map $\compare : \Real \to \Bare$, five conditions---non-exhaustion,
@@ -100,7 +129,26 @@ All results are formalized in Lean~4~\cite{Lean4} with Mathlib~\cite{Mathlib}, w
 \texttt{sorry} in proof terms on the summit route cited in \texttt{MANIFEST.md}. The theory is discharged against the
 Infinity Compression flagship and admits instances from algebra, topology,
 and computability.
+
+\textbf{Trust boundary:} Universal claims are theorems in Lean for arbitrary types and comparison maps on the summit route cited in \texttt{MANIFEST.md}; adequacy hypotheses are explicit where enrichment is forced.
 \end{abstract}
+
+\section{Premises, disagreement coordinates, and trust boundary}\label{sec:premises-geometry-maps-forget}
+\begin{keybox}{Where disagreement can (and cannot) live}
+\textbf{Formal spine.}
+The five-way equivalence and residual-kernel geometry are proved in the cited \texttt{reflexive-architecture-lean} modules; injective countercases are part of the stated dichotomy.
+
+\medskip
+\textbf{Premise coordinates (for external readers).}
+{\raggedright
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Certification rhetoric vs.\ minimal hypotheses.} Examples motivate bare/enriched language; theorems assume only a map \(\compare : \Real \to \Bare\) unless a section invokes adequacy structure.
+  \emph{Logical effect:} Rejecting certification metaphysics does not touch the bare type-theoretic statements.
+\item \textbf{Summit route vs.\ partial formalizations.} The abstract cites \texttt{MANIFEST.md} for the summit scope; partial homotopy-layer gaps in other branches do not retroactively weaken this route if not claimed here.
+  \emph{Logical effect:} Use the repository's summit index when auditing lemmas.
+\end{itemize}
+\par}
+\end{keybox}
 
 \tableofcontents
 
