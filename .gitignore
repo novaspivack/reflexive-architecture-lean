@@ -13,5 +13,4 @@ lake-packages/
 **/paper/**/*.out
 **/paper/**/*.toc
 **/paper/**/*.synctex.gz
-**/paper/**/*.pdf
 **/paper/**/*.synctex(busy)
