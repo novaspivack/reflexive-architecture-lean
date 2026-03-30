@@ -5,12 +5,13 @@ lake-packages/
 # Editor
 .DS_Store
 
-# LaTeX (paper/)
-**/paper/*.aux
-**/paper/*.fdb_latexmk
-**/paper/*.fls
-**/paper/*.log
-**/paper/*.out
-**/paper/*.toc
-**/paper/*.synctex.gz
-**/paper/*.synctex(busy)
+# LaTeX (paper/ including summit subfolders)
+**/paper/**/*.aux
+**/paper/**/*.fdb_latexmk
+**/paper/**/*.fls
+**/paper/**/*.log
+**/paper/**/*.out
+**/paper/**/*.toc
+**/paper/**/*.synctex.gz
+**/paper/**/*.pdf
+**/paper/**/*.synctex(busy)
