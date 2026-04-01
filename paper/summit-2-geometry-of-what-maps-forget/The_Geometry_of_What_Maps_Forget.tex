@@ -130,7 +130,9 @@ All results are formalized in Lean~4~\cite{Lean4} with Mathlib~\cite{Mathlib}, w
 Infinity Compression flagship and admits instances from algebra, topology,
 and computability.
 
-\textbf{Trust boundary:} Universal claims are theorems in Lean for arbitrary types and comparison maps on the summit route cited in \texttt{MANIFEST.md}; adequacy hypotheses are explicit where enrichment is forced.
+Section~\ref{sec:representation-as-structured-forgetting} then develops an interpretive synthesis---representation as selective forgetting, the ascent from map to function to ontology, and reflexive non-exhaustion---explicitly layered on the formal spine (Remark~\ref{rem:representation-interpretive}).
+
+\textbf{Trust boundary:} Universal claims are theorems in Lean for arbitrary types and comparison maps on the summit route cited in \texttt{MANIFEST.md}; adequacy hypotheses are explicit where enrichment is forced. Philosophical claims in \S\ref{sec:representation-as-structured-forgetting} are interpretive unless noted as restating the formal fiber geometry.
 \end{abstract}
 
 \section{Premises, disagreement coordinates, and trust boundary}\label{sec:premises-geometry-maps-forget}
@@ -206,6 +208,11 @@ The results ascend through a sequence of summits:
       any two types. ``Certification'' is a motivating interpretation, not a
       formal hypothesis. The residual geometry is a universal theory of
       information loss (\S\ref{sec:universal}).
+\item \textbf{Representation as structured forgetting (interpretive).}
+      Section~\ref{sec:representation-as-structured-forgetting} traces how the
+      fiber geometry of non-injective maps connects to selective articulation
+      at the levels of function and ontology, and to reflexive non-exhaustion;
+      interpretive scope is fixed in Remark~\ref{rem:representation-interpretive}.
 \end{enumerate}
 
 \noindent
@@ -1390,6 +1397,8 @@ The theory is therefore not merely a theory of certification failure. It is
 a \emph{universal theory of information loss under any map}---a geometry of
 forgetting that applies wherever a function compresses structure.
 
+Section~\ref{sec:representation-as-structured-forgetting} sharpens this into a broader interpretive thesis---representation as selective forgetting and its reflexive consequences---explicitly layered on the formal spine (Remark~\ref{rem:representation-interpretive}).
+
 \begin{remark}[Scope and non-claims]\label{rem:non-claims}
 We do not claim that every useful map is best studied via this theory, nor
 that all information-loss phenomena are exhausted by the kernel. We do not
@@ -1409,6 +1418,127 @@ complementing rather than replacing domain-specific analysis
 \item \texttt{universal\_resolution}, \texttt{universal\_meta\_blindness}, \texttt{every\_function\_has\_\allowbreak{}residual\_geometry}, \texttt{every\_function\_has\_five\_way\_equivalence} in the same file
 \end{itemize}
 \end{remark}
+
+%% ========================================================================
+\section{Representation as Structured Forgetting}
+\label{sec:representation-as-structured-forgetting}
+%% ========================================================================
+
+\begin{remark}[Interpretive scope]\label{rem:representation-interpretive}
+This section is a \emph{philosophical synthesis} layered on the machine-checked
+geometry developed above. The elementary claims about fibers, collisions
+$f(a_1)=f(a_2)$, and irrecoverability from the image alone restate standard
+set-theoretic facts aligned with \S\S\ref{sec:kernel}--\ref{sec:refinement}.
+Ascending claims about ``the function'' and ``ontology'' as selective regimes,
+and the reflexive consequences drawn in \S\ref{sec:representation-as-structured-forgetting:reflexive},
+are interpretive: they articulate a disciplined reading consistent with the
+formal package, not additional theorems in \texttt{reflexive-architecture-lean}.
+\end{remark}
+
+The present analysis can now be sharpened into a more general claim. What maps forget is not an isolated pathology of a few badly behaved functions. It is the visible surface of a deeper structural fact: \emph{representation itself is selective}, and selectivity is already a form of forgetting. A representation is not a neutral duplication of what it represents. It is a constrained articulation of it. To articulate is to choose; to choose is to privilege some distinctions over others; and to privilege some distinctions is to leave others behind. Thus forgetting is not merely an occasional defect of representation. It is one of its constitutive conditions.
+
+This point can be stated at several levels. At the most elementary level, a non-injective map forgets because distinct source points are identified in the image. At a higher level, the function that generates or governs such a map does not remove this loss, because the function is itself another structured semantic artifact, encoded under assumptions, constraints, and an interpretive stance. At a still higher level, ontology does not terminate the chain either, because an ontology is itself a selective articulation: a system of admissible categories, distinctions, and commitments. The result is a hierarchy in which one repeatedly ascends in search of closure, only to find that each new level is itself another regime of partial articulation. Representation therefore forms not only a chain of articulation, but a chain of forgetting.
+
+\begin{keybox}{Representation is not possible without forgetting}
+\textbf{Representation is not possible without forgetting.} To represent is not to copy a reality into a second place without loss. It is to impose a structured regime of admissible distinctions on it. Every such regime preserves some relations, suppresses others, and leaves a residue outside what it can fully articulate. Forgetting is therefore not merely something representation sometimes does. It is one of the structural conditions under which representation becomes possible at all.
+\end{keybox}
+
+\subsection{Maps Forget by Collapsing Distinctions}
+
+Let \(f : A \to X\). Every point of \(A\) may indeed be sent to some point of \(X\). But this does not mean that nothing has been forgotten. What matters is not merely that each input receives an image, but whether distinct inputs remain distinguishable in the codomain. If there exist \(a_1 \neq a_2\) in \(A\) such that
+\[
+f(a_1)=f(a_2),
+\]
+then the map forgets the distinction between \(a_1\) and \(a_2\). The lost structure is not annihilated in some absolute sense; rather, it is rendered irrecoverable from the image alone. The codomain remembers only that the input lay somewhere in the fiber
+\[
+f^{-1}(x)=\{a\in A : f(a)=x\},
+\]
+not which member of that fiber it was.
+
+This is the elementary geometry of forgetting. A map forgets not by failing to assign outputs, but by collapsing distinctions among inputs. Its fibers, kernel relations, and witness multiplicities are therefore not accidental byproducts. They are the formal anatomy of what the map cannot preserve. The map becomes a selective instrument of visibility: it lets some structure pass through while forcing other structure into equivalence classes.
+
+Yet this first level already invites an objection. One may say: perhaps the image forgets, but the map itself does not. Perhaps everything apparently lost in the codomain is still preserved in the graph of the function. Perhaps the codomain forgets, but the total map remembers.
+
+\subsection{The Function Does Not Close the Loss}
+
+This reply fails because it treats the function as though it stood outside the economy of articulation in which the forgetting arose. But the function is not an external completion of the situation. It is itself another structured object. A function is not merely a bare assignment of outputs to inputs. It is an encoded law of transformation under a specific domain, a set of admissibility conditions, a constrained family of allowable operations, and an interpretive stance that determines what counts as an input, what counts as an output, and what structure is to matter in passing from one to the other.
+
+In this sense a function is itself a bundle of meaning. It is not only a transformer of semantic structure; it is a semantic commitment concerning which distinctions are relevant, which relations are visible, which outputs count as legitimate, and which patterns are worth preserving. A function therefore carries a stance toward its domain. It says, in effect, both \emph{what to do} and \emph{what counts}. The very choice of codomain, the admissible input class, the invariants preserved, the quotienting tolerated, and the constraints imposed are all part of the semantic burden encoded by the function itself.
+
+But then the appeal from the map to the function does not escape forgetting. It merely ascends to another structured articulation. If the codomain forgets by collapsing distinctions among inputs, the function forgets by encoding only one law of transformation under one regime of assumptions rather than another. It therefore cannot be treated as the final repository of everything the map left out. Its own articulation presupposes a background of unchosen possibilities, excluded distinctions, and unexpressed interpretive conditions. The function is thus not a neutral container of total meaning. It is another selective compression of it.
+
+\begin{keybox}{The function does not recover what the map forgot}
+\textbf{The function does not recover what the map forgot.} A function is itself a structured semantic artifact: a law of transformation encoded under assumptions, constraints, and an interpretive stance. To appeal from the image to the function is therefore not to escape remainder, but only to move one level upward within it. The higher-order articulation is itself another selective regime, and therefore another site of forgetting.
+\end{keybox}
+
+This point is decisive. If the image forgets and the function does not close that forgetting, then the chain does not end with the function. One may try to ascend again and say: perhaps the ontology within which the function is defined closes the gap. Perhaps the function is incomplete, but the ontology that determines its admissible objects and relations provides the final frame.
+
+\subsection{Ontology Does Not Exhaust Meaning}
+
+This move also fails. An ontology is not pure self-sufficiency. It is itself a structured selection: a choice of what kinds of entities, relations, categories, and admissible distinctions count within a given frame. An ontology says what there is, but in doing so it also says what sort of articulation will count as legitimate, what forms of difference are basic, what forms are derivative, and what kinds of explanation may begin. It is therefore not the elimination of choice, but its highest codified form within a given regime.
+
+For this reason, ontology too belongs to the chain of selective articulation. It does not float above forgetting. It institutes forgetting at a deeper level. To choose an ontology is to decide which distinctions will be primary, which secondary, which invisible, and which unavailable. Even where the ontological commitments are taken as axiomatic, the problem is not removed. Axioms can terminate a derivation, but they do not terminate presupposition. An ontology stated as primitive still presupposes a basis on which its categories can be meaningful, its admissible distinctions can be drawn, and its commitments can be determinate as \emph{this} ontology rather than another.
+
+Accordingly, ontology does not exhaust meaning. It is itself one more articulation within a wider semantic condition that it does not fully contain. The point here is not to specify that wider condition in positive metaphysical detail. The present argument requires only the negative conclusion: no ontology is self-grounding merely by being articulated as an ontology. If ontology is a regime of admissible choices, then the very fact that such choices can be meaningful already points beyond the ontology to what its own articulation presupposes.
+
+\begin{keybox}{Ontology is selective articulation}
+\textbf{Ontology is itself a selective articulation, and therefore a higher-order forgetting.} An ontology does not terminate remainder by naming the ultimate inventory of what there is. It is itself a structured choice of admissible categories, distinctions, and commitments. Even if such commitments are taken as axiomatic, their meaningfulness is not self-grounding. Ontology therefore does not exhaust the condition of its own articulation.
+\end{keybox}
+
+\subsection{The Chain of Representation Is a Chain of Forgetting}
+
+The preceding steps may now be assembled into a single line of reasoning.
+
+A map is a representation. It renders a source domain visible in a codomain by carrying certain distinctions forward and collapsing others. A function is a representation of a higher order. It encodes a law of transformation and a regime of admissibility, but in doing so it too selects and excludes. An ontology is a higher-order representation again. It codifies what sorts of objects, relations, and differences count at all. But it does so only by establishing one structured frame among others and therefore by instituting a deeper selectivity.
+
+The chain thus has the following form:
+\[
+\text{map} \;\longrightarrow\; \text{function} \;\longrightarrow\; \text{ontology} \;\longrightarrow\; \cdots
+\]
+At each stage one may hope that the higher level recovers what the lower level forgot. But each higher level is itself another articulation, and articulation is possible only through selectivity. For that reason the chain is simultaneously
+\[
+\text{representation} \;\longrightarrow\; \text{higher-order representation} \;\longrightarrow\; \text{higher-order representation} \;\longrightarrow\; \cdots
+\]
+and
+\[
+\text{forgetting} \;\longrightarrow\; \text{higher-order forgetting} \;\longrightarrow\; \text{higher-order forgetting} \;\longrightarrow\; \cdots .
+\]
+One does not climb out of forgetting by ascending within the same economy of structured articulation. One only reiterates it in a more rarefied form.
+
+This yields a deeper principle:
+
+\begin{keybox}{Every internal articulation forgets}
+\textbf{Every internal articulation is also an internal forgetting.} A map forgets by collapsing distinctions. A function forgets by encoding only one law of transformation under one regime of assumptions. An ontology forgets by selecting one admissible basis of categories and commitments rather than another. The ascent from map to function to ontology is therefore not a ladder to total recovery, but a hierarchy of increasingly general selective regimes.
+\end{keybox}
+
+This is why representation is impossible without forgetting. A representation that forgot nothing would preserve every distinction, every relation, every admissible interpretation, every contextual condition, and every possible articulation simultaneously. But such a structure would no longer function as a representation in any usable sense. It would cease to select, cease to compress, cease to interpret, and therefore cease to be representational at all. Representation requires visibility under constraint, and visibility under constraint is inseparable from exclusion.
+
+\subsection{Where the Chain Leads}
+
+The natural thought is that, after enough ascent, one should eventually arrive at a final level that contains everything the lower levels left out. The foregoing analysis shows why this hope must fail. Since each level is itself another selective articulation, the chain does not culminate in a final all-inclusive representation. It culminates instead in the recognition of a limit.
+
+This limit should not be misunderstood as one last hidden item waiting to be added to the inventory. Nor is it merely one final forgotten content still lurking behind the current articulation. The point is deeper. The chain leads not to one more representable thing, but to what no such chain can fully contain. Every level of articulation can leave remainder because every level is itself constituted through selective admissibility. The final remainder is therefore not just another omitted object within the chain. It is what cannot be reduced to one more internally articulated item of the same kind.
+
+For that reason, the deepest remainder is not properly described as forgotten content. Forgetting presupposes that something was, at least in principle, available to the relevant regime of knowledge or articulation and then lost, collapsed, omitted, or rendered irrecoverable within it. But the present chain points to something stronger: a limit of articulability itself. What lies at the end of the chain is not merely what a given map forgot, nor what a given function failed to encode, nor what a given ontology omitted from its inventory. It is what no internal articulation of this type can fully exhaust.
+
+\begin{keybox}{Limit of articulation}
+\textbf{The chain of forgetting terminates not in one final forgotten item, but at the limit of articulation itself.} What cannot be fully admitted into the regime of articulated knowing is not forgotten in the ordinary sense, because forgetting already presupposes prior admissibility to knowledge. The final remainder is deeper: it is irreducible non-exhaustion.
+\end{keybox}
+
+This gives the geometry of forgetting its widest significance. What maps forget is not merely a local fact about non-injective comparisons. It is the first visible manifestation of a general principle: every regime of internal articulation preserves some structure only by excluding other structure, and no ascent within such regimes closes that exclusion once and for all. The geometry of fibers, kernels, witness multiplicities, and exact resolution cost is therefore the opening layer of a more general architecture of non-exhaustion. The local remainder of a map, the higher-order remainder of a function, and the deepest remainder of ontology are not unrelated phenomena. They are successive expressions of one structural fact: closure is achievable only as partial articulation, and partial articulation never coincides with total semantic reality.
+
+\subsection{Reflexive Consequence}
+\label{sec:representation-as-structured-forgetting:reflexive}
+
+The importance of this chain becomes greatest in the reflexive case. A reflexive system is one that does not merely contain maps, functions, and ontological commitments as inert contents, but is itself structured through transformations that return upon its own conditions of articulation. In such a setting the foregoing argument does not remain external to the system. It is inherited by the system from within. If representation is structurally inseparable from forgetting, and if reflexive articulation is still articulation, then a reflexive system cannot be expected to close itself into a final, exhaustive internal image. It may return to itself; it may partially articulate itself; it may even generate highly disciplined internal representations of its own structure. But each such articulation remains one more selective regime. Hence reflexive closure does not yield reflexive exhaustion.
+
+The consequence is not merely that reflexive systems happen to be difficult to complete. It is that their incompletion is structurally principled. Their internal images, no matter how refined, remain subject to the same architecture that governs maps, functions, and ontologies generally. What appears in the local case as non-injective forgetting appears in the reflexive case as irreducible remainder. The geometry of what maps forget is thus not peripheral to reflexive limitation. It is one of its most elementary and intuitive expressions.
+
+\begin{keybox}{Reflexive systems inherit the chain}
+\textbf{Reflexive systems inherit the chain of forgetting from within.} Since a reflexive system articulates itself only through internal maps, functions, and ontological structures, it cannot coincide with a final exhaustive internal image of itself. Reflexive closure is therefore possible, but reflexive exhaustion is not. What maps forget in the local case becomes, at the reflexive level, a principled irreducible remainder.
+\end{keybox}
+
+The upshot is that the geometry of what maps forget should not be read merely as a theory of information loss under non-injective comparison. It is also a theory of why representation has a constitutive limit, why ascent within structured articulation does not abolish remainder, and why reflexive systems cannot eliminate the very distance through which they become representable to themselves in the first place. The local geometry of forgetting opens directly onto a general architecture of non-exhaustion.
 
 %% ========================================================================
 \section{Frontier}\label{sec:frontier}
@@ -1482,6 +1612,15 @@ The formalization in Lean~4 with zero \texttt{sorry} ensures that every
 claim in this paper is machine-checked. The discharge against the Infinity
 Compression flagship, the NEMS computability anchor, and the APS algebraic
 layer ensures that the abstract theory is not vacuous.
+
+Section~\ref{sec:representation-as-structured-forgetting} connects the fiber
+geometry to a wider interpretive thesis: representation requires selective
+articulation; appealing from image to function to ontology reiterates rather
+than closes remainder; and reflexive systems inherit that architecture
+internally (Remark~\ref{rem:representation-interpretive} for scope). The
+mathematical core remains Theorem~\ref{thm:fund-res} and the universal
+package---closure of articulation without pretense of total internal
+exhaustion is philosophy consistent with, not identical to, those lemmas.
 
 What a non-injective map forgets is not an accident, not an informal remainder,
 and not merely a by-product of examples. It is a canonically organized object
