@@ -90,12 +90,13 @@ observable duality, resolution complexity, graph coloring, Lean~4 formalization.
 
 \noindent\textbf{MSC 2020:} 03B70, 03F40, 18A05, 05C15.
 
-\noindent\textbf{Code availability:} Lean~4 formalization at
-\texttt{reflexive-architecture-lean}. Build: \texttt{lake build}.
-Zero \texttt{sorry} in proof terms. See \texttt{MANIFEST.md} for the
-complete theorem index, \texttt{ARTIFACT.md} for citation and build fingerprint,
-\texttt{STRATA\_FORMALIZATION\_MAP.md} for the module gloss, and
-\texttt{docs/CONSUMER\_BUILD\_NOTE.md} for consumer-build/linter notes (all at repository root except the last, under \texttt{docs/}).
+\noindent\textbf{Code availability:} Lean~4 formalization in
+\texttt{reflexive-architecture-lean} (main residual/universal development) and,
+for the supplementary bridge discussed in \S\ref{sec:representation-as-structured-forgetting},
+\texttt{reflexive-closure-lean}. Build (from the corresponding repository): \texttt{lake build}.
+The lemmas this paper cites as machine-checked are \texttt{sorry}-free in those sources.
+Appendix~\ref{app:index} matches named paper results to Lean declaration names and file paths;
+Remark~\ref{rem:structured-forgetting-lean} lists the adjoining bridge modules.
 
 \begin{abstract}
 \raggedright
@@ -126,13 +127,13 @@ full residual geometry. The theory is a universal geometry of information
 loss under any map.
 
 All results are formalized in Lean~4~\cite{Lean4} with Mathlib~\cite{Mathlib}, with zero
-\texttt{sorry} in proof terms on the summit route cited in \texttt{MANIFEST.md}. The theory is discharged against the
+\texttt{sorry} in proof terms on the formalization path summarized in Appendix~\ref{app:index}. The theory is discharged against the
 Infinity Compression flagship and admits instances from algebra, topology,
 and computability.
 
 Section~\ref{sec:representation-as-structured-forgetting} then develops an interpretive synthesis---representation as selective forgetting, the ascent from map to function to ontology, and reflexive non-exhaustion---explicitly layered on the formal spine (Remark~\ref{rem:representation-interpretive}).
 
-\textbf{Trust boundary:} Universal claims are theorems in Lean for arbitrary types and comparison maps on the summit route cited in \texttt{MANIFEST.md}; adequacy hypotheses are explicit where enrichment is forced. \emph{Reflexive-closure-lean} supplies a small additional bridge (map forgetting, representation/remainder interfaces, and class-level invariants) indexed in that manifest; the physical reading of conservation as ``law'' remains interpretive (\S\ref{sec:representation-conservation}). Philosophical claims elsewhere in \S\ref{sec:representation-as-structured-forgetting} are interpretive unless noted as restating the formal fiber geometry or those abstract interfaces.
+\textbf{Trust boundary:} Universal claims are theorems in Lean for arbitrary types and comparison maps in the \texttt{ReflexiveArchitecture.Universal} hierarchy (Appendix~\ref{app:index}); adequacy hypotheses are explicit where enrichment is forced. \emph{Reflexive-closure-lean} supplies a small additional bridge (map forgetting, representation/remainder interfaces, and class-level invariants) named in Remark~\ref{rem:structured-forgetting-lean}; the physical reading of conservation as ``law'' remains interpretive (\S\ref{sec:representation-conservation}). Philosophical claims elsewhere in \S\ref{sec:representation-as-structured-forgetting} are interpretive unless noted as restating the formal fiber geometry or those abstract interfaces.
 \end{abstract}
 
 \section{Premises, disagreement coordinates, and trust boundary}\label{sec:premises-geometry-maps-forget}
@@ -146,8 +147,8 @@ The five-way equivalence and residual-kernel geometry are proved in the cited \t
 \begin{itemize}[leftmargin=2em]
 \item \textbf{Certification rhetoric vs.\ minimal hypotheses.} Examples motivate bare/enriched language; theorems assume only a map \(\compare : \Real \to \Bare\) unless a section invokes adequacy structure.
   \emph{Logical effect:} Rejecting certification metaphysics does not touch the bare type-theoretic statements.
-\item \textbf{Summit route vs.\ partial formalizations.} The abstract cites \texttt{MANIFEST.md} for the summit scope; partial homotopy-layer gaps in other branches do not retroactively weaken this route if not claimed here.
-  \emph{Logical effect:} Use the repository's summit index when auditing lemmas.
+\item \textbf{Summit route vs.\ partial formalizations.} The Lean scope for this paper is the residual/\texttt{Universal} route mirrored in Appendix~\ref{app:index}; partial homotopy-layer gaps in other branches do not retroactively weaken that route if not claimed here.
+  \emph{Logical effect:} Audit claims against Appendix~\ref{app:index} and the cited \texttt{.lean} paths.
 \end{itemize}
 \par}
 \end{keybox}
@@ -989,7 +990,7 @@ it requires genuine extra data beyond the certification.
 \item Spread across \texttt{Residual/ResidualStructure.lean}, \texttt{Residual/MinimalResolution.lean}, \texttt{Residual/ResolutionComplexity.lean}, \texttt{Residual/QuantitativeResidual.lean}, \texttt{Residual/RefinementOrder.lean}, \texttt{Residual/Incompressibility.lean}, \texttt{Residual/KernelStratification.lean}
 \item Fiber spectrum: \texttt{FiberTrivial}, \texttt{FiberNontrivial}, \texttt{NontrivialLocus} in \texttt{Residual/FiberSpectrum.lean}
 \item Categorical kernel: \texttt{FiberProduct}, \texttt{Diagonal}, \texttt{residualKernel\_eq\_\allowbreak{}fiberProduct\_minus\_diagonal} in \texttt{Residual/CategoricalKernel.lean}
-\item See \texttt{MANIFEST.md} for the complete index; \texttt{ARTIFACT.md} for citation metadata
+\item Appendix~\ref{app:index} records the main paper-to-Lean correspondence for this development.
 \end{itemize}
 \end{remark}
 
@@ -1436,8 +1437,7 @@ In \emph{reflexive-closure-lean}, adjoining definitions package single-map
 forgetting (\texttt{ForgetsDistinction}, non-injectivity), minimal
 representation/remainder frames, class-level invariants
 (\texttt{InvariantUnder}, \texttt{ClassInvariant}, \texttt{ConservationLaw}),
-and the Paper~57 non-exhaustion bridge files cited in \texttt{MANIFEST.md};
-see Remark~\ref{rem:structured-forgetting-lean} for names.
+and the Paper~57 non-exhaustion bridge files named in Remark~\ref{rem:structured-forgetting-lean}.
 Ascending claims about ``the function'' and ``ontology'' as selective regimes,
 and the reflexive consequences drawn in \S\ref{sec:representation-as-structured-forgetting:reflexive},
 remain interpretive where they go beyond those abstract interfaces: they
@@ -1809,10 +1809,10 @@ Category laws (Thm.~\ref{thm:functorial}) &
 \endgroup
 
 \noindent
-Build: \texttt{lake build} from \texttt{reflexive-architecture-lean/}.
-See \texttt{MANIFEST.md} for the complete listing ($\sim$235 theorems, 26 modules),
-\texttt{STRATA\_FORMALIZATION\_MAP.md} for module glosses, \texttt{ARTIFACT.md}
-for citation and build fingerprint, and \texttt{docs/CONSUMER\_BUILD\_NOTE.md} for consumer-build notes.
+Build: \texttt{lake build} from \texttt{reflexive-architecture-lean/}. The table above is the
+paper-facing index; as of this revision the summit route comprises on the order of $235$ theorems
+across $26$ modules under \texttt{ReflexiveArchitecture.Universal} (residual and summit classes).
+Supplementary bridge files in \texttt{reflexive-closure-lean} appear in Remark~\ref{rem:structured-forgetting-lean}.
 
 %% ========================================================================
 \begin{thebibliography}{99}
