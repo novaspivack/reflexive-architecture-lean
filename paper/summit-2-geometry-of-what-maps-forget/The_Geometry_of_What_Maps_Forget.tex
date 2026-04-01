@@ -132,7 +132,7 @@ and computability.
 
 Section~\ref{sec:representation-as-structured-forgetting} then develops an interpretive synthesis---representation as selective forgetting, the ascent from map to function to ontology, and reflexive non-exhaustion---explicitly layered on the formal spine (Remark~\ref{rem:representation-interpretive}).
 
-\textbf{Trust boundary:} Universal claims are theorems in Lean for arbitrary types and comparison maps on the summit route cited in \texttt{MANIFEST.md}; adequacy hypotheses are explicit where enrichment is forced. Philosophical claims in \S\ref{sec:representation-as-structured-forgetting} are interpretive unless noted as restating the formal fiber geometry.
+\textbf{Trust boundary:} Universal claims are theorems in Lean for arbitrary types and comparison maps on the summit route cited in \texttt{MANIFEST.md}; adequacy hypotheses are explicit where enrichment is forced. \emph{Reflexive-closure-lean} supplies a small additional bridge (map forgetting, representation/remainder interfaces, and class-level invariants) indexed in that manifest; the physical reading of conservation as ``law'' remains interpretive (\S\ref{sec:representation-conservation}). Philosophical claims elsewhere in \S\ref{sec:representation-as-structured-forgetting} are interpretive unless noted as restating the formal fiber geometry or those abstract interfaces.
 \end{abstract}
 
 \section{Premises, disagreement coordinates, and trust boundary}\label{sec:premises-geometry-maps-forget}
@@ -212,7 +212,10 @@ The results ascend through a sequence of summits:
       Section~\ref{sec:representation-as-structured-forgetting} traces how the
       fiber geometry of non-injective maps connects to selective articulation
       at the levels of function and ontology, and to reflexive non-exhaustion;
-      interpretive scope is fixed in Remark~\ref{rem:representation-interpretive}.
+      \S\ref{sec:representation-conservation} adds the dual picture---conservation
+      as class-level memory alongside map-level forgetting---with Lean interfaces
+      in \emph{reflexive-closure-lean} (Remark~\ref{rem:structured-forgetting-lean}).
+      Interpretive scope is fixed in Remark~\ref{rem:representation-interpretive}.
 \end{enumerate}
 
 \noindent
@@ -1429,10 +1432,17 @@ This section is a \emph{philosophical synthesis} layered on the machine-checked
 geometry developed above. The elementary claims about fibers, collisions
 $f(a_1)=f(a_2)$, and irrecoverability from the image alone restate standard
 set-theoretic facts aligned with \S\S\ref{sec:kernel}--\ref{sec:refinement}.
+In \emph{reflexive-closure-lean}, adjoining definitions package single-map
+forgetting (\texttt{ForgetsDistinction}, non-injectivity), minimal
+representation/remainder frames, class-level invariants
+(\texttt{InvariantUnder}, \texttt{ClassInvariant}, \texttt{ConservationLaw}),
+and the Paper~57 non-exhaustion bridge files cited in \texttt{MANIFEST.md};
+see Remark~\ref{rem:structured-forgetting-lean} for names.
 Ascending claims about ``the function'' and ``ontology'' as selective regimes,
 and the reflexive consequences drawn in \S\ref{sec:representation-as-structured-forgetting:reflexive},
-are interpretive: they articulate a disciplined reading consistent with the
-formal package, not additional theorems in \texttt{reflexive-architecture-lean}.
+remain interpretive where they go beyond those abstract interfaces: they
+articulate a disciplined reading consistent with the formal package, not
+additional theorems in \texttt{reflexive-architecture-lean}.
 \end{remark}
 
 The present analysis can now be sharpened into a more general claim. What maps forget is not an isolated pathology of a few badly behaved functions. It is the visible surface of a deeper structural fact: \emph{representation itself is selective}, and selectivity is already a form of forgetting. A representation is not a neutral duplication of what it represents. It is a constrained articulation of it. To articulate is to choose; to choose is to privilege some distinctions over others; and to privilege some distinctions is to leave others behind. Thus forgetting is not merely an occasional defect of representation. It is one of its constitutive conditions.
@@ -1456,6 +1466,37 @@ f^{-1}(x)=\{a\in A : f(a)=x\},
 not which member of that fiber it was.
 
 This is the elementary geometry of forgetting. A map forgets not by failing to assign outputs, but by collapsing distinctions among inputs. Its fibers, kernel relations, and witness multiplicities are therefore not accidental byproducts. They are the formal anatomy of what the map cannot preserve. The map becomes a selective instrument of visibility: it lets some structure pass through while forcing other structure into equivalence classes.
+
+\subsection{Conservation as class-level memory}
+\label{sec:representation-conservation}
+
+The dual question is not only ``what does this map forget?'' but ``what survives every transformation in an admissible family?''  At map level, non-injectivity forgets distinctions that are not invariant under passage through~$f$.  If one enlarges the viewpoint from a single map to a whole class~$\mathcal{F}$ of admissible maps $f \colon A \to A$ (time evolutions, symmetries, coarse-grainings allowed by a theory), a \emph{conservation law} can be read as a quantity or structure~$I$ such that for all $f \in \mathcal{F}$,
+\[
+  I(f(a)) = I(a),
+\]
+equivalently $I \circ f = I$ in the relevant functorial sense.  What is conserved is then exactly what no $f$ in the admissible class can erase from the perspective of~$I$.
+
+\begin{keybox}{Conservation is class-level memory}
+\textbf{A conservation law is a class-level memory.}  Instead of tracking the fiber-wise \emph{lost} remainder of one map, one tracks the \emph{unforgotten} remainder at family level: the structured core that persists under every admissible transformation.  Local forgetting asks what collapses under a single quotient; conservation asks what cannot be lost under the whole admissible regime.
+\end{keybox}
+
+This is not the same object as a single-map fiber remainder: class-level invariance picks out what is \emph{blind} to whichever distinctions each admissible map may merge---formally, any $I$ with $I \circ f = I$ is constant on fibers of~$f$.  The elegant duality is therefore
+\begin{center}
+\textit{Forgetting (one map): what is lost under $f$?}
+\qquad
+\textit{Conservation (a family): what can never be lost under every $f \in \mathcal{F}$?}
+\end{center}
+Physically, one may read the same structure twice: a dynamical law as a \emph{generator} of allowed maps, and simultaneously as a \emph{guarantee} that those maps preserve a common invariant core---a deeper notion of conservation than ``a number stays constant.''
+
+The hierarchy suggested for the wider architecture is then
+\[
+  \text{single-map forgetting}
+  \;\to\;
+  \text{family-level invariance}
+  \;\to\;
+  \text{articulative non-exhaustion}
+\]
+local fibers and quotients on the left, conserved observables at the center, and (under the reflexive-closure stack) the persistence of semantic remainder under internal ascent on the right---so local and global pictures fold into one storyline rather than living in separate chapters.
 
 Yet this first level already invites an objection. One may say: perhaps the image forgets, but the map itself does not. Perhaps everything apparently lost in the codomain is still preserved in the graph of the function. Perhaps the codomain forgets, but the total map remembers.
 
@@ -1540,6 +1581,18 @@ The consequence is not merely that reflexive systems happen to be difficult to c
 
 The upshot is that the geometry of what maps forget should not be read merely as a theory of information loss under non-injective comparison. It is also a theory of why representation has a constitutive limit, why ascent within structured articulation does not abolish remainder, and why reflexive systems cannot eliminate the very distance through which they become representable to themselves in the first place. The local geometry of forgetting opens directly onto a general architecture of non-exhaustion.
 
+\begin{remark}[Lean formalization: reflexive-closure bridge]\label{rem:structured-forgetting-lean}
+Summit~II (\S\ref{sec:representation-as-structured-forgetting}) cites \emph{reflexive-closure-lean} for a thin, \texttt{sorry}-free layer that does not duplicate the universal residual formalization in this repository:
+\leavevmode\par\begin{itemize}[nosep,leftmargin=*,before=\raggedright]
+\item \texttt{ReflexiveClosure/\allowbreak{}Core/\allowbreak{}MapForgetting.lean}: \texttt{ForgetsDistinction}, \texttt{HasForgetting}, \texttt{hasForgetting\_iff\_not\_injective}, \texttt{representation\_forgetting\_theorem}.
+\item \texttt{ReflexiveClosure/\allowbreak{}Core/\allowbreak{}FamilyConservation.lean}: \texttt{InvariantUnder} ($I \circ f = I$), \texttt{ClassInvariant}/\texttt{ConservationLaw}, \texttt{invariant\_agrees\_on\_fiber}, \texttt{invariant\_identifies\_forgotten\_distinctions}, \texttt{class\_level\_memory\_vs\_local\_forgetting}.
+\item \texttt{ReflexiveClosure/\allowbreak{}Core/\allowbreak{}RepresentationFrame.lean}: \texttt{RepSemanticRemainder}, \texttt{RepresentationExhaustive}, \texttt{RepresentationSelective}.
+\item \texttt{ReflexiveUnfolding/\allowbreak{}Bridge/\allowbreak{}StructuredForgetting.lean}: alignment with Paper~57 \texttt{SemanticRemainder}.
+\item \texttt{ReflexiveUnfolding/\allowbreak{}Theorems/\allowbreak{}FunctionalNonExhaustion.lean}, \texttt{ArticulativeAscent.lean}: functional and ascent non-exhaustion downstream of Papers~56--57.
+\end{itemize}
+\textbf{Trust boundary:} these are abstract type-theoretic interfaces; conservation is formalized for endomorphisms $\alpha \to \alpha$. Interpreting $\mathcal{F}$ as ``physical evolution'' or ``fundamental symmetry'' is not itself machine-checked.
+\end{remark}
+
 %% ========================================================================
 \section{Frontier}\label{sec:frontier}
 %% ========================================================================
@@ -1616,10 +1669,13 @@ layer ensures that the abstract theory is not vacuous.
 Section~\ref{sec:representation-as-structured-forgetting} connects the fiber
 geometry to a wider interpretive thesis: representation requires selective
 articulation; appealing from image to function to ontology reiterates rather
-than closes remainder; and reflexive systems inherit that architecture
-internally (Remark~\ref{rem:representation-interpretive} for scope). The
-mathematical core remains Theorem~\ref{thm:fund-res} and the universal
-package---closure of articulation without pretense of total internal
+than closes remainder; dual to single-map forgetting, class-level invariants
+(\S\ref{sec:representation-conservation}) express what an admissible family
+of transformations can never erase; and reflexive systems inherit that
+architecture internally (Remark~\ref{rem:representation-interpretive} for
+scope; Remark~\ref{rem:structured-forgetting-lean} for the small formal
+bridge). The mathematical core remains Theorem~\ref{thm:fund-res} and the
+universal package---closure of articulation without pretense of total internal
 exhaustion is philosophy consistent with, not identical to, those lemmas.
 
 What a non-injective map forgets is not an accident, not an informal remainder,
