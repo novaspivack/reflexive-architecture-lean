@@ -161,7 +161,7 @@ theorem single_hypothesis_is_sufficient
     {A : CompressionArchitecture BD n}
     (hRPD : RolePairDiverseCrownEligible A) :
     -- IC enriched irreducibility holds
-    (∃ H : SummitComponentExtraction A,
+    (∃ _ : SummitComponentExtraction A,
       ∃ m₁ m₂ : ReflectiveMirrorWitness A,
         ReflectiveSplitAutonomous m₁ ∧ ReflectiveSplitAutonomous m₂ ∧
           m₁.bridge.derivation = m₂.bridge.derivation ∧ m₁ ≠ m₂) ∧

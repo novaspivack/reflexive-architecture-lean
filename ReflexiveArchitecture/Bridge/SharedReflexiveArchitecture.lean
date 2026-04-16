@@ -124,12 +124,12 @@ Crown-eligibility on the specific `haltingFramework` / `haltingASR` pair gives
 The plurality is the underlying structural cause: it forces polarity contrast,
 which forces crown-eligibility, which instantiates `DiagonalCapable`,
 which forces semantic remainder. -/
-theorem spinePlurality_implies_nems_remainder (hPlur : SpinePluralityProp) :
+theorem spinePlurality_implies_nems_remainder (_hPlur : SpinePluralityProp) :
     ¬ ComputablePred haltingASR.RT := by
   -- The spine has polarity contrast (from plurality, via role skeleton structure)
   -- This instantiates DiagonalCapable on the halting framework
   -- diagonal_barrier_rt then gives undecidability
-  -- Note: hPlur is structurally what makes this architecture diagonal-capable;
+  -- Note: spine plurality is structurally what makes this architecture diagonal-capable;
   -- on this specific object we use the unconditional diagonal_barrier_rt
   exact nems_halting_semantic_remainder
 
