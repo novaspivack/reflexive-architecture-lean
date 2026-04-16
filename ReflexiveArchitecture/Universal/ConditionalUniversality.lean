@@ -9,7 +9,6 @@
     (`Universal/Forcing/SelfLocationForcing.lean`): a global section exists but some
     witness is not its own canonical lift (`x ≠ s (compare x)`).
 
-  See `specs/IN-PROCESS/EPIC_019_CONDITIONAL_UNIVERSALITY_ROADMAP.md`.
 -/
 
 import ReflexiveArchitecture.Universal.Dichotomy
