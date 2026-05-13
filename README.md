@@ -28,7 +28,7 @@ lake exe cache get
 lake build
 ```
 
-**Toolchain:** `leanprover/lean4:v4.29.0-rc3` (matches Mathlib pin in `lakefile.lean`).
+**Toolchain:** `leanprover/lean4:v4.29.1` (matches Mathlib pin in `lakefile.lean`).
 
 ## Root import
 

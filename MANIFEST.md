@@ -1,7 +1,7 @@
 # reflexive-architecture-lean — manifest
 
-**Toolchain:** `leanprover/lean4:v4.29.0-rc6`  
-**Mathlib:** v4.29.0-rc6 (via `lakefile.lean`)  
+**Toolchain:** `leanprover/lean4:v4.29.1`  
+**Mathlib:** v4.29.1 (via `lakefile.lean`)  
 **Build:** `lake build` from this directory  
 **Root import:** `ReflexiveArchitecture.lean`  
 **Formalization map:** `STRATA_FORMALIZATION_MAP.md` (module tree + theorem glosses)  

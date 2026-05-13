@@ -2,8 +2,8 @@
 
 **Purpose:** Citation-ready summary of what this Lean 4 library is, how to build it, and where to find the full theorem map. Authoritative tables and module index: **[MANIFEST.md](MANIFEST.md)**; human-readable module glosses: **[STRATA_FORMALIZATION_MAP.md](STRATA_FORMALIZATION_MAP.md)**.
 
-**Toolchain:** `leanprover/lean4:v4.29.0-rc6`  
-**Mathlib:** v4.29.0-rc6 (via `lakefile.lean`)  
+**Toolchain:** `leanprover/lean4:v4.29.1`  
+**Mathlib:** v4.29.1 (via `lakefile.lean`)  
 **Root import:** `ReflexiveArchitecture.lean`
 
 ## Build status
