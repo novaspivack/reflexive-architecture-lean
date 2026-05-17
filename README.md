@@ -42,5 +42,5 @@ See `paper/build_papers.sh` and `paper/Closure_Realization_Reflective_Residue.te
 
 See `MANIFEST.md` for module map and theorem entry points.
 <!-- NOVA_ZPO_ZENODO_SOFTWARE_BEGIN -->
-**Archival software (Zenodo):** https://doi.org/10.5281/zenodo.19429250
+**Archival software (Zenodo):** https://doi.org/10.5281/zenodo.19430707
 <!-- NOVA_ZPO_ZENODO_SOFTWARE_END -->
